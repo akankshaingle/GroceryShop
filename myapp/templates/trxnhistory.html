@@ -1,0 +1,81 @@
+{% extends 'myadminhome.html' %}
+
+
+
+{% block slider%}
+{% endblock %}
+
+{% block article %}
+
+{% block searchbar%}
+{% endblock%}
+
+{% block content %}
+
+<div class="row col-12 mb-4">
+    <input style="border:none;background:none;border-radius:0px" type="text" id="searchTrxn" class="form-control col-12 ml-4 col-sm-4 border-bottom border-light text-light" placeholder="Search... " onfocus="inputFocus(this)" >
+</div>
+    <div style="overflow-x:scroll;" class="col-12">
+<table class="table table-striped ">
+    <thead>
+        <tr>
+            <th> # </th>
+            <th>Order Id</th>
+            <th>Trxn Id</th>
+            <th>Amount</th>
+            <th>Mode</th>
+            <th>Time</th>
+            <th>Bank</th>
+            <th>Bank Trxn Id</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="trxnTable">
+    {% for payment in paymentHistory %}
+    <tr onmouseover="trMouseOver(this)" onmouseleave="trMouseOut(this)" onclick="editUserInfoModel(this)" data-toggle="modal" data-target="#userInfoModel">
+        {% for details in payment %}
+            <td>{{details}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+    </div>
+<script>
+
+
+    $(document).ready(function(){
+
+        $('.adminHomeNav').removeClass('active');
+        $('.adminOrderNav').removeClass('active');
+        $('.adminUserNav').removeClass('active');
+        $('.adminPayNav').addClass('active');
+        $('.adminManNav').removeClass('active');
+        $('.adminSetNav').removeClass('active');
+
+        $("#searchTrxn").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#trxnTable tr").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+        });
+    });
+
+</script>
+
+{% endblock %}
+
+{% block quick_menu%}
+{% endblock%}
+
+{% endblock %}
+
+{% block sidebar %}
+<h2>Catagory</h2>
+<ul>
+    {% for cat in clist %}
+    <li>{{cat.1}}</li>
+    {% endfor %}
+
+</ul>
+{% endblock %}

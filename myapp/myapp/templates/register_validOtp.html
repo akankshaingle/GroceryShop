@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+
+
+{% block slider%}
+<div id="snackbar">{{output}}</div>
+<script>
+var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+
+</script>
+
+
+{% endblock %}
+{% block artical %}
+{%  block searchbar %}
+{% endblock %}
+    <style>
+
+	.shake{
+		animation-name:shake;
+		animation-duration: 0.25s;
+		animation-iteration-count:1;
+		animation-delay:0.25s;
+	}
+	@keyframes shake{
+		0% {transform:translateX(-5px);}
+		25% {transform:translateX(5px);}
+		50% {transform:translateX(-5px);}
+		75% {transform:translateX(5px);}
+		100% {transform:translateX(-5px);}
+	}
+    </style>
+
+<div style="background-color:rgb(49, 46, 46)" class="regGetOtpBlock col-11 offset-1 col-md-6 col-lg-5 mb-3 py-4 offset-md-3 offset-lg-4">
+    <div class="row">
+        <label style="font-size:12px" class="invisible text-light col-11 ml-3">Enter Your Register Email</label>
+        <input style="border:none;background:none;border-radius:0px;font-size:20px;" class="regChangeMailField col-11 ml-3 form-control text-light border-bottom border-light" type="text" placeholder="Enter Your Registered Email" onfocus="inputFocus(this)" onfocusin="placeholderTogglerFocusIn(this)" onfocusout="placeholderTogglerFocusOut(this)">
+        <label class="regMailValidLabel font-weight-bold invisible small text-danger mt-1 col-11">Entered Email is Already Exist</label>
+    </div>
+    <div class="row mt-4">
+        <input id="regGetOtpBtn" class="form-control col-4 offset-4 btn btn-success" type="submit" value="GET OTP" >
+    </div>
+</div>
+
+<div style="background-color:rgb(49, 46, 46)" class="regCheckOtpBlock col-11 offset-1 col-md-6 col-lg-5 mb-3 py-4 offset-md-3 offset-lg-4">
+<form class="setOtp" enctype="multipart/form-data" method="post" action={{curl}}validOtp/ >
+    {%csrf_token %}
+
+    <div class="row">
+        <label style="font-size:12px" class="text-light col-11 ml-3">Registered Email</label>
+        <input style="border:none;background:none;border-radius:0px;font-size:20px;" class="regRegisteredMail col-11 disabled ml-3 form-control text-light border-bottom border-light" type="text" onfocus="inputFocus(this)" value="{{email}}" disabled>
+    </div>
+    <div class="row"><button style="border:none;background:none;" class="regChangeMail text-primary col-auto ml-auto pointer" onfocus="inputFocus(this)">Change Mail</button></div>
+    <div class="row">
+        <label style="font-size:12px" class="invisible text-light col-11 ml-3">Enter OTP</label>
+        <input style="border:none;background:none;border-radius:0px;font-size:20px;" class="regOtpField col-11 ml-3 form-control text-light border-bottom border-light" type="text" placeholder="Enter OTP"  onfocus="inputFocus(this)" onfocusin="placeholderTogglerFocusIn(this)" onfocusout="placeholderTogglerFocusOut(this)">
+    </div>
+    <div class="row">
+        <label style="display:none" class="regOtpValidLabel col-auto mt-1 mr-auto text-danger small">Please Enter Correct OTP</label>
+        <label style="display:none" class="regResendOtpLabel col-auto mt-1 mr-auto text-success small">OTP sent Successfully</label>
+        <button id="regResendOtp" style="border:none;background:none;" class=" text-primary col-auto ml-auto" onfocus="inputFocus(this)">Resend OTP</button>
+    </div>
+    <div class="row mt-4">
+        <input class="regCheckOtp form-control col-5 offset-3 btn btn-success" type="submit" value="CHECK OTP" >
+    </div>
+</form>
+</div>
+<script>
+    $(document).ready(function(){
+        $('.regGetOtpBlock').hide();
+    });
+
+        function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    function placeholderTogglerFocusIn(inputField){
+        addressDiv=$(inputField).parent().children();
+        $(addressDiv.eq(0)).removeClass('invisible');
+        $(addressDiv.eq(1).attr('placeholder',''));
+    }
+    function placeholderTogglerFocusOut(inputField){
+		addressDiv=$(inputField).parent().children();
+		if (!$(addressDiv.eq(1)).val()){
+		$(addressDiv.eq(0)).addClass('invisible');
+		$(addressDiv.eq(1).attr('placeholder',$(addressDiv.eq(0)).html()));
+		}
+    }
+    function inputFocus(field){
+        $(field).css('outline','0');
+        $(field).css('box-shadow','none');
+    }
+
+
+    $('#regGetOtpBtn').click(function(e){
+		e.preventDefault();
+		registeredMail=$(".regChangeMailField").val();
+        $.ajax('{{curl}}changeMail/',{
+        type:'POST',
+        data:{
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        email:registeredMail
+        },
+        dataType:"json",
+        success:async function(data){
+               if(data['otp']==1){
+                   $('.regGetOtpBlock').hide()
+                   $('.regCheckOtpBlock').fadeIn();
+                   $('.regRegisteredMail').val(data["email"])
+               }else{
+                    $(".regMailValidLabel").removeClass('invisible');
+                    $('.regMailValidLabel').addClass('shake');
+                    await sleep(500);
+                    $('.regMailValidLabel').removeClass('shake');
+               }
+           },
+        error:function(){
+
+        }
+        });
+	});
+
+    $('#regResendOtp').click(function(e){
+        e.preventDefault();
+        registeredMail=$('.regRegisteredMail').val()
+        $.ajax('{{curl}}authResendOtp/',{
+        type:'POST',
+        data:{
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        email:registeredMail
+        },
+        dataType:"json",
+        success:async function(data){
+            $('.regResendOtpLabel').fadeIn("fast");
+            $('.regOtpValidLabel').css('display','none');
+            },
+        error:function(){
+
+        }
+        });
+    });
+    $('.regCheckOtp').click(function(e){
+        e.preventDefault();
+        userOtp=$('.regOtpField').val()
+        $.ajax('{{curl}}validOtp/',{
+        type:'POST',
+        data:{
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        otp:userOtp
+        },
+        dataType:"json",
+        success:async function(data){
+            if (data['otp']==0){
+            $('.regResendOtpLabel').hide();
+            $('.regOtpValidLabel').fadeIn('fast');
+            $('.regOtpValidLabel').addClass('shake');
+            await sleep(500);
+            $('.regOtpValidLabel').removeClass('shake');
+            }else{
+                window.location.replace('{{curl}}');
+                }
+            },
+        error:function(){
+
+        }
+        });
+    });
+    $('.regChangeMail').click(function(e){
+        e.preventDefault();
+        $('.regChangeMailField').val($('.regRegisteredMail').val())
+        $('.regCheckOtpBlock').hide();
+        $('.regGetOtpBlock').fadeIn();
+        $(".regMailValidLabel").removeClass('invisible');
+        $(".regMailValidLabel").addClass('invisible');
+
+    });
+
+</script>
+{% block quick_menu%}
+{% endblock %}
+
+{% endblock %}
+
+

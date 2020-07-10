@@ -1,0 +1,101 @@
+{% extends 'myuserhome.html' %}
+
+
+
+{% block slider%}
+
+{% endblock %}
+
+{% block article%}
+
+{% block searchbar%}
+{% endblock%}
+
+{% block content %}
+<style>
+    .rating span{
+    font-size:50px;
+    }
+    </style>
+<div style  ="background-color:rgb(49, 46, 46)" class="col-11 col-md-6 col-lg-5 mb-3 py-4 mx-auto">
+    <div class="rating row">
+      <div class="col-sm-auto ml-sm-auto col-9"><span id="lfBad" onmouseover="lfRate(this)" onclick="lfclickRate(this)">☆</span><span id="lfPoor" onmouseover="lfRate(this)" onclick="lfclickRate(this)">☆</span><span id="lfOk" onmouseover="lfRate(this)" onclick="lfclickRate(this)">☆</span><span id="lfGood" onmouseover="lfRate(this)" onclick="lfclickRate(this)">☆</span><span id="lfBest" onmouseover="lfRate(this)" onclick="lfclickRate(this)">☆</span></div>
+      <div style="width:70px;margin-top:7px;" class="col-3 col-sm-auto mr-sm-auto rateStatus"></div>
+    </div>
+<form class="needs-validation" enctype="multipart/form-data" method="post" action="{{curl}}myuser/lounchfeedback/" novalidate>
+    {%csrf_token %}
+    <div class="row" >
+        <p style="font-family:myFont;" class="col-auto ml-auto mr-auto h3">Lounch Feedback</p>
+    </div>
+    <div class="row form-check">
+        <textarea style="border:none;background:none;border-radius:0px;font-size:20px;" rows="4" class="col-11 ml-3 form-control text-light border-bottom border-light" onfocus="inputFocus(this)" name="fdback" placeholder="Give your valueable feedback" required ></textarea>
+        <div class="ml-3 invalid-feedback">Please fill out this field.</div>
+    </div>
+    <input id="rateValue" type="hidden" value="3" name="rateValue">
+    <div class="row mt-4">
+        <input style="font-family:myFont;" class="form-control col-7 offset-2 col-md-6   offset-md-3 btn btn-success" type="submit" value="Lounch Feedback" >
+    </div>
+</form>
+</div>
+<script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    function lfRate(starField){
+        rateId=["lfBad","lfPoor","lfOk","lfGood","lfBest"]
+        ratedict={"lfBad":'&#128544',"lfPoor":'&#128577',"lfOk":'&#128578',"lfGood":'&#128516',"lfBest":'&#128513'}
+        currentRate=$(starField).attr('id')
+        for(i=0;i<5;i++){
+            $("#"+rateId[i]).attr('onmouseout','lfUnRate(this)')
+            $("#"+rateId[i]).html('☆')
+            $("#"+rateId[i]).css('color','#CCCCCC')
+        }
+        for(i=0;i<rateId.indexOf(currentRate)+1;i++){
+            $("#"+rateId[i]).html('★')
+            $("#"+rateId[i]).css('color','yellow')
+            }
+        $(starField).attr('data-toggle',"tooltip")
+        $(starField).attr('title',)
+        $("#rateValue").val(parseInt(rateId.indexOf(currentRate))+1)
+        $('.rateStatus').html(`<span class="h3" >${ratedict[currentRate]}</span>`)
+    }
+    function lfUnRate(starField){
+    rateId=["lfBad","lfPoor","lfOk","lfGood","lfBest"]
+        currentRate=$(starField).attr('id')
+        for(i=0;i<rateId.indexOf(currentRate)+1;i++){
+            $("#"+rateId[i]).html('☆')
+            $("#"+rateId[i]).css('color','#CCCCCC')
+            }
+        $(starField).removeAttr('data-toggle')
+        $(starField).removeAttr('title')
+        $('.rateStatus').html('')
+        $("#rateValue").val(3)
+    }
+
+    function lfclickRate(starField){
+        rateId=["lfBad","lfPoor","lfOk","lfGood","lfBest"]
+        currentRate=$(starField).attr('id')
+        for(i=0;i<rateId.indexOf(currentRate)+1;i++){
+            $("#"+rateId[i]).html('★')
+            $("#"+rateId[i]).css('color','yellow')
+            }
+        for(i=0;i<5;i++){
+            $("#"+rateId[i]).removeAttr('onmouseout')
+        }
+    }
+
+
+</script>
+
+{% endblock %}
+
+
+{% block quick_menu%}
+{% endblock%}
+
+{% endblock %}
+
+{% block sidebar %}
+<h2>Catagory</h2>
+{% endblock %}

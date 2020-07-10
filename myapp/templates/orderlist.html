@@ -1,0 +1,143 @@
+{% extends 'myuserhome.html' %} {% block slider%}
+<div id="snackbar">{{output}}</div>
+<script>
+	var x = document.getElementById("snackbar");
+	  x.className = "show";
+	  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+</script>{% endblock %} {% block article %} {% block searchbar%} {% endblock%} {% block content %}
+
+
+<div class="row col-12">
+<!--    fas fa-arrow-left-->
+<button style="background:none" onfocus="inputFocus(this)" class="olBackButton d-none ml-2 col-2 mr-auto text-white border-0"><i class="h2 fas fa-long-arrow-alt-left"></i></button>
+</div>
+    <div class="orderListBlock mx-md-auto ml-2 my-md-5 pr-md-4 col-12 row">
+		{% for order in orders %}
+	<div style="background-color:rgb(49, 46, 46)" class="col-12 mx-auto col-md-5 mx-auto my-3 p-3" onmouseover="trMouseOver(this)" onmouseleave="trMouseOut(this)">
+		<div class="row">
+			<div class="col-md-5 col-6 text-primary mb-3 h5">
+              <span># </span>
+              <span>{{order.0}}</span>
+			</div>
+			<div class="col-6 col-md-7 ml-auto text-warning h5">{{order.1.0}} {{order.1.1}} {{order.1.2}}/{{order.1.3}}/{{order.1.4}}</div>
+		</div>{% for item,i in order.2.items %}
+		<div class=" row">
+			<p class="col-6">{{i.food}}</p>
+			<p class="col-3">{{i.price}}</p>
+			<p class="col-3">{{i.noOfItems}}</p>
+		</div>{% endfor %}
+		<div class="row">
+			<button class="ml-auto col-auto btn btn-success rounded-0 mr-5" onclick="viewOrderDetail(this)">View Detail</button>
+        </div>
+	</div>{% endfor %}</div>
+<div class="orderBlock col-11 col-md-9 col-lg-7 mx-auto border border-light p-3">
+
+</div>
+	<script>
+	    function inputFocus(field){
+        $(field).css('outline','0');
+        $(field).css('box-shadow','none');
+    }
+
+    $(document).ready(function(){
+        $('.orderBlock').hide()
+    });
+    function viewOrderDetail(btnField){
+        $('.orderListBlock').fadeOut();
+        $('.orderBlock').show();
+        $('.olBackButton').removeClass('d-none')
+        $('.orderBlock').html('');
+        orderId=$(btnField).parents().eq(1).children().eq(0).children().eq(0).children().eq(1).html();
+        $.ajax('{{curl}}myuser/orderDetails/',{
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            orderId:orderId
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+                console.log("Running")
+                orderId=data["orderDetails"][0]
+                orderItem=data["orderDetails"][2]
+                orderStatus=data["orderDetails"][3]
+                charges=data["orderDetails"][4]
+                trxnId=data["orderDetails"][5]
+                orderTime=data["orderDetails"][6]
+                orderAddress=data["orderDetails"][7]
+                paymentMode=data["orderDetails"][8]
+                addressField=Object.values(orderAddress)
+                console.log(charges)
+                $('.orderBlock').append(`
+                <div class="row">
+                    <div class="col-md-4 col-12 text-primary mb-3 h3 pr-0">
+                      <span># </span>  <span>${orderId}</span>
+                    </div>
+                    <div class="col-11 mx-auto ml-md-auto mr-md-0 col-md-8 row ">
+                        <span id="orderIcon" class="col-1"></span>
+                        <span id="orderStatus" class="col-10 ">${orderStatus} On ${orderTime[0]} ${orderTime[1]} ${orderTime[2]}/${orderTime[3]}/${orderTime[4]}</span>
+                    </div>
+                </div>
+                `)
+                $('.orderBlock').append(`<div class="row text-right">
+						<div class="col-12 text-md-right col-lg-10 my-3 h5 ml-md-auto row ">
+							<i class="text-danger fas ml-4 ml-md-auto fa-map-marker-alt col-1"> </i>
+							<span class="col-9 px-0 text-left ml-2">${addressField[0]+","+addressField[1]+" "+addressField[4]+","+addressField[2]+" "+addressField[3]}</span>
+						</div>
+					</div>`)
+                $('.orderBlock').append(`
+                <div class="row">
+					<div style="border:1px dotted #E7BCE2;" class="border-top col-11 col-md-8 mx-auto my-3"></div>
+	                <div class="row orderList col-12 col-md-8 mx-auto"></div>
+	                <div style="border:1px dotted #E7BCE2;" class="border-bottom col-11 col-md-8 mx-auto my-3"></div>
+                </div>`)
+
+                for(i=0;i<Object.keys(orderItem).length;i++){
+                    item=Object.values(Object.values(orderItem))[i]
+                    $('.orderList').append(`<div class="row col-12"><p class="col-5">${item.food}</p><p style="padding-left:0px;padding-right:0px" class="col-4">&#8377; ${parseInt(item.price)} X ${item.noOfItems}</p><p style="padding-left:0px;padding-right:0px" class="col-3">&#8377; ${parseInt(item.price)*parseInt(item.noOfItems)}</p></div>`)
+                }
+
+                $('.orderBlock').append(`<div id="olAmountBlock" class="col-md-7 col-12 offset-md-2 "></div>`)
+                for(i in Object.keys(charges)){
+                    $('#olAmountBlock').append(`<div class="row"><p class="col-md-6 col-7 offset-md-2 mr-auto">${Object.keys(charges)[i]}</p><p class="col-md-3 col-4 ml-md-auto">&#8377; ${charges[Object.keys(charges)[i]]}</p></div>`)
+                }
+                console.log(addressField)
+                $('#olAmountBlock').append(`<div class="row"> <p class="text-success ml-auto col-md-7 col-10">Payment via ${paymentMode}</p></div>`)
+                $('#olAmountBlock').append(`<div class="row"> <p style="font-size:14px" class="ml-auto col-md-8 col-11">Tx : ${trxnId}</p></div>`)
+
+
+
+                if(parseInt(orderStatus)==1){
+                    $('#orderIcon').html(`<i class="text-success mr-3 fa fa-check" ></i>`)
+                    $('#orderStatus').html(` Delivered On ${orderTime[0]} ${orderTime[1]} ${orderTime[2]}/${orderTime[3]}/${orderTime[4]}`)
+                    }else if(parseInt(orderStatus)==0){
+                        $('#orderIcon').html(`<i class="text-danger mr-3 fas fa-exclamation-triangle" ></i>`)
+                        $('#orderStatus').html(` Failed On ${orderTime[0]} ${orderTime[1]} ${orderTime[2]}/${orderTime[3]}/${orderTime[4]}`)
+                    }else{
+                        $('#orderIcon').html(`<i class="fa fa-undo mr-3 text-success"></i>`)
+                        $('#orderStatus').html(` Refunded On ${orderTime[0]} ${orderTime[1]} ${orderTime[2]}/${orderTime[3]}/${orderTime[4]}`)
+
+                }
+
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+            }
+
+        })
+    }
+           function trMouseOver(trField){
+		    $(trField).css('background-color','#A5066D');
+		    }
+
+		    function trMouseOut(trField){
+		    $(trField).css('background-color','rgb(49, 46, 46)');
+		    }
+
+		    $('.olBackButton').click(function(){
+		        $('.orderListBlock').slideDown();
+		        $('.orderBlock').hide();
+                $('.olBackButton').addClass('d-none');
+		    });
+	</script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+{% endblock %} {% block quick_menu%} {% endblock%} {% endblock %}

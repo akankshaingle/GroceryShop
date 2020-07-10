@@ -1,0 +1,325 @@
+{% extends 'base.html' %}
+
+{% block slider %}
+
+{% endblock %}
+
+{% block menu %}
+<style>
+    #registerBody1{
+      background-color:  rgb(253, 203, 236);
+    }
+    #registerBody2{
+      font-family:myFonts;
+      font-size:20px;
+      background-color: #A5066D;
+    }
+    #registerHeader{
+      background-color: #562051;
+      font-size: 30px;
+      color:white;
+    }
+    .registerFormlabel{
+      color: #562051;
+    }
+</style>
+
+
+<a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href={{curl}}>BOOK MY MEAL</a>
+            <button style="border:3px solid black;" class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="h4 mb-0 fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav mx-auto">
+                    <li class="adminHomeNav nav-item px-lg-4"><a class="nav-link text-uppercase text-expanded" href="{{curl}}myadmin/" >Home<span class="sr-only">(current)</span></a></li>
+                    <li class="adminOrderNav nav-item px-lg-4"><a class="nav-link text-uppercase text-expanded" href="{{curl}}myadmin/orderdetails/" >Order Details</a></li>
+                    <li class="adminUserNav nav-item px-lg-4"><a class="nav-link text-uppercase text-expanded" href="{{curl}}myadmin/userdetails/" >User Details</a></li>
+                    <li class="adminPayNav nav-item px-lg-4"><a class="nav-link text-uppercase text-expanded" href="{{curl}}myadmin/paymentHistory/" >Payment History</a></li>
+                    <li class=" nav-item px-lg-4 dropdown"><a class="nav-link text-uppercase text-expanded dropdown-toggle" data-toggle="dropdown" href="#">Manage Options</a>
+                        <div id="subnav" class="dropdown-menu">
+                            <a class="dropdown-item" href="{{curl}}myadmin/addcat/" >Add Category</a>
+                            <a class="dropdown-item" href="{{curl}}myadmin/managecat/" >Manage Category</a>
+                            <a class="dropdown-item" href="{{curl}}myadmin/addsubcat/" >Add Sub Category</a>
+                            <a class="dropdown-item" href="{{curl}}myadmin/managesubcat/" >Manage Sub Category</a>
+                            <a class="dropdown-item" href="{{curl}}myadmin/adddish/" >Add Food Product</a>
+                            <a class="dropdown-item" href="{{curl}}myadmin/managedish" >Manage Food Product</a>
+                        </div>
+                    </li>
+                    <li class=" nav-item px-lg-4 dropdown"><a class="nav-link text-uppercase text-expanded dropdown-toggle" data-toggle="dropdown" href="#">Settings</a>
+                        <div id="subnav" class="dropdown-menu">
+                            <a class="dropdown-item" href= "{{curl}}myadmin/lounch_notf/ ">Manage Notification</a>
+                            <a class="dropdown-item" href="{{curl}}myadmin/viewFeedback/">View Feedback</a>
+                            <a class="dropdown-item text-white" data-toggle="modal" data-target="#registerModel" >Add delivery Partner</a>
+                            <a class="dropdown-item" href="{{curl}}myadmin/logout/">Logout</a>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+<!--Add Delivery Partner Model Start -->
+			<div class="modal" id="registerModel">
+				<div class="modal-dialog ">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div id="registerHeader" class="modal-header">
+							<h4 class="modal-title">Add Delivery Partner</h4>
+							<button style="color: white;" type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<!-- Modal body -->
+						<div id="registerBody1" class="modal-body ">
+							<form action="{{curl}}myadmin/addDeliveryPartner/" method="post" class="needs-validation mb-3" novalidate>
+								{% csrf_token %}
+                                <div class="form-group form-check">
+									<label class="registerFormlabel">Delivery Partner Name</label>
+									<input class="form-control form-control-lg" type="text" name="dpname" pattern="^[a-zA-Z ]*$" placeholder="Enter name" required="" />
+									<div class="invalid-feedback ">Please fill out this field.</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Delivery Partner Email</label>
+									<input class="form-control form-control-lg" type="text" name="dpemail" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" placeholder="Enter email" required="" />
+									<div class="invalid-feedback ">Please enter correct mail</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Delivery Partner Mobile</label>
+									<input class="form-control form-control-lg" type="tel" pattern="^\d{10}$" name="dpmobile" placeholder="Enter Mobile no." required="" />
+									<div class="invalid-feedback ">Please enter valid number.</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Gender</label>
+									<br>
+									<div class=" form-check form-check-inline">
+										<input style="height: 20px;width: 20px;" class="form-check-input radio-choice m-2" type="radio" name="dpgender" checked="checked" value="male" required>
+										<label class="registerFormlabel m-2">Male</label>
+										<input style="height: 20px;width: 20px;" class="form-check-input radio-choice-2 " type="radio" name="dpgender" value="female" required>
+										<label class="registerFormlabel m-2">Female</label>
+									</div>
+									<div class="invalid-feedback ">Please select any gender.</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Delivery Partner Address</label>
+									<textarea class="form-control form-control-lg" cols="20" rows="5" name="dpaddress" placeholder="Enter address" required=""></textarea>
+									<div class="invalid-feedback ">Please fill address field.</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">
+										<input type="checkbox" class="form-check-input checkbox ml-2 " required="">
+										<label class="registerFormlabel ml-3">I Agree To The Terms & Conditions</label>
+										<div class="invalid-feedback">Please check the field</div>
+									</label>
+								</div>
+                                <div class="row">
+								    <input type="submit" style="margin-left: 40%;" class="btn col-auto btn-success mx-auto  center" value="ADD DELIVERY PARTNER">
+							    </div>
+                            </form>
+                        </div>
+					</div>
+				</div>
+			</div>
+
+<!-- Add delivery Partner Model End -->
+
+
+<script>
+        $(document).ready(function(){
+
+            $('.adminHomeNav').addClass('active');
+            $('.adminOrderNav').removeClass('active');
+            $('.adminUserNav').removeClass('active');
+            $('.adminPayNav').removeClass('active');
+        });
+
+    (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            // Get the forms we want to add validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          }, false);
+        })();
+
+    function placeholderTogglerFocusIn(inputField){
+        addressDiv=$(inputField).parent().children();
+        $(addressDiv.eq(0)).removeClass('invisible');
+        $(addressDiv.eq(1).attr('placeholder',''));
+    }
+    function placeholderTogglerFocusOut(inputField){
+		addressDiv=$(inputField).parent().children();
+		if (!$(addressDiv.eq(1)).val()){
+		$(addressDiv.eq(0)).addClass('invisible');
+		$(addressDiv.eq(1).attr('placeholder',$(addressDiv.eq(0)).html()));
+		}
+    }
+
+    function inputFocus(field){
+        $(field).css('outline','0');
+        $(field).css('box-shadow','none');
+    }
+
+       function trMouseOver(trField){
+    $(trField).css('background-color','#A5066D');
+    }
+
+    function trMouseOut(trField){
+    $(trField).css('background','none');
+    }
+
+</script>
+{% endblock %}
+
+{% block artical%}
+{% block searchbar%}
+{% endblock%}
+
+{% block content %}
+{% if noOfOrder is 0 %}
+    <div class="col-12 row">
+        <div style="background-color:rgb(49, 46, 46)" class="col-11 col-md-6 col-lg-5 mb-3 py-4 mx-auto center">
+           <span class=" h3 font-weight-bold">No active Order</span>
+        </div>
+    </div>
+{% else %}
+    <div style="overflow-x:scroll;" class="col-12 ml-3 row ">
+        <table class="table left">
+             {% csrf_token %}
+             <thead>
+             <tr>
+                 <th>#</th>
+                 <th>User ID</th>
+                 <th>Order ID</th>
+                 <th>Order Status</th>
+                 <th>Change Status</th>
+                 <th>Arrival Time</th>
+             </tr>
+             </thead>
+             <tbody id="currentOrderTable">
+                {% for order in currentOrders %}
+                    <tr class="h5" onmouseover="trMouseOver(this)" onmouseleave="trMouseOut(this)" onclick="trViewCurrentOrder(this)" >
+                        <td class="pt-3">{{order.0}}</td>
+                        <td class="pt-3">{{order.1}}</td>
+                        <td class="pt-3">{{order.2}}</td>
+                        <td class="pt-3">{{order.4}}</td>
+
+                        <td>
+                            {% if order.3 is 1 %}
+                            <button class="btn btn-success" onmouseover="removeTrViewCO(this)" onmouseleave="addTrViewCO(this)" onclick="confirmOrder(this)" >Confirm Order</button>
+                            {% elif order.3 is 2 %}
+                            <button class="btn btn-primary" onmouseover="removeTrViewCO(this)" onmouseleave="addTrViewCO(this)" onclick="assignDeliveryBoy(this)" >Assign Delivery Boy</button>
+                            {% elif order.3 is 3 %}
+                            <a class="btn btn-info text-dark small " onmouseover="removeTrViewCO(this)" onmouseleave="addTrViewCO(this)" data-toggle="tooltip" title="Delivery Boy is Assigning in Proccess" >Delivery is Assigning</a>
+                            {% else %}
+                            <a class="btn btn-primary small " onmouseover="removeTrViewCO(this)" onmouseleave="addTrViewCO(this)" data-toggle="tooltip" title="Delivery Boy Has Been Assigned" >Delivery Boy Assigned</a>
+                            {% endif %}
+                            <button class="btn btn-danger mt-1" onmouseover="removeTrViewCO(this)" onmouseleave="addTrViewCO(this)" onclick="cancelOrder(this)">Cancel Order</button>
+                        </td>
+                        <td>{{order.5.0}} {{order.5.1}} {{order.5.2}}/{{order.5.3}}/{{order.5.4}}</td>
+                    </tr>
+                {% endfor %}
+             </tbody>
+        </table>
+
+    </div>
+
+    <div style="position:fixed;z-index:1;" class="dpFlash d-none center row col-12">
+        <div style="font-family:'Raleway';font-weight: 800;" class="col-10 col-md-4 mx-auto p-3 bg-danger">Delivery Partners are busy.</div>
+    </div>
+    <script>
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+        $(document).ready(async function(){
+          $('[data-toggle="tooltip"]').tooltip();
+        });
+        function trViewCurrentOrder(trField){
+            orderId=$(trField).children().eq(2).html()
+            alert("OrderId ",orderId)
+        }
+        function removeTrViewCO(btnField){
+            $(btnField).parents().eq(1).removeAttr('onclick')
+        }
+        function addTrViewCO(btnField){
+            $(btnField).parents().eq(1).attr('onclick','trViewCurrentOrder(this)')
+        }
+
+        function assignDeliveryBoy(assignDeliveryBoyBtn){
+          userId=$(assignDeliveryBoyBtn).parents().eq(1).children().eq(1).html()
+          orderId=$(assignDeliveryBoyBtn).parents().eq(1).children().eq(2).html()
+          $.ajax('{{curl}}myadmin/assignDeliveryBoy/', {
+                type: 'POST',
+                data: {
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                orderId:orderId,
+                userId:userId,
+                },
+                dataType:"json",
+                success: function (data, status, xhr) {
+                    location.reload()
+                    colsole.log("Running")
+                    console.lop(data['op'])
+                   },
+                error: function (jqXhr, textStatus, errorMessage) {
+                }
+            });
+        }
+
+        function confirmOrder(confirmBtn){
+          orderId=$(confirmBtn).parents().eq(1).children().eq(2).html()
+          $.ajax('{{curl}}myadmin/confirmOrder/', {
+                type: 'POST',
+                data: {
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                orderId:orderId
+                },
+                dataType:"json",
+                success: async function (data, status, xhr) {
+                    if(data['op']=='0'){
+                              $('.dpFlash').removeClass('d-none')
+                              $(".dpFlash").fadeIn(3000);
+                              await sleep(1000)
+                              $('.dpFlash').fadeOut(1000);
+                              await sleep(3000)
+                              $(".dpFlash").addClass('d-none');
+
+                    }else{
+                    location.reload()
+                    }
+                   },
+                error: function (jqXhr, textStatus, errorMessage) {
+                }
+            });
+        }
+        function cancelOrder(cancelBtn){
+            orderId=$(cancelBtn).parents().eq(1).children().eq(2).html()
+            if (confirm("Cancel this Order")){
+                $.ajax('{{curl}}myadmin/cancelOrder/', {
+                type: 'POST',
+                data: {
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                orderId:orderId
+                },
+                dataType:"json",
+                success: function (data, status, xhr) {
+                    location.reload()
+                   },
+                error: function (jqXhr, textStatus, errorMessage) {
+                }
+            });
+            }
+        }
+    </script>
+{% endif %}
+{% endblock%}
+
+{% block quick_menu%}
+{% endblock%}
+
+{% endblock%}

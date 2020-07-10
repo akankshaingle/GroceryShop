@@ -1,0 +1,214 @@
+{% extends 'dphome.html' %}
+{% load static %}
+{% block artical %}
+{% block searchbar%}
+{% endblock %}
+
+<div style="border-style:dashed;" class="my-2 ml-xs-2 offset-sm-2 col-sm-8 offset-md-3 col-md-6 p-3">
+	<form action="{{curl}}dp/save_info/" method="POST">{% csrf_token %}
+		<div class="form-group">
+			<lable class="m-sm-2 mx-xs-2">Name</lable>
+			<input class=" form-control form-control-lg mx-xs-2m-sm-2" name="dpName" type="text" value={{dpDetails.name}}>
+		</div>
+		<div class="form-group" data-toggle="tooltip" data-html="true" data-placement="right" title="You can't change Email<br>For this you can contact to customer support..">
+			<lable class="m-sm-2 mx-xs-2">Email</lable>
+			<input class=" form-control form-control-lg mx-xs-2m-sm-2" name="dpEmail" type="text" value={{dpDetails.email}} disabled>
+		</div>
+		<div class="form-group">
+			<lable class="m-sm-2 mx-xs-2">address</lable>
+			<textarea class="form-control form-control-lg mx-xs-2m-sm-2" cols="20" name="dpAddress" rows="5" name="address" placeholder="Enter address" required="">{{dpDetails.address}}</textarea>
+		</div>
+		<div class="form-group">
+			<label class="">Gender</label>
+			<br>
+			<div class="form-check form-check-inline">
+				<input style="height: 20px;width: 20px;" id="male" class="radio-choice m-2" type="radio" name="dpGender" value="male" required>
+				<label class="m-2">Male</label>
+				<input style="height: 20px;width: 20px;" id="female" class="radio-choice m-2 " type="radio" name="dpGender" value="female" required>
+				<label class="m-2">Female</label>
+			</div>
+		</div>
+		<div class="form-group row mx-2">
+			<lable class="m-sm-2 mx-xs-2 col-11">Password</lable>
+			<input id="dpPassword" style="border-radius:5px 0px 0px 5px;" class=" col-8 form-control form-control-lg mx-xs-2m-sm-2" type="password" name="dpPassword" value="Randome" disabled>
+			<button class="changePasswordBtn col-4 btn btn-success py-2" style="font-size:20px;border:none;padding:0px;border-radius:0px 5px 5px 0px;">Change</button>
+			<label class="passwordLabel invisible text-success">Password change Successfully</label>
+		</div>
+		<div class="validOtpBlock">
+			<div class="innerOtpBlock">
+				<div style="background:	#562051;" class="getOtpBlock row mx-1 m-lg-5 p-3 border border-light">
+
+					{% csrf_token %}
+						<div class="form-group col-12 ml-md-2 row">
+							<input style="border-radius:0px;background:none;border:none;" id="dpNewPassword" class="text-white border-bottom border-light col-9 form-control form-control-lg" type="password" name="dpNewPassword" placeholder="Enter New password" onfocus="inputFocus(this)" />
+							<button style="border-radius:0px;background:none;border:none;" class="border-bottom border-light  btn btn-default col-2" type="button" onfocus="inputFocus(this)" onclick="togglePassword(this)">
+							   <i style="font-size:30px;color:white;" class="fas fa-eye-slash" ></i>
+							</button>
+                            <label style="display:none" class="newPasswordLength col-11 small text-danger">Password should be more than 7 digit long</label>
+						</div>
+						<div class="form-group col-12 ml-md-2 row">
+							<input style="border-radius:0px;background:none;border:none;" id="dpConfirmPassword" class="text-white col-9 border-bottom border-light  form-control form-control-lg" type="password" name="dpConfirmPassword" placeholder="Re-Enter New password" onfocus="inputFocus(this)"/>
+							<button style="border-radius:0px;background:none;border:none;" class=" border-bottom border-light btn btn-default col-2" type="button" onfocus="inputFocus(this)" onclick="togglePassword(this)">
+								<i style="font-size:30px;color:white;" class="fas fa-eye-slash" ></i>
+							</button>
+                            <label style="display:none" class="confirmPasswordLength col-11 small text-danger">Password should be more than 7 digit long</label>
+						</div>
+                        <div class="passwordCorrectionLabel invisible col-12 ml-md-2 row">
+                            <label class="text-danger small">Passwords are Incorrect</label>
+                        </div>
+						<div class="form-group row col-12 col-md-10 mt-3">
+							<input id="dpGetOtpBtn" class="form-control offset-3 offset-md-5 col-6 col-md-6 btn btn-success" type="button" value="GET OTP">
+						</div>
+				</div>
+				<div style="background:#562051;display:none;" class="checkOtpBlock row m-1 m-lg-5 p-3 border border-light">
+					<div class="form-group col-10 offset-1">
+						<lable style="font-size:0px" class="m-sm-2 mx-xs-2">Enter OTP</lable>
+						<input id="dpOtpField" style="border-radius:0px;background:none;border:none;" class="text-white border-bottom border-light form-control form-control-lg mx-xs-2m-sm-2" type="text" placeholder="Enter OTP" onfocus="inputFocus(this)">
+					</div>
+                    <div class="form-group row col-10 offset-1">
+                        <label class="otpLabel invisible col-8 mt-2 small text-danger">Please Enter Correct OTP</label>
+                        <button id="dpResendOtpBtn" style="background:none;border:none;" class="right col-4 text-primary btn btn-small" onfocus="inputFocus(this)">Resend OTP</button>
+					</div>
+                    <div class="form-group row col-10 mt-4">
+                        <input id="dpCheckOtpBtn" class="form-control offset-5 offset-md-5 col-7 col-md-7 btn btn-success" type="button" value="CHECK OTP">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group row mt-4">
+			<input class="form-control offset-4 col-4 btn btn-primary" type="submit" value="SAVE">
+		</div>
+	</form>
+</div>
+<script>
+	$('.changePasswordBtn').click(function(e){
+		e.preventDefault();
+		$('.getOtpBlock').slideDown("slow");
+		$('.changePasswordBtn').addClass('disabled');
+	});
+    $("#dpNewPassword,#dpConfirmPassword").keyup(function(){
+        var newPassword =$("#dpNewPassword").val()
+        var confirmPassword =$("#dpConfirmPassword").val()
+        console.log(newPassword.length)
+        if (newPassword.length<7){
+            $(".newPasswordLength").css('display','block');
+        }else{
+            $(".newPasswordLength").css('display','none');
+        }
+
+        if (confirmPassword.length<7){
+            $(".confirmPasswordLength").css('display','block');
+        }else{
+            $(".confirmPasswordLength").css('display','none');
+        }
+
+        if (newPassword==confirmPassword){
+            $('.passwordCorrectionLabel').removeClass('invisible');
+            $('.passwordCorrectionLabel').addClass('invisible');
+        }else{
+            $('.passwordCorrectionLabel').removeClass('invisible');
+        }
+    });
+
+	$('#dpGetOtpBtn').click(function(e){
+		e.preventDefault();
+		newPassword=$("#dpNewPassword").val();
+		confirmPassword=$("#dpConfirmPassword").val()
+		if(newPassword==confirmPassword && newPassword.length>7){
+            $.ajax('{{curl}}dp/getOtp/',{
+            type:'POST',
+            data:{
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            password:newPassword
+            },
+            dataType:"json",
+            success:function(){
+                $('.getOtpBlock').hide();
+                $('.checkOtpBlock').show();
+            },
+            error:function(){
+                $('.getOtpBlock').hide();
+                $('.checkOtpBlock').show();
+            }
+            });
+		}else{
+            $('.passwordCorrectionLabel').removeClass('invisible');
+		}
+	});
+
+	$('#dpResendOtpBtn').click(function(e){
+		e.preventDefault();
+		$.ajax('{{curl}}dp/resendOtp/',{
+		type:'POST',
+		data:{
+		csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+		},
+		dataType:"json",
+		success:function(){
+		},
+		error:function(){
+		}
+		});
+	});
+	$('#dpCheckOtpBtn').click(function(e){
+		e.preventDefault();
+		userOtp=parseInt($('#dpOtpField').val())
+		if(userOtp){
+		$.ajax('{{curl}}dp/checkOtp/',{
+		type:'POST',
+		data:{
+		csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+		otp:userOtp
+		},
+		dataType:"json",
+		success:function(returned,status, xhr){
+			if(parseInt(returned['otpValue'])==1){
+				$(".passwordLabel").removeClass("invisible");
+				$("#dpPassword").attr('value',returned['password'])
+				$('.validOtpBlock').css('display','none');
+			}else{
+				$('.otpLabel').removeClass("invisible");
+			}
+		},
+		error:function(data, status, xhr){
+		console.log(data)
+		}
+		});
+		}else{
+            $('.otpLabel').removeClass("invisible");
+		}
+	});
+
+    $(document).ready(function(){
+        if ( "{{dpDetails.gender}}"=="male"){
+            $("#male").attr('checked',true);
+        }else{
+            $("#female").attr('checked',true);
+        }
+      $('[data-toggle="tooltip"]').tooltip();
+      $('.getOtpBlock').hide();
+    });
+
+	$("#dpOtpField").focusin(function(){
+			addressDiv=$("#dpOtpField").parent().children();
+            $(addressDiv.eq(0)).css('font-size','12px');
+            $(addressDiv.eq(1)).css('font-size','25px');
+            $(addressDiv.eq(1).attr('placeholder',''));
+
+	});
+
+	$("#dpOtpField").focusout(function(){
+		addressDiv=$("#dpOtpField").parent().children();
+		if (!$(addressDiv.eq(1)).val()){
+		$(addressDiv.eq(0)).css('font-size','0px');
+		$(addressDiv.eq(1)).css('font-size','20px');
+		$(addressDiv.eq(1).attr('placeholder','Enter OTP'));
+		}
+	});
+
+</script>
+
+
+{% block quick_menu %}
+{% endblock %}
+{% endblock %}

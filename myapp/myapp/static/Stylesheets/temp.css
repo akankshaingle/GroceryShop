@@ -1,0 +1,37 @@
+@charset "utf-8";
+/*
+Template Name: Touch of Purple
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+File: Navigation CSS
+*/
+
+#topnav ul, #topnav li{float:left; list-style:none; margin:0; padding:0;font-size: 20px;}
+#topnav li a:link, #topnav li a:visited, #topnav li a:hover{display:block; margin:0; padding:15px 20px; color:#FFFFFF; background-color:#562051; border-left:2px solid #562051;}
+#topnav ul ul li a:link, #topnav ul ul li a:visited{border:none;}
+#topnav li.last a{}
+#topnav li a:hover, #topnav ul li.active a{color:#FFFFFF; background-color:#A5066D; border-left:2px solid #F955BF;}
+#topnav li li a:link, #topnav li li a:visited{float:none; margin:0; padding:7px 10px; font-size:20px; font-weight:normal; color:#FFFFFF; background-color:#562051;}
+#topnav li li a:hover{color:#FFFFFF; background-color:#A5066D;}
+#topnav li ul{z-index:9999; position:absolute; left:-999em; height:auto; border-left:2px solid #F955BF; border-bottom:2px solid #F955BF;}
+#topnav li ul ul{margin:-32px 0 0 0;}
+#topnav li:hover ul ul{left:-999em;}
+#topnav li:hover ul, #topnav li li:hover ul{left:auto;}
+#topnav li:hover{position:static;}
+#topnav li.last{margin:0;}
+/* ----------------------------------------------Column Navigation------------------------------------- */
+
+#column .subnav{display:block; width:250px; padding:25px; background-color:#1F1F1F; margin-bottom:30px;}
+#column .subnav h2{margin:0 0 20px 0; padding:0 0 14px 0; font-size:20px; font-weight:normal; font-family:Georgia, "Times New Roman", Times, serif; color:#666666; background-color:#1F1F1F; line-height:normal; border-bottom:1px dashed #666666;}
+#column .subnav ul{margin:0; padding:0; list-style:none;}
+#column .subnav li{margin:0 0 3px 0; padding:0;}
+#column .subnav ul ul, #column .subnav ul ul ul, #column .subnav ul ul ul ul, #column .subnav ul ul ul ul ul{border-top:none; padding-top:0;}
+#column .subnav a{display:block; margin:0; padding:5px 10px 5px 20px; color:#666666; background:url("images/purple_file.gif") 10px center no-repeat #1F1F1F; text-decoration:none; border-bottom:1px dotted #666666;}
+#column .subnav a:hover{color:#A97891; background-color:#161616;}
+#column .subnav ul ul a, #column .subnav ul ul ul a, #column .subnav ul ul ul ul a, #column .subnav ul ul ul ul ul a{background:url("images/white_file.gif") no-repeat #1F1F1F;}
+#column .subnav ul ul a{padding-left:40px; background-position:30px center;}
+#column .subnav ul ul ul a{padding-left:50px; background-position:40px center;}
+#column .subnav ul ul ul ul a{padding-left:60px; background-position:50px center;}
+#column .subnav ul ul ul ul ul a{padding-left:70px; background-position:60px center;}

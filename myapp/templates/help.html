@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block artical %}
+    {% block searchbar%}
+    {% endblock%}
+    {% block content %}
+<style>
+    .question
+    {
+    font-size:20px;
+    font-weight:700
+    }
+    .answer
+    {
+    font-size:15px;
+    font-weight:700;
+    }
+</style>
+    <div style="font-family:'Raleway'" align="justify"  class="bg-white text-dark row mx-auto container border border-success mt-5 h6 px-0 py-4 p-md-5 col-11">
+	<div class="h3 ml-3"><i class="fa fa-question-circle"></i> FAQs</div>
+	<div class="col-12 row mt-2">
+		<div class="question ml-3 px-0 row col-12 mt-2" onmouseover="questionHoverIn(this)" onmouseleave="questionHoverOut(this)" onclick="showAns(this)" ><span class="col-1 text-right">1). </span> <span class="col-9"> Can I Edit my order </span><span class="col-1 my-auto py-auto"><i class="fas fa-chevron-circle-down text-right"></i></span></div>
+		<div class="answer mx-md-auto ml-5 col-10 border border-dark my-4 p-4 ">
+            You can contact customer Support to Edit your order. Before pick up the order.
+        </div>
+	</div>
+	<div class="col-12 row mt-2">
+		<div class="question ml-3 px-0 row col-12 mt-2" onmouseover="questionHoverIn(this)" onmouseleave="questionHoverOut(this)" onclick="showAns(this)" ><span class="col-1 text-right">2). </span><span class="col-9">I want to provide feedback</span><span class="col-1 my-auto py-auto "><i class="fas fa-chevron-circle-down text-right"></i></span></div>
+		<div class="answer mx-md-auto ml-5 col-10 border border-dark my-4 p-4">
+            First Log in to Book My Meal , from navigation menu select Setting Button and Click on Lounch Feedback.
+            After this you got a Feedabck Page you can give ratting and feedback by filling the Enteries.
+		</div>
+	</div>
+	<div class="col-12 row mt-2">
+		<div class="question ml-3 px-0 row col-12 mt-2" onmouseover="questionHoverIn(this)" onmouseleave="questionHoverOut(this)" onclick="showAns(this)" ><span class="col-1 text-right">3). </span><span class="col-9">I want to cancel my order</span><span class="col-1 my-auto py-auto"><i class="fas fa-chevron-circle-down text-right"></i></span></div>
+		<div class="answer mx-md-auto ml-5 col-10 border border-dark p-2 my-2">
+            You can Contact customer Support to Cancel your order. Cancelation fees will be charged.
+		</div>
+	</div>
+	<div class="col-12 row mt-2">
+		<div class="question ml-3 px-0 row col-12 mt-2" onmouseover="questionHoverIn(this)" onmouseleave="questionHoverOut(this)" onclick="showAns(this)" ><span class="col-1 text-right">4). </span><span class="col-9">Is there a minimum order value?</span><span class="col-1  my-auto py-auto"><i class="fas fa-chevron-circle-down text-center"></i></span></div>
+		<div class="answer mx-md-auto ml-5 col-10 border border-dark my-4 p-4">There must be have the cart value more than 100</div>
+	</div>
+	<div class="col-12 row mt-2">
+		<div class="question ml-3 px-0 row col-12 mt-2" onmouseover="questionHoverIn(this)" onmouseleave="questionHoverOut(this)" onclick="showAns(this)" ><span class="col-1 text-right">5). </span><span class="col-9">Do you charge for delivery?</span><span class="col-1 my-auto py-auto "><i class="fas fa-chevron-circle-down text-center"></i></span></div>
+		<div class="answer mx-md-auto ml-5 col-10 border border-dark my-4 p-4">
+            Delivery charges will be depand upon price of order amount if order amount is less than ₹ 250 than you have to pay ₹ 60 delivery charge.
+        </div>
+	</div>
+	<div class="row col-12 mt-2">
+		<div class="question ml-3 px-0 row col-12 mt-2" onmouseover="questionHoverIn(this)" onmouseleave="questionHoverOut(this)" onclick="showAns(this)" ><span class="col-1 text-right">6). </span><span class="col-9">How long do you take to deliver?</span><span class="col-1 my-auto py-auto"><i class="fas fa-chevron-circle-down text-center"></i></span></div>
+		<div class="answer mx-md-auto ml-5 col-10 border border-dark my-4 p-4">Standard Delivery time is 40 min. But it vary from location and traffic</div>
+	</div>
+	<div class="row col-12 mt-2">
+		<div class="question ml-3 px-0 row col-12 mt-2" onmouseover="questionHoverIn(this)" onmouseleave="questionHoverOut(this)" onclick="showAns(this)" ><span class="col-1 text-right">7). </span><span class="col-9"> What are your delivery hours?</span><span class="col-1 my-auto py-auto"><i class="fas fa-chevron-circle-down text-center"></i></span></div>
+		<div class="answer mx-md-auto ml-5 col-10 border border-dark my-4 p-4">We deliver food in b/w 8 A.M. to 12 P.M.</div>
+	</div>
+	<div class="row col-12 mt-2">
+		<div class="question ml-3 px-0 row col-12 mt-2" onmouseover="questionHoverIn(this)" onmouseleave="questionHoverOut(this)" onclick="showAns(this)" ><span class="col-1 text-right">8). </span><span class="col-9"> Can I done more than one order at a single time.</span> <span class="col-1 my-auto py-auto "><i class="fas fa-chevron-circle-down "></i></span></div>
+		<div class="answer mx-md-auto ml-5 col-10 border border-dark my-4 p-4">NO you can done only one order at a time.</div>
+	</div>
+
+	<div class="row col-12 mt-2">
+		<div class="question ml-3 px-0 row col-12 mt-2" onmouseover="questionHoverIn(this)" onmouseleave="questionHoverOut(this)" onclick="showAns(this)" ><span class="col-1 text-right">9). </span><span class="col-9"> Deactivate my account</span> <span class="col-1 my-auto py-auto "><i class="fas fa-chevron-circle-down "></i></span></div>
+		<div class="answer mx-md-auto ml-5 col-10 border border-dark my-4 p-4"> For Deleting or Deactivation your account you can contact to customer support</div>
+	</div>
+	<div class="row col-12 mt-2">
+		<div class="question ml-3 px-0 row col-12 mt-2" onmouseover="questionHoverIn(this)" onmouseleave="questionHoverOut(this)" onclick="showAns(this)" ><span class="col-1 text-right">10). </span><span class="col-9"> I forgot my password and I am also not know my ID password to reset my account</span> <span class="col-1 my-auto py-auto "><i class="fas fa-chevron-circle-down "></i></span></div>
+		<div class="answer mx-md-auto ml-5 col-10 border border-dark my-4 p-4">For this you can contact to customer support and have to verify you details to regenerate password </div>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+	$('.answer').hide();
+    $('.helpNav').addClass('active');
+    $('.homeNav').removeClass('active');
+    $('.cartNav').removeClass('active');
+    $('.aboutNav').removeClass('active');
+	});
+	function showAns(queBtn){
+		if ($(queBtn).children().eq(2).children().eq(0).attr('class').includes("fa-chevron-circle-down")){
+			$(queBtn).children().eq(2).children().eq(0).removeClass("fa-chevron-circle-down")
+			$(queBtn).children().eq(2).children().eq(0).addClass("fa-chevron-circle-up")
+		}else{
+			$(queBtn).children().eq(2).children().eq(0).removeClass("fa-chevron-circle-up")
+			$(queBtn).children().eq(2).children().eq(0).addClass("fa-chevron-circle-down")
+		}
+		$(queBtn).parents().eq(0).children().eq(1).slideToggle();
+	}
+
+	function questionHoverIn(queBtn){
+		$(queBtn).css({'font-size':'25px','cursor':'pointer'})
+
+	}
+	function questionHoverOut(queBtn){
+		$(queBtn).css('font-size','20px')
+	}
+</script>
+
+    {% endblock %}
+    {% block quick_menu%}
+    {% endblock %}
+{% endblock %}
+

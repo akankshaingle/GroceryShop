@@ -1,0 +1,20 @@
+{% extends 'myuserhome.html' %}
+{% block content %}
+<style>
+    .innerdivv{
+    border-radius:5px;
+    background-color:white;
+    }
+</style>
+        <div class="container offset-sm-1 col-sm-8 mx-3 row">
+<h1 class="col-12 left" style="font-size:30px"><a href="{{curl}}home/"> Catagory</a> >> {{catnm}}</h1>
+    {% for subcat in subcatlist %}
+    <div class="innerdivv m-3 center float-left col-lg-3 col-sm-5">
+        <a class="center" href={{curl}}myuser/viewfood/?subcatid={{subcat.0}}>
+        <img class="caticon img-fluid mx-auto d-block pt-3" src="../../{{media_url}}{{subcat.3}} "/>
+        <h1 style="color:brown;" class="pb-2 mt-1 h4" >{{subcat.2}}</h1>
+        </a>
+    </div>
+    {% endfor %}
+        </div>
+{% endblock%}

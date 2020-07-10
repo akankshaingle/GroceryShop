@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <div class="container offset-sm-1 col-sm-8 mx-3 row">
+    <h1 class=" col-12" style="font-size:30px"> Home Page</h1>
+    {% for cat in clist %}
+    <div class="innerdivv m-3 center border border-white rounded float-left col-lg-3 col-sm-5">
+        <a class="center" href={{curl}}viewsubcat/?catid={{cat.0}}>
+        <img class="caticon img-fluid mx-auto d-block pt-3 rounded-circle" src="../{{media_url}}{{cat.2}} "/>
+        <h1 class='h4' >{{cat.1}}</h1>
+        </a>
+    </div>
+    {% endfor %}
+        </div>
+<script>
+    $(document).ready(function(){
+        $('.homeNav').addClass('active');
+        $('.aboutNav').removeClass('active');
+        $('.cartNav').removeClass('active');
+        $('.helpNav').removeClass('active');
+    });
+</script>
+{% endblock%}
+
+<!--        -->
+<!--        // Small devices (landscape phones, 576px and up)-->
+<!--@media (min-width: 576px) { ... }-->
+
+<!--// Medium devices (tablets, 768px and up)-->
+<!--@media (min-width: 768px) { ... }-->
+
+<!--// Large devices (desktops, 992px and up)-->
+<!--@media (min-width: 992px) { ... }-->
+
+<!--// Extra large devices (large desktops, 1200px and up)-->
+<!--@media (min-width: 1200px) { ... }-->

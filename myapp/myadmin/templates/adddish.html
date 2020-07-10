@@ -1,0 +1,100 @@
+{% extends 'myadminhome.html' %}
+{% load static %}
+{% block slider%}
+<div id="snackbar">{{output}}</div>
+<script>
+var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+<div style="background-color:rgb(49, 46, 46)" class="col-11 col-md-6 col-lg-5 mb-3 py-4 mx-auto">
+<form class="needs-validation" enctype="multipart/form-data" method="post" action="{{curl}}myadmin/adddish/" novalidate>
+    {%csrf_token %}
+    <div class="row" >
+        <p class=" col-auto ml-auto mr-auto h2">Add Dish</p>
+    </div>
+    <div class="row form-check mt-2">
+        <label style="font-size:12px" class="text-light col-11 ml-3">Catagory Name</label>
+        <select id="catagory" class="custom-select col-11 ml-3 form-control" name="catnm">
+<!--            <option selected>Sweets</option>-->
+            <option selected>Select Catagory</option>
+            {% for cat in clist %}
+            <option>{{cat.0}}</option>
+            {% endfor %}
+
+        </select>
+        <script></script>
+    </div>
+    <div class="row form-check  mt-2">
+        <label style="font-size:12px" class="text-light col-11 ml-3">Sub Catagory Name</label>
+        <select id="subCatagory" class="custom-select col-11 ml-3 form-control" name="subcatnm">
+<!--            <option selected>Sweets</option>-->
+            <option selected>Select Catagory</option>
+          </select>
+    </div>
+    <div class="row form-check">
+        <label style="font-size:12px" class="invisible mt-2 text-light col-11 ml-3">Enter Dish Name</label>
+        <input style="border:none;background:none;border-radius:0px;font-size:20px;" class="col-11 ml-3 form-control text-light border-bottom border-light" type="text" onfocus="inputFocus(this)" name="dishnm" placeholder="Enter Dish Name" onfocusin="placeholderTogglerFocusIn(this)" onfocusout="placeholderTogglerFocusOut(this)" required >
+        <div class="ml-3 invalid-feedback">Please fill out this field.</div>
+    </div>
+    <div class="row form-check">
+        <label style="font-size:12px" class="invisible mt-2 text-light col-11 ml-3">Enter Price</label>
+        <input style="border:none;background:none;border-radius:0px;font-size:20px;" class="col-11 ml-3 form-control text-light border-bottom border-light" type="text" onfocus="inputFocus(this)" name="price" placeholder="Enter Price" onfocusin="placeholderTogglerFocusIn(this)" onfocusout="placeholderTogglerFocusOut(this)" required >
+        <div class="ml-3 invalid-feedback">Please fill out this field.</div>
+    </div>
+    <div class="row form-check">
+        <label style="font-size:12px" class="invisible mt-2 text-light col-11 ml-3">Enter Dish Discription</label>
+        <input style="border:none;background:none;border-radius:0px;font-size:20px;" class="col-11 ml-3 form-control text-light border-bottom border-light" type="text" onfocus="inputFocus(this)" name="discription" placeholder="Enter Dish Discription" onfocusin="placeholderTogglerFocusIn(this)" onfocusout="placeholderTogglerFocusOut(this)">
+    </div>
+    <div class="row mt-4">
+        <input class="form-control col-5 mx-auto btn btn-success" type="submit" value="Add Dish" >
+    </div>
+</form>
+</div>
+<script>
+
+    $(document).ready(function(){
+
+        $('.adminHomeNav').removeClass('active');
+        $('.adminOrderNav').removeClass('active');
+        $('.adminUserNav').removeClass('active');
+        $('.adminPayNav').removeClass('active');
+
+    });
+
+
+    $("#catagory").change(function(e){
+       e.preventDefault();
+       catagory = $("#catagory option:selected").text();
+       $.ajax('{{curl}}myadmin/changeSubCat/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            catnm:catagory
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+                $('#subCatagory').html('');
+                data['subcatlist'].forEach(function(value){
+                    $('#subCatagory').append(`<option>${value}</option>`);
+                });
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+
+
+{% block sidebar %}
+<h2 style="font-size:20px">Sub Catagory</h2>
+<ul>
+</ul>
+{% endblock %}

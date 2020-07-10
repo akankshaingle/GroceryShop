@@ -1,0 +1,137 @@
+{% extends 'myadminhome.html' %}
+{% load static %}
+{% block slider%}
+<div id="snackbar">{{output}}</div>
+<script>
+var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+<style>
+    table{
+    font-size:20px;
+    }
+    td{
+    min-width:200px;
+    text-align:center;
+    }
+    select,input[type=text],[type=file]
+     {
+        width: 300px;
+        border-radius: 6px;
+        align-self: center;
+        height: 40px;
+        font-size: 20px;
+        border-color: gainsboro;
+        font-family: 'Arial Narrow', Arial, sans-serif;
+    }
+
+#submit{
+background-color:green;
+color:white;
+width:200px;
+height:50px;
+font-size:20px;
+border:none;
+margin-left:100px;
+margin-top:20px;
+}
+</style>
+<div style="background-color:rgb(49, 46, 46)" class="col-11 col-md-6 col-lg-5 mb-3 py-4 mx-auto">
+<form class="needs-validation" enctype="multipart/form-data" method="post" action="{{curl}}myadmin/managedish/" novalidate>
+    {%csrf_token %}
+    <div class="row" >
+        <p class=" col-auto ml-auto mr-auto h2">Delete Dish</p>
+    </div>
+    <div class="row form-check mt-2">
+        <label style="font-size:12px" class="text-light col-11 ml-3">Catagory Name</label>
+        <select id="catagory" class="custom-select col-11 ml-3 form-control" name="catnm">
+            <option selected>Select Catagory</option>
+            {% for cat in clist %}
+            <option>{{cat.0}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="row form-check  mt-2">
+        <label style="font-size:12px" class="text-light col-11 ml-3">Sub Catagory Name</label>
+        <select id="subCatagory" class="custom-select col-11 ml-3 form-control" name="subcatnm">
+            <option selected>Select Catagory</option>
+          </select>
+    </div>
+    <div class="row form-check  mt-2">
+        <label style="font-size:12px" class="text-light col-11 ml-3">Sub Catagory Name</label>
+        <select id="dish" class="custom-select col-11 ml-3 form-control" name="dish">
+            <option selected>Select Catagory</option>
+          </select>
+    </div>
+    <div class="row mt-4">
+        <input class="form-control col-5 mx-auto btn btn-success" type="submit" value="Remove Dish" >
+    </div>
+</form>
+</div>
+<script>
+    $(document).ready(function(){
+
+        $('.adminHomeNav').removeClass('active');
+        $('.adminOrderNav').removeClass('active');
+        $('.adminUserNav').removeClass('active');
+        $('.adminPayNav').removeClass('active');
+    });
+
+    $("#catagory").change(function(e){
+       e.preventDefault();
+       catagory = $("#catagory option:selected").text();
+       $.ajax('{{curl}}myadmin/changeSubCat/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            catnm:catagory
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+                $('#subCatagory').html('');
+                data['subcatlist'].forEach(function(value){
+                    $('#subCatagory').append(`<option>${value}</option>`);
+                });
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+            }
+        });
+    });
+    $("#subCatagory").change(function(e){
+       e.preventDefault();
+       catagory = $("#catagory option:selected").text();
+       subCatagory = $("#subCatagory option:selected").text();
+       $.ajax('{{curl}}myadmin/changeFood/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            catnm:catagory,
+            subcatnm:subCatagory
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+                $('#dish').html('');
+                data['dishlist'].forEach(function(dish){
+                    $('#dish').append(`<option>${dish}</option>`);
+                });
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+
+
+{% block sidebar %}
+<h2 style="font-size:20px">Sub Catagory</h2>
+<ul>
+</ul>
+{% endblock %}

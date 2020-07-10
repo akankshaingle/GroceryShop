@@ -1,0 +1,122 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block menu %}
+<a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href={{curl}}>BOOK MY MEAL</a>
+<button style="border:3px solid black;" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="h4 mb-0 fas fa-bars"></i></button>
+<div class="collapse navbar-collapse" id="navbarResponsive">
+	<ul class="navbar-nav mx-auto">
+		<li class="nav-item active px-lg-4"><a class="nav-link text-uppercase text-expanded" href={{curl}}home>Home<span class="sr-only">(current)</span>
+			</a>
+		</li>
+		<li class="nav-item px-lg-4"><a class="nav-link text-white text-uppercase text-expanded" data-toggle="modal" data-target="#editProfileModel">Edit Profile</a>
+		</li>
+		<li class="nav-item px-lg-4"><a style="color:white" class="nav-link text-uppercase text-expanded" data-toggle="modal" data-target="#notfModel">View Notification</a>
+		</li>
+		<li class="nav-item px-lg-4 dropdown"><a class="nav-link text-uppercase text-expanded dropdown-toggle" data-toggle="dropdown" href="#">Settings</a>
+			<div id="subnav" class="dropdown-menu">
+				<a class="dropdown-item" href="{{curl}}myuser/lounchfeedback/">Lounch Feedback</a>
+				<a class="dropdown-item" href="{{curl}}myuser/orderlist/" >Order List</a>
+				<a class="dropdown-item" href="{{curl}}myuser/cngpswd/" >Change Password</a>
+				<a class="dropdown-item" href="{{curl}}myuser/logout/" >Logout</a>
+			</div>
+		</li>
+		<li class="nav-item px-lg-4">
+			<a class="nav-link text-uppercase text-expanded" href="{{curl}}myuser/cart/">
+				<i class="fas fa-shopping-bag"></i><sub><span style="font-size:10px;" id="cartValue"></span></sub> Cart</a>
+		</li>
+		<li class="nav-item px-lg-4"><a class="nav-link text-uppercase text-expanded" href="{{curl}}myuser/help/">Help</a>
+		</li>
+	</ul>
+	<div class="modal rounded" id="editProfileModel">
+		<div class="modal-dialog ">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div style="background-color:#8f8585;" id="editProfileHeader" class="br-light modal-header">
+					<h4 style="color:rgb(253, 203, 236);">For Verification Enter Your Passwrod</h4>
+					<button style="color:rgb(253, 203, 236);" type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div style="background-color:rgb(253, 203, 236);" id="editProfileBody" class="modal-body">
+					<form action="{{curl}}myuser/edit_info/" method="POST">
+						{% csrf_token %}
+						<div class="form-group form-check mb-2">
+							<div class="input-group">
+								<input style="color:#562051;border:none;border-radius:0; border-color:#562051 ; background:none;"  class="border-bottom border-dark form-control form-control-lg" type="password" onfocus="inputFocus(this)" name="editProfilePassword" placeholder="Enter password" required="" />
+								<button style="background:none;"  class="btn btn-default" type="button" onclick="togglePassword(this)" onfocus="inputFocus(this)">
+									<i style="font-size:30px;color:black;" class="fas fa-eye-slash" ></i>
+								</button>
+							</div>
+							<div class="invalid-feedback">Please Enter valid password.</div>
+						</div>
+						<label class="ml-4"><a href="{{curl}}forgotPassword/">Don't know your password</a>
+						</label>
+						<div class="form-group mt-4">
+							<input style="margin-left: 40%;" type="submit" class="btn btn-success" value="Edit Profile">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+
+		(function() {
+			  'use strict';
+			  window.addEventListener('load', function() {
+				// Get the forms we want to add validation styles to
+				var forms = document.getElementsByClassName('needs-validation');
+				// Loop over them and prevent submission
+				var validation = Array.prototype.filter.call(forms, function(form) {
+				  form.addEventListener('submit', function(event) {
+					if (form.checkValidity() === false) {
+					  event.preventDefault();
+					  event.stopPropagation();
+					}
+					form.classList.add('was-validated');
+				  }, false);
+				});
+			  }, false);
+			})();
+
+	</script>
+</div>
+<style>
+	@media screen and (min-width: 601px) {
+	.trackbtn{
+		font-size: 30px;
+	}
+	}
+
+	@media screen and (max-width: 380px) {
+	.trackbtn {
+		font-size: 25px;
+	}
+	}
+</style>
+
+<div class="trackOrderBtnBlock d-none row">
+	<div class="row bg-success btn btn-success border border-dark col-10 col-sm-8 col-md-6 col-lg-4 mx-auto mb-5 fixed-bottom">
+		<a class="trackbtn btn btn-success col-12 border-0 rounded-0" href="{{curl}}myuser/trackorder/">TRACK ORDER <i class="fas fa-arrow-right"></i></a>
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+		if (!localStorage.getItem('cartNumber')){
+	               $("#cartValue").html('')
+	                }else{
+	                    $("#cartValue").html(localStorage.getItem('cartNumber'))
+	                }
+		if(parseInt({{currentOrder}})==1){
+				$('.trackOrderBtnBlock').removeClass('d-none')
+		}
+		});
+</script>{% endblock %} {% block serachbar %} {% endblock %} {% block content %}
+<div class="container offset-sm-1 col-sm-8 mx-3 row">
+	<h1 class=" col-12" style="font-size:30px"> Home Page</h1>
+	{% for cat in clist %}
+	<div class="innerdivv m-3 center border bor der-white rounded float-left col-lg-3 col-sm-5">
+		<a class="center" href={{curl}}myuser/viewsubcat/?catid={{cat.0}}>
+			<img class="caticon img-fluid mx-auto d-block pt-3 rounded-circle" src="../{{media_url}}{{cat.2}} " />
+			<h1 class="pb-2 h4">{{cat.1}}</h1>
+		</a>
+	</div>{% endfor %}</div>{% endblock%}

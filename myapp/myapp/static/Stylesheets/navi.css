@@ -1,0 +1,86 @@
+@charset "utf-8";
+/*
+Template Name: Touch of Purple
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+File: Navigation CSS
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Raleway';
+}
+
+#topnav .navbar-nav .nav-item .nav-link {
+  font-weight: 800;
+}
+
+@media (min-width: 992px) {
+  #topnav .navbar-nav .nav-item .nav-link {
+    font-size: 0.9rem;
+  }
+  #topnav .navbar-nav .nav-item .nav-link:hover {
+    color: rgba(255, 255, 255, 0.4);
+  }
+  #topnav .navbar-nav .nav-item.active .nav-link:hover {
+    color: #e6a756;
+  }
+}
+#topnav{background-color:#562051;
+font-family: 'Raleway';
+}
+#topnav div div ul li a{width:inherit;margin:auto;}
+#topnav li a:link, #topnav li a:visited, #topnav li a:hover{color:#FFFFFF; background-color:#562051; border-left:2px solid #562051;}
+#topnav li a:hover, #topnav ul li.active a{color:#e6a756;display:inline-block; background-color:#A5066D; border-left:2px solid #F955BF;}
+#topnav li li a:link, #topnav li li a:visited{color:#FFFFFF; background-color:#562051;}
+
+#subnav{
+  background-color:#562051;
+}
+#subnav a{
+font-family: 'Raleway';
+font-weight: 800;
+}
+
+#subnav a:hover{
+  background-color:#562051;
+}
+
+/* ----------------------------------------------Column Navigation------------------------------------- */
+#quick_menu,#myMenu li{
+background-color:#562051;
+font-family: 'Raleway';
+}
+#myMenu li a{
+text-decoration:none;
+background-color:none;
+}
+
+#myMenu li:hover{
+color:#FFFFFF;
+display:inline-block;
+background-color:#A5066D;
+ border-left:2px solid #F955BF;
+}
+
+/*---------------------------Custom CSS-----------------------*/
+
+.shake{
+    animation-name:shake;
+    animation-duration: 0.25s;
+    animation-iteration-count:1;
+    animation-delay:0.25s;
+}
+@keyframes shake{
+    0% {transform:translateX(-5px);}
+    25% {transform:translateX(5px);}
+    50% {transform:translateX(-5px);}
+    75% {transform:translateX(5px);}
+    100% {transform:translateX(-5px);}
+}

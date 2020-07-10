@@ -1,0 +1,288 @@
+{% extends 'myadminhome.html' %}
+
+
+
+{% block slider%}
+{% endblock %}
+
+{% block article %}
+
+{% block searchbar%}
+{% endblock%}
+
+{% block content %}
+<div class="row col-12 mb-4">
+    <input style="border:none;background:none;border-radius:0px" type="text" id="myInput" class="form-control col-12 ml-4 col-sm-4 border-bottom border-light text-light" placeholder="Search... " onfocus="inputFocus(this)" >
+</div>
+    <div style="overflow-x:scroll;" class="col-12">
+<table id="userDetailTable" class="table table-striped ">
+    <thead>
+        <tr>
+            <th> # </th>
+            <th>User Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Status</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+    {% for user in users %}
+    <tr onmouseover="trMouseOver(this)" onmouseleave="trMouseOut(this)" onclick="editUserInfoModel(this)" data-toggle="modal" data-target="#userInfoModel">
+        {% for details in user %}
+            <td>{{details}}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="modal" id="userInfoModel">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div id="loginHeader" class="modal-header">
+                <h4 class="modal-title">Edit Informations</h4>
+                <button style="color: white;" type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div id="loginBody1" class="modal-body ">
+                <form method="post" action="{{curl}}myadmin/saveInfo/" class="mb-3" >
+                    {% csrf_token %}
+                    <label class="h3 text-primary ml-4"><span>#</span><span id="userId"></span><input class="userIdField" type="hidden" name="userId" ></label>
+                    <div class="form-group">
+                        <label class="text-dark ml-4">Status</label>
+                        <br>
+                        <div class=" form-check form-check-inline">
+                            <input style="height: 20px;width: 20px;" class="udActive form-check-input ml-4 m-2" type="radio" name="status" value="Active">
+                            <label class="text-dark m-2">Active</label>
+                            <input style="height: 20px;width: 20px;" class="udBlocked form-check-inputs m-2 " type="radio" name="status" value="Blocked" >
+                            <label class="text-dark m-2">Blocked</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <input style="border:none;background:none;border-radius:0px" type="text" class="udEmail col-auto offset-1 mr-auto  border-bottom border-dark" onfocus="inputFocus(this)" disabled >
+                        <input type="hidden" class="udEmailField" name="email">
+                        <button class="udChangeMailBtn btn btn-success ml-auto mr-5 col-auto">CHANGE</button>
+                    </div>
+
+                    <div class="udSendOtpBlock m-4 bg-light p-3">
+                        <div class="mx-3" >
+                            <label class="text-dark">Email</label>
+                            <input style="border:none;background:none;border-radius:0px" class="udNewMail form-control form-control-lg border-bottom border-dark" type="text" placeholder="Enter New Mail" onfocus="inputFocus(this)" >
+                        </div>
+                        <label class="text-danger udIncorrectMailLabel invisible small ml-3">Entered Email is Already Exist</label>
+                        <div class="center"><button class="udSendOtpBtn btn btn-success">SEND OTP</button></div>
+                    </div>
+
+                    <div class="udCheckOtpBlock m-4 bg-light p-3">
+                        <div class="mx-3">
+                            <label class="text-dark">Enter OTP</label>
+                            <input style="border:none;background:none;border-radius:0px" class="udOtp form-control form-control-lg border-bottom border-dark" type="text" placeholder="Enter OTP" onfocus="inputFocus(this)" >
+                        </div>
+                        <div class="row">
+                            <label class="text-danger col-auto udIncorrectOtpLabel invisible ml-3 small">Please Enter Correct OTP</label>
+                            <button style="border:none;background:none;" class="udResendOtp text-primary col-auto ml-auto" onfocus="inputFocus(this)">Resend OTP</button>
+                        </div>
+                        <div class="center"><button class="udCheckOtpBtn btn btn-success">CHECK OTP</button></div>
+                    </div>
+
+                    <div class="form-group row">
+                        <input style="border:none;background:none;border-radius:0px" type="text" class="udMobile col-auto mr-auto offset-1 border-bottom border-dark" name="mobile" value="8109113079" onfocus="inputFocus(this)" disabled >
+                        <input type="hidden" class="udMobileField" name="mobile">
+                        <button class="btn btn-success ml-auto mr-5 col-auto">CHANGE</button>
+                    </div>
+                    <div class="form-group row">
+                        <button class="udDeleteUser col-auto mr-auto offset-1 btn btn-danger">
+                            Delete User
+                        </button>
+                        <input type="submit" style="margin-left:40%;" class=" mr-5 col-auto ml-auto btn btn-success center" value="SAVE INFO">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+
+
+    $(document).ready(function(){
+
+        $('.adminHomeNav').removeClass('active');
+        $('.adminOrderNav').removeClass('active');
+        $('.adminUserNav').addClass('active');
+        $('.adminPayNav').removeClass('active');
+        $('.adminManNav').removeClass('active');
+        $('.adminSetNav').removeClass('active');
+          $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+    });
+
+    function editUserInfoModel(trField){
+        $('.udCheckOtpBlock').addClass('d-none');
+        $('.udSendOtpBlock').addClass('d-none');
+        userId=$(trField).children().eq(1).html()
+        email=$(trField).children().eq(3).html()
+        mobile=$(trField).children().eq(4).html()
+        status=$(trField).children().eq(8).html()
+        $("#userId").html(userId)
+        $('.udEmail').val(email)
+        $('.udMobile').val(mobile)
+        $('.udEmailField').val(email)
+        $('.udMobileField').val(mobile)
+        $('.userIdField').val(userId)
+        $(".udBlocked").removeAttr('checked');
+        $(".udActive").removeAttr('checked');
+        if ( status=="Active"){
+            $(".udActive").attr('checked',"checked");
+        }else{
+        console.log(status)
+            $(".udBlocked").attr('checked',"checked");
+        }
+        $('.udNewMail').val('')
+        $('.udOtp').val('')
+      console.log("Radio : "+$('.udActive').attr('checked'))
+    }
+    $('.udChangeMailBtn').click(function(e){
+        e.preventDefault();
+        $('.udSendOtpBlock').removeClass('d-none')
+    });
+    $('.udSendOtpBtn').click(function(e){
+        e.preventDefault();
+        newMail=$('.udNewMail').val();
+        $.ajax('{{curl}}myadmin/getOtp/',{
+        type:'POST',
+        data:{
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        email:newMail,
+        },
+        dataType:"json",
+        success: async function (data, status, xhr) {
+        if (data['otp'] == 1){
+            console.log("Sent")
+            $('.udCheckOtpBlock').removeClass('d-none')
+            $('.udSendOtpBlock').addClass('d-none')
+            $('.udIncorrectOtpLabel').html("Otp Send Successfully")
+            $('.udIncorrectOtpLabel').removeClass('invisible')
+            $('.udIncorrectOtpLabel').removeClass('text-danger')
+            $('.udIncorrectOtpLabel').addClass('text-success')
+            $('.udIncorrectOtpLabel').addClass('shake')
+            await sleep(500)
+            $('.udIncorrectOtpLabel').removeClass('shake')
+        }else{
+            console.log('not sent');
+            $('.udIncorrectMailLabel').removeClass('invisible')
+            $('.udIncorrectMailLabel').addClass('shake')
+            await sleep(500)
+            $('.udIncorrectMailLabel').removeClass('shake')
+        }
+        },
+          error: function (jqXhr, textStatus, errorMessage) {
+        }
+
+        });
+    });
+
+    $('.udCheckOtpBtn').click(function(e){
+        e.preventDefault();
+        userOtp=$('.udOtp').val();
+        userId=$('#userId').html();
+        newMail=$('.udNewMail').val();
+        $.ajax('{{curl}}myadmin/checkOtp/',{
+        type:'POST',
+        data:{
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        otp:userOtp,
+        id:userId,
+        },
+        dataType:"json",
+        success: async function (data, status, xhr) {
+        if (data['otp'] == 1){
+            console.log("Sent")
+            $('.udCheckOtpBlock').addClass('d-none')
+            $('.udEmail').val(newMail)
+            $('.udEmailField').val(newMail)
+            }else{
+            console.log('not sent');
+            $('.udIncorrectOtpLabel').html("Enter Correct Otp")
+            $('.udIncorrectOtpLabel').removeClass('invisible')
+            $('.udIncorrectOtpLabel').removeClass('text-success')
+            $('.udIncorrectOtpLabel').addClass('text-danger')
+            $('.udIncorrectOtpLabel').addClass('shake')
+            await sleep(500)
+            $('.udIncorrectOtpLabel').removeClass('shake')
+        }
+        },
+          error: function (jqXhr, textStatus, errorMessage) {
+        }
+
+        });
+    });
+
+    $('.udResendOtp').click(function(e){
+        e.preventDefault();
+        $.ajax('{{curl}}myadmin/resendOtp/',{
+        type:'POST',
+        data:{
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+        },
+        dataType:"json",
+        success:async function(){
+            $('.udIncorrectOtpLabel').html("Otp Sent Succeessfully")
+            $('.udIncorrectOtpLabel').removeClass('invisible')
+            $('.udIncorrectOtpLabel').removeClass('text-danger')
+            $('.udIncorrectOtpLabel').addClass('text-success')
+            $('.udIncorrectOtpLabel').addClass('shake')
+            await sleep(500)
+            $('.udIncorrectOtpLabel').removeClass('shake')
+        },
+        error:function(){
+        }
+        });
+    });
+
+    $('.udDeleteUser').click(function(e) {
+        e.preventDefault();
+        userId = $('#userId').html()
+        if (confirm("Delete this User")) {
+            $.ajax('{{curl}}myadmin/deleteUser/', {
+                type: 'POST',
+                data: {
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                    id : userId,
+                },
+                dataType: "json",
+                success: async function () {
+                    alert("User has been Deleted")
+                    window.location.replace('{{curl}}myadmin/userdetails')
+                },
+                error: function () {}
+            });
+        }
+    });
+    </script>
+</div>
+{% endblock %}
+
+{% block quick_menu%}
+{% endblock%}
+
+{% endblock %}
+
+{% block sidebar %}
+<h2>Catagory</h2>
+<ul>
+    {% for cat in clist %}
+    <li>{{cat.1}}</li>
+    {% endfor %}
+
+</ul>
+{% endblock %}

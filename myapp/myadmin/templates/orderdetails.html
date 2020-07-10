@@ -1,0 +1,150 @@
+{% extends 'myadminhome.html' %}
+
+
+
+{% block slider%}
+{% endblock %}
+
+{% block artical%}
+{% block searchbar%}
+{% endblock%}
+
+{% block content %}
+
+    <button style="border:none;" id="odBackButton" class="btn btn-warning mb-3 ml-3"><i class="fas fa-chevron-circle-left"></i> BACK</button>
+    <div id="orderIdDetailBlock" class="row col-12">
+        <table class="table-borderless border-bottom ml-md-4 col-md-6 col-12" id="odUserBlock">
+
+        </table>
+        <div id="odOrderBlock" class="ml-4">
+
+        </div>
+    </div>
+    {% csrf_token %}
+     <div class="row col-12 mb-4">
+        <input style="border:none;background:none;border-radius:0px" type="text" id="searchOrder" class="form-control col-12 ml-4 col-sm-4 border-bottom border-light text-light" placeholder="Search... " onfocus="inputFocus(this)" >
+    </div>
+
+    <div id="orderDetailBlock" style="overflow-x:scroll;" class="col-12">
+    <table id="orderTable" class=" col-12 table">
+            <tr>
+                <th scope="col"> # </th>
+                <th scope="col">Order Id</th>
+                <th scope="col">User Id</th>
+                <th scope="col">Order Status </th>
+                <th scope="col">Delivery Partner</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr onmouseover="trMouseOver(this)" onmouseleave="trMouseOut(this)" onclick="trClick(this)">
+                {% for details in order %}
+                    <td>{{details}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        </div>
+    <script>
+    $(document).ready(function(){
+        $('#orderIdDetailBlock').hide();
+        $('#odBackButton').hide();
+        $('.adminHomeNav').removeClass('active');
+        $('.adminOrderNav').addClass('active');
+        $('.adminUserNav').removeClass('active');
+        $('.adminPayNav').removeClass('active');
+        $('.adminManNav').removeClass('active');
+        $('.adminSetNav').removeClass('active');
+
+    });
+
+    $(document).ready(function(){
+          $("#searchOrder").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#orderTable tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        });
+
+    $('#odBackButton').click(function(){
+        document.getElementById('orderIdDetailBlock').innerHTML= ' '
+        document.getElementById('orderIdDetailBlock').innerHTML= `<table class="table-borderless border-bottom ml-md-4 col-md-6 col-12" id="odUserBlock"></table><div id="odOrderBlock" class="ml-4"></div>`
+        $('#orderIdDetailBlock').hide();
+        $('#odBackButton').hide();
+        $('#orderDetailBlock').show();
+    });
+    function trClick(trField){
+        orderId=$(trField).children().eq(1).html()
+        userId=$(trField).children().eq(2).html()
+        deliveryPartnerId=$(trField).children().eq(4).html()
+        $.ajax("{{curl}}myadmin/orderIdDetails/",{
+        type: 'POST',
+        data: {
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        oId:orderId,
+        uId:userId,
+        dId:deliveryPartnerId
+        },
+        dataType:"json",
+        success: function (data, status, xhr) {
+            $('#orderIdDetailBlock').show();
+            $('#odBackButton').show();
+            $('#orderDetailBlock').hide();
+
+            userInfo=data['userInfo']
+            userName=userInfo[0]
+            userEmail=userInfo[1]
+            userMobile=userInfo[2]
+            userGender=userInfo[3]
+            $('#odUserBlock').append(`<tr class="my-2" ><td class="h5 mr-4" >Name</td><td> : </td><td class="h5 ml-4"> ${userName}</td></div>`)
+            $('#odUserBlock').append(`<tr class="my-2" ><td class="h5 mr-4" >Email</td><td> : </td><td class="h5 ml-1"> ${userEmail}</td></div>`)
+            $('#odUserBlock').append(`<tr class="my-2" ><td class="h5 mr-4" >Mobile</td><td> : </td><td class="h5 ml-4"> ${userMobile}</td></div>`)
+            $('#odUserBlock').append(`<tr class="my-2" ><td class="h5 mr-4" >Gender</td><td> : </td><td class="h5 ml-4"> ${userGender}</td></div>`)
+
+            orderInfo=data['orderInfo']
+            foodList=JSON.parse(orderInfo[2])
+
+            if ( parseInt(orderInfo[3])==1){
+            orderStatus="Delivered"
+            }else if(parseInt(orderInfo[3])==0){
+            orderStatus="Failed"
+            }else{
+            orderStatus="Refunded"
+            }
+            amount=JSON.parse(orderInfo[4])
+            trxnId=orderInfo[5]
+            orderTime=orderInfo[6]
+            address=JSON.parse(orderInfo[7])
+            paymentMode=orderInfo[8]
+            console.log(amount)
+            console.log(Object.keys(amount))
+            $('#odOrderBlock').append(`<div class="my-2 row" ><span class="h3 text-primary col-auto mr-auto"># ${orderId}</span><span class="ml-auto col-auto mr-5">${orderTime}</span><span class="h3 text-light col-auto">${orderStatus}</span></div>`)
+            $('#odOrderBlock').append(`<div style="border:none" class="orderList border-bottom border-light" ></div>`)
+            for(i=0;i<Object.keys(foodList).length;i++){
+                item=Object.values(Object.values(foodList))[i]
+                $('.orderList').append(`<div class="row"><p class="col-5">${item.food}</p><p style="padding-left:0px;padding-right:0px" class="col-4">&#8377; ${parseInt(item.price)} X ${item.noOfItems}</p><p style="padding-left:0px;padding-right:0px" class="col-2">&#8377; ${parseInt(item.price)*parseInt(item.noOfItems)}</p></div>`)
+            }
+            $('#odOrderBlock').append(`<div id="odAmountBlock" class="col-md-6 col-12 ml-md-auto"></div>`)
+            for(i in Object.keys(amount)){
+                $('#odAmountBlock').append(`<div class="row"><p class="col-auto mr-auto">${Object.keys(amount)[i]}</p><p class="col-auto ml-auto">&#8377; ${amount[Object.keys(amount)[i]]}</p></div>`)
+            }
+
+            addressField=Object.values(address)
+            $('#odAmountBlock').append(`<div> <p class="text-success">Payment via ${paymentMode}</p></div>`)
+            $('#odAmountBlock').append(`<div> <p>Transaction Id : ${trxnId}</p></div>`)
+            $('#odOrderBlock').append(`<div class="row"><p class="h4">${addressField[0]+","+addressField[1]+" "+addressField[4]+","+addressField[2]+" "+addressField[3]}</p></div>`)
+
+            },
+        error: function (jqXhr, textStatus, errorMessage) {
+        }
+        });
+    }
+</script>
+{% endblock%}
+
+{% block quick_menu%}
+{% endblock%}
+
+{% endblock%}

@@ -1,0 +1,105 @@
+{% extends 'myadminhome.html' %}
+
+
+
+{% block slider%}
+<div id="snackbar">{{output}}</div>
+<script>
+var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+
+<div style="background-color:rgb(49, 46, 46)" class="dpCheckOtpBlock col-11 offset-1 col-md-6 col-lg-5 mb-3 py-4 offset-md-3 offset-lg-4">
+<form class="setOtp" enctype="multipart/form-data" method="post" action={{curl}}validOtp/ >
+    {%csrf_token %}
+
+    <div class="row mb-3">
+        <label style="font-size:12px" class="text-light col-11 ml-3">Delivery Partner Email</label>
+        <input style="border:none;background:none;border-radius:0px;font-size:20px;" class="dpMail col-11 disabled ml-3 form-control text-light border-bottom border-light" type="text" onfocus="inputFocus(this)" value="{{email}}" disabled>
+    </div>
+    <div class="row">
+        <label style="font-size:12px" class="invisible text-light col-11 ml-3">Enter OTP</label>
+        <input style="border:none;background:none;border-radius:0px;font-size:20px;" class="dpOtpField col-11 ml-3 form-control text-light border-bottom border-light" type="text" placeholder="Enter OTP"  onfocus="inputFocus(this)" onfocusin="placeholderTogglerFocusIn(this)" onfocusout="placeholderTogglerFocusOut(this)">
+    </div>
+    <div class="row">
+        <label style="display:none" class="dpOtpValidLabel col-auto mt-1 mr-auto text-danger small">Please Enter Correct OTP</label>
+        <label style="display:none" class="dpResendOtpLabel col-auto mt-1 mr-auto text-success small">OTP sent Successfully</label>
+        <button id="dpResendOtp" style="border:none;background:none;" class=" text-primary col-auto ml-auto" onfocus="inputFocus(this)">Resend OTP</button>
+    </div>
+    <div class="row mt-4">
+        <input class="dpCheckOtp form-control col-5 offset-3 btn btn-success" type="submit" value="CHECK OTP" >
+    </div>
+</form>
+</div>
+<script>
+
+    $(document).ready(function(){
+
+        $('.adminHomeNav').removeClass('active');
+        $('.adminOrderNav').removeClass('active');
+        $('.adminUserNav').removeClass('active');
+        $('.adminPayNav').removeClass('active');
+        $('.adminManNav').removeClass('active');
+        $('.adminSetNav').addClass('active');
+
+    });
+
+    $('#dpResendOtp').click(function(e){
+        e.preventDefault();
+        dpMail=$('.dpMail').val()
+        $.ajax('{{curl}}myadmin/dpResendOtp/',{
+        type:'POST',
+        data:{
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        email:dpMail
+        },
+        dataType:"json",
+        success:async function(data){
+            $('.dpResendOtpLabel').fadeIn("fast");
+            $('.dpOtpValidLabel').css('display','none');
+            },
+        error:function(){
+
+        }
+        });
+    });
+    $('.dpCheckOtp').click(function(e){
+        e.preventDefault();
+        userOtp=$('.dpOtpField').val()
+        $.ajax('{{curl}}myadmin/dpValidOtp/',{
+        type:'POST',
+        data:{
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        otp:userOtp
+        },
+        dataType:"json",
+        success:async function(data){
+            if (data['otp']==0){
+            $('.dpResendOtpLabel').hide();
+            $('.dpOtpValidLabel').fadeIn('fast');
+            $('.dpOtpValidLabel').addClass('shake');
+            await sleep(500);
+            $('.dpOtpValidLabel').removeClass('shake');
+            }else{
+                window.location.replace('{{curl}}myadmin/');
+                }
+            },
+        error:function(){
+
+        }
+        });
+    });
+
+</script>
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}

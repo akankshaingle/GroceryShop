@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+
+{% block slider %}
+
+{% endblock %}
+
+{% block menu %}
+   <style>
+        .switch {
+          width: 60px;
+          height: 34px;
+        }
+
+        .slider {
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: red;
+          transition: .4s;
+        }
+
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 26px;
+          width: 26px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          transition: .4s;
+        }
+
+        input:checked + .slider {
+          background-color: #27da21;
+        }
+
+        input:checked + .slider:before {
+          transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+          border-radius: 34px;
+        }
+
+        .slider.round:before {
+          border-radius: 50%;
+        }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+        </style>
+    <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href={{curl}}>BOOK MY MEAL</a>
+            <button style="border:3px solid black;" class=" navbar-toggler ml-auto right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="h4 mb-0 fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse f-left" id="navbarResponsive">
+                <ul class="navbar-nav mx-auto">
+                    <li class="adminHomeNav nav-item px-lg-4"><a class="nav-link text-uppercase text-expanded" href="{{curl}}dp/" >Home</a></li>
+                    <li class="adminOrderNav nav-item px-lg-4"><a class="nav-link text-uppercase text-expanded" href="{{curl}}dp/previousOrders/" >Previous Orders </a></li>
+                    <li class="adminUserNav nav-item px-lg-4"><a class="nav-link text-uppercase text-expanded" href="{{curl}}dp/editProfile/" >Edit Profile</a></li>
+                    <li class="adminUserNav nav-item px-lg-4"><a class="nav-link text-uppercase text-expanded" href="{{curl}}dp/logout/" >Logout</a></li>
+                    <li class="adminUserNav nav-item px-lg-4"><a class="nav-link text-uppercase text-expanded" href="{{curl}}dp/" >Help</a></li>
+                </ul>
+            </div>
+    {% csrf_token %}
+    <label class="switch position-relative ml-2 mt-2 f-right" data-toggle="tooltip" data-placement="bottom" title="Please Activate Delivery Partner Id"><input id="toggleDpStatusBtn" type="checkbox"><span class="slider round position-absolute"></span></label>
+
+<script>
+        $(document).ready(function(){
+            $('.adminHomeNav').addClass('active');
+            $('.adminOrderNav').removeClass('active');
+            $('.adminUserNav').removeClass('active');
+            $('.adminPayNav').removeClass('active');
+            $('.adminManNav').removeClass('active');
+            $('.adminSetNav').removeClass('active');
+
+            if(parseInt({{orderStatus}})==1){
+                $('#acceptOrderBtn').parents().eq(0).addClass('d-none')
+                $('#pickUpOrderBtn').parents().eq(0).removeClass('d-none')
+                $('#deliveredOrderBtn').parents().eq(0).addClass('d-none')
+           }else{
+                if(parseInt({{orderStatus}})==2){
+                    $('#deliveredOrderBtn').parents().eq(0).removeClass('d-none')
+                    $('#acceptOrderBtn').parents().eq(0).addClass('d-none')
+                    $('#pickUpOrderBtn').parents().eq(0).addClass('d-none')
+                    }
+                else{
+                    $('#acceptOrderBtn').parents().eq(0).removeClass('d-none')
+                    $('#pickUpOrderBtn').parents().eq(0).addClass('d-none')
+                    $('#deliveredOrderBtn').parents().eq(0).addClass('d-none')
+                    }
+                }
+
+            if({{dpStatus}}){
+                $('#toggleDpStatusBtn').attr('checked','true')
+                $('[data-toggle="tooltip"]').tooltip('hide')
+                $('#toggleDpStatusBtn').parents().eq(0).attr('title','Delivery Partner Id is Active')
+
+            }else{
+                $('#toggleDpStatusBtn').removeAttr('checked')
+                $('[data-toggle="tooltip"]').tooltip('show')
+            }
+            });
+
+
+    $('#toggleDpStatusBtn').click(function(){
+
+        if ($("#toggleDpStatusBtn").is(":checked")){
+            status=1
+            $('#toggleDpStatusBtn').parents().eq(0).attr('title','Delivery Partner Id is Active')
+        }else{
+            status=0
+            $('#toggleDpStatusBtn').parents().eq(0).attr('title','Please Activate Delivery Partner Id')
+        }
+
+        $.ajax('http://localhost:8000/dp/changeStatus/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            status:status
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+              if(parseInt(data['op'])==1){
+                    location.reload()
+              }
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+            }
+        });
+    });
+    </script>
+{% endblock %}
+
+{% block artical%}
+{% block searchbar%}
+{% endblock%}
+
+{% block content %}
+    {% if dpStatus is 0 %}
+    <div class="col-12 row">
+        <div style="background-color:rgb(49, 46, 46)" class="col-11 offset-1 col-md-6 col-lg-5 mb-3 py-4 offset-md-3 offset-lg-4">
+           <span class="center h3 font-weight-bold">Please Activate Delivery Partner Id</span>
+        </div>
+    </div>
+    {% else %}
+        {% if noOfOrder is 0 %}
+            <div style="background-color:rgb(49, 46, 46)" class="col-11 mx-auto ml-4 center col-md-6 col-lg-5 mb-3 py-4">
+                <span class="h3">No order Found</span>
+            </div>
+        {% else %}
+        <div style="background-color:rgb(49, 46, 46)" class="row col-12 ml-3  px-0 mx-sm-auto col-md-6 col-lg-5 mb-3 py-4 ">
+            <div class="col-12 row">
+                <div class="my-1 mr-sm-auto col-sm-auto"><div class="h5 text-primary"><span># <span><span class="dporderId">{{orderDetails.0}}</span></div></div>
+                <div class="my-1 ml-sm-auto col-sm-auto"><span>{{userDetails.0}}</span></div>
+            </div>
+            <div class="text-white my-1 col-11 h5"><span>Call : </span><span>{{userDetails.1}}</span><button style="background:none;" class="ml-2 border-0"><i class="text-primary fas fa-phone"></i></button></div>
+            <div class="col-11 h5"><span><i class="text-danger fas fa-map-marker-alt"> </i> </span><span>{{orderDetails.3}}</span></div>
+            {% csrf_token %}
+            <div class="row col-11 border-top border-bottom border-light p-sm-2 px-0 m-2 orderItemBlock">
+                {% for orders in orderDetails.1 %}
+                    <div class="row col-12 ml-1 px-0"><p class="col-5 px-0">{{orders.0}}</p><p class="col-4 px-0">&#8377; {{orders.1}} X {{orders.2}}</p><p class="col-3 px-0"> &#8377; {{orders.3}}</p></div>
+                {% endfor %}
+            </div>
+            <div class="col-11 h5"><span>&#8377;</span>
+            {% if orderDetails.4 is 'COD' %}
+                <span>{{orderDetails.2}}</span>
+                <span class="text-danger "> Case On Delivery</span>
+            {% else %}
+                <span>{{orderDetails.2}}</span>
+                <span class="text-success">Amount Already Paid</span>
+            {% endif %}
+            </div>
+            <div class="col-12 row my-3"><div class="col-4 ml-auto d-none"><button id="acceptOrderBtn" class="btn btn-success">Accept</button></div><div class="col-5 ml-auto d-none"><button id="deliveredOrderBtn" class="btn btn-success">Delivered Order</button></div><div class="col-4 ml-auto d-none"><button id="pickUpOrderBtn" class="btn btn-primary">Pick Up</button></div><div class="col-auto offset-1 mr-auto"><button id="cancelOrderBtn" class="btn btn-danger">Cancel</button></div></div>
+        </div>
+        {% endif %}
+    {% endif %}
+    <script>
+
+    $('#acceptOrderBtn').click(function(e){
+      orderId=$('.dporderId').html()
+      $.ajax('{{curl}}dp/acceptOrder/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            orderId:orderId,
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+               if(parseInt(data['op'])==1){
+               $('#acceptOrderBtn').parents().eq(0).addClass('d-none')
+               $('#pickUpOrderBtn').parents().eq(0).removeClass('d-none')
+               }
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+            }
+        });
+    });
+
+
+    $('#pickUpOrderBtn').click(function(e){
+      orderId=$('.dporderId').html()
+      $.ajax('{{curl}}dp/pickUpOrder/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            orderId:orderId,
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+               if(parseInt(data['op'])==1){
+               $('#acceptOrderBtn').parents().eq(0).addClass('d-none')
+               $('#pickUpOrderBtn').parents().eq(0).addClass('d-none')
+               $('#deliveredOrderBtn').parents().eq(0).removeClass('d-none')
+               }
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+            }
+        });
+    });
+
+    $('#deliveredOrderBtn').click(function(e){
+      orderId=$('.dporderId').html()
+      $.ajax('{{curl}}dp/deliveredOrder/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            orderId:orderId,
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+                location.reload()
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+            }
+        });
+    });
+
+    $('#cancelOrderBtn').click(function(e){
+      orderId=$('.dporderId').html()
+      $.ajax('{{curl}}dp/cancelOrder/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            orderId:orderId,
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+              if(parseInt(data['op'])==1){
+                    location.reload()
+              }
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+            }
+        });
+    });
+
+    </script>
+{% endblock%}
+
+{% block quick_menu%}
+{% endblock%}
+
+{% endblock%}

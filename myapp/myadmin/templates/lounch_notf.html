@@ -1,0 +1,99 @@
+{% extends 'myadminhome.html' %}
+{%load static%}
+{% block slider%}
+<div id="snackbar">{{output}}</div>
+<script>
+var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+
+</script>
+
+{% endblock %}
+
+{% block article %}
+
+{% block searchbar%}
+{% endblock%}
+
+{% block content %}
+<style>
+@font-face{
+font-family:myFont;
+src:url({% static 'Fonts/Scada-Bold.ttf' %});
+}
+</style>
+<div style="background-color:rgb(49, 46, 46);font-family:myFont;" class="col-12 row col-md-6 col-lg-5 mb-3  py-4 mx-auto">
+     {%csrf_token %}
+    <div class="row col-12">
+        <p class="h3 col-11">Notifications</p>
+    </div>
+    <ul style="list-style:none;" class="p-1">
+        {% for notification in notifications %}
+        <li class="col-12 row form-inline bg-light text-dark mx-auto my-3 p-2">
+            <input type="hidden" value={{notification.0}} >
+            <div class="mr-auto col-10">{{notification.1}}</div>
+            <button style="background:none" class="ml-auto col-2 border-0 h4" onfocus="inputFocus(this)" onclick="deleteNotf(this)" >&times;</button>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="col-12"> </div>
+<div style="background-color:rgb(49, 46, 46)" class="col-11 col-md-6 col-lg-5 mb-3 py-4 mx-auto">
+<form class="needs-validation" enctype="multipart/form-data" method="post" action="{{curl}}myadmin/lounch_notf/" novalidate>
+    {%csrf_token %}
+    <div class="row" >
+        <p style="font-family:myFont;" class="col-auto ml-auto mr-auto h3">Lounch Notifications</p>
+    </div>
+    <div class="row form-check">
+        <label style="font-size:12px" class="invisible text-light col-11 ml-3">Notification</label>
+        <textarea style="border:none;background:none;border-radius:0px;font-size:20px;" rows="4" class="col-11 ml-3 form-control text-light border-bottom border-light" onfocus="inputFocus(this)" name="notf" placeholder="Enter Notification details" required ></textarea>
+        <div class="ml-3 invalid-feedback">Please fill out this field.</div>
+    </div>
+    <div class="row mt-4">
+        <input style="font-family:myFont;" class="form-control col-7 offset-2 col-md-6   offset-md-3 btn btn-success" type="submit" value="Lounch Notification" >
+    </div>
+</form>
+</div>
+<script>
+    $(document).ready(function(){
+
+        $('.adminHomeNav').removeClass('active');
+        $('.adminOrderNav').removeClass('active');
+        $('.adminUserNav').removeClass('active');
+        $('.adminPayNav').removeClass('active');
+    });
+
+    function deleteNotf(cancelBtn){
+    notfId=$(cancelBtn).parents().eq(0).children().eq(0).val()
+    notfdata=$(cancelBtn).parents().eq(0).children().eq(1).html()
+
+    if(confirm(notfdata))
+    {
+    $.ajax('{{curl}}myadmin/deleteNotf/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            notfId:notfId
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+                location.reload()
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+            }
+        });
+    }
+    else{
+    console.log("fsdfsd")
+    }
+    }
+</script>
+{% endblock %}
+{% block quick_menu%}
+{% endblock%}
+
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}

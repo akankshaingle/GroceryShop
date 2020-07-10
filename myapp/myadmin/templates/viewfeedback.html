@@ -1,0 +1,121 @@
+{% extends 'myadminhome.html' %}
+{%load static%}
+{% block slider%}
+<div id="snackbar">{{output}}</div>
+<script>
+
+</script>
+
+{% endblock %}
+
+{% block article %}
+
+{% block searchbar%}
+{% endblock%}
+
+{% block content %}
+<style>
+    ::-webkit-scrollbar {
+  width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #562051;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #A5066D;
+}
+</style>
+<div class="col-8 offset-1" >
+  <a class="my-4 vfBestField progress"  data-toggle="tooltip" data-placement="top" title="">
+    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" ></div>
+  </a>
+  <a class="my-4 vfGoodField progress" data-toggle="tooltip" data-placement="top" title="">
+    <div class=" progress-bar bg-primary" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+  </a>
+  <a class="my-4 vfOkField progress"  data-toggle="tooltip" data-placement="top" title="">
+    <div class=" progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+  </a>
+  <a class="my-4 vfPoorField progress"  data-toggle="tooltip" data-placement="top" title="">
+    <div class=" progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+  </a>
+  <a class="my-4 vfBadField progress" data-toggle="tooltip" data-placement="top" title="">
+    <div class=" progress-bar bg-danger" role="progressbar" style="width: 100%"  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+  </a>
+</div>
+<div class="col-3 col-md-2 mr-md-5">
+    <div class="vfBestData my-3"> 0% </div>
+    <div class="vfGoodData my-3"> 25% </div>
+    <div class="vfOkData my-3"> 50% </div>
+    <div class="vfPoorData my-3"> 75% </div>
+    <div class="vfBadData my-3"> 100% </div>
+</div>
+<div class="row col-12">
+    <ul style="overflow-y:scroll;height:200px" class="col-8 offset-1">
+        {% for i in feedback %}
+        <li class="bg-light text-dark p-3 m-3">{{i}}</li>
+        {% endfor %}
+    </ul>
+</div>
+<script>
+    $(document).ready(function(){
+
+        $('.adminHomeNav').removeClass('active');
+        $('.adminOrderNav').removeClass('active');
+        $('.adminUserNav').removeClass('active');
+        $('.adminPayNav').removeClass('active');
+
+    $('[data-toggle="tooltip"]').tooltip();
+    total={{ratting.0}}
+    bad_per=({{ratting.1}}*100)/total
+    poor_per=({{ratting.2}}*100)/total
+    ok_per=({{ratting.3}}*100)/total
+    good_per=({{ratting.4}}*100)/total
+    best_per=({{ratting.5}}*100)/total
+
+    $('.vfBadField').attr("title","Bad")
+    $('.vfBadField div').attr("aria-valuenow",bad_per)
+    $('.vfBadField div').css("width",bad_per+"%")
+    $('.vfBadData').html(`${parseInt(bad_per)+" %"}`)
+
+    $('.vfPoorField').attr("title","Poor")
+    $('.vfPoorField div').attr("aria-valuenow",poor_per)
+    $('.vfPoorField div').css("width",poor_per+"%")
+    $('.vfPoorData').html(`${parseInt(poor_per)+" %"}`)
+
+    $('.vfOkField').attr("title","Ok")
+    $('.vfOkField div').attr("aria-valuenow",ok_per)
+    $('.vfOkField div').css("width",ok_per+"%")
+    $('.vfOkData').html(`${parseInt(ok_per)+" %"}`)
+
+    $('.vfGoodField').attr("title","Good")
+    $('.vfGoodField div').attr("aria-valuenow",good_per)
+    $('.vfGoodField div').css("width",good_per+"%")
+    $('.vfGoodData').html(`${parseInt(good_per)+" %"}`)
+
+    $('.vfBestField').attr("title","Best")
+    $('.vfBestField div').attr("aria-valuenow",best_per)
+    $('.vfBestField div').css("width",best_per+"%")
+    $('.vfBestData').html(`${parseInt(best_per)+" %"}`)
+
+    });
+
+</script>
+{% endblock %}
+{% block quick_menu%}
+{% endblock%}
+
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}

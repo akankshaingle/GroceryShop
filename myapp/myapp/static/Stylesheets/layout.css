@@ -1,0 +1,67 @@
+@charset "utf-8";
+/*
+Template Name: Touch of Purple
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+File: Layout CSS
+*/
+
+html{overflow-y:scroll;}
+body{margin:0; padding:0; font-size:13px; font-family:Georgia, "Times New Roman", Times, serif; color:#999999; background-color:#151515;}
+
+.justify{text-align:justify;}
+.bold{font-weight:bold;}
+.center{text-align:center;}
+.right{text-align:right;}
+.nostart{margin:0; padding:0; list-style-type:none;}
+
+.clear{clear:both;}
+br.clear{clear:both; margin-top:-15px;}
+
+a{outline:none; text-decoration:none;}
+
+.fl_left, .imgl{float:left;}
+.fl_right, .imgr{float:right;}
+
+img{display:block; margin:0; padding:0; border:none;}
+.imgl, .imgr{border:1px solid #C7C5C8; padding:5px;}
+.imgl{margin:0 8px 8px 0; clear:left;}
+.imgr{margin:0 0 8px 8px; clear:right;}
+
+/* ----------------------------------------------Wrapper------------------------------------- */
+
+.col1, .col1 a{color:#666666; background-color:#000000;}
+.col2{color:#FFFFFF; background-color:#562051;}
+.col3{color:#999999; background-color:#151515; padding-top:20px;padding-bottom:20px;}
+.col3 a{color:#A97891; background-color:#151515;}
+.col4{color:#999999; background-color:#151515;}
+.col4 a{color:#A97891; background-color:#151515;}
+.col5{color:#CCCCCC; background-color:#1D1D1D; border-top:1px dotted #E7BCE2; border-bottom:1px dotted #E7BCE2;}
+.col5 a{color:#E7BCE2;}
+.col6, .col6 a{color:#666666; background-color:#151515;}
+
+/* ----------------------------------------------Generalise------------------------------------- */
+
+#header, #breadcrumb, #featured_intro, #container, #footer, #copyright{display:block; position:relative; margin:0 auto;}
+
+/* ----------------------------------------------Header------------------------------------- */
+
+#header{padding:2px 0 20px 0;}
+#header .fl_left{display:block; float:left; margin-top:17px; overflow:hidden;}
+#header .fl_right{display:block; float:right; width:468px; height:60px; margin-top:21px; overflow:hidden;}
+#header h1, #header p, #header ul{margin:0; padding:0; list-style:none; line-height:normal;}
+#header h1 a{font-size:36px; color:#E60498; background-color:#000000;}
+#header .fl_left p{margin-top:5px;}
+
+#container{padding:20px 0;}
+#content{display:block; float:left; width:600px;}
+
+/* ----------------------------------------------Copyright------------------------------------- */
+
+#copyright{padding:15px 0;}
+#copyright p{margin:0; padding:0;}
+
+
+

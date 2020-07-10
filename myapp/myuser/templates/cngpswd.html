@@ -1,0 +1,89 @@
+{% extends 'myuserhome.html' %}
+
+
+
+{% block slider%}
+<div id="snackbar">{{output}}</div>
+<script>
+var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+
+</script>
+
+
+{% endblock %}
+{% block article %}
+
+{% block searchbar%}
+{% endblock%}
+
+{% block content %}
+<div style="background-color:rgb(49, 46, 46)" class="col-11 col-md-6 col-lg-5 mb-3 py-4 mx-auto">
+<form class="needs-validation" enctype="multipart/form-data" method="post" action="{{curl}}myuser/cngpswd/" oninput='confirmPassword.setCustomValidity(confirmPassword.value != newPassword.value ? "Passwords do not match." : "")'>
+{%csrf_token %}
+    <div class="row" >
+        <p style="font-family:myFont;" class="col-auto ml-auto mr-auto h3">Reset Password</p>
+    </div>
+    <div class="form-group col-12 ml-md-2 row">
+        <input style="border-radius:0px;background:none;border:none;" class="text-white border-bottom border-light col-9 form-control form-control-lg" type="password" name="currentPassword" placeholder="Enter Current Password" onfocus="inputFocus(this)" required />
+        <button style="border-radius:0px;background:none;border:none;" class="border-bottom border-light  btn btn-default col-2" type="button" onfocus="inputFocus(this)" onclick="togglePassword(this)" >
+           <i style="font-size:30px;color:white;" class="fas fa-eye-slash" ></i>
+        </button>
+        <label style="display:none" class=" col-11 small text-danger">Password should be more than 7 digit long</label>
+    </div>
+    <div class="row">
+        <a class="col-auto ml-auto mr-5 text-primary font-weight-bold" href="{{curl}}forgotPassword/">Forgot Password</a>
+    </div>
+    <div class="form-group col-12 ml-md-2 row">
+        <input style="border-radius:0px;background:none;border:none;" class="text-white col-9 border-bottom border-light  form-control form-control-lg" type="password" name="newPassword" placeholder="Enter New password" onfocus="inputFocus(this)" required/>
+        <button style="border-radius:0px;background:none;border:none;" class=" border-bottom border-light btn btn-default col-2" type="button" onfocus="inputFocus(this)" onclick="togglePassword(this)" >
+           <i style="font-size:30px;color:white;" class="fas fa-eye-slash" ></i>
+        </button>
+        <label style="display:none" class="col-11 small text-danger">Password should be more than 7 digit long</label>
+    </div>
+    <div class="form-group col-12 ml-md-2 row">
+        <input style="border-radius:0px;background:none;border:none;" class="text-white col-9 border-bottom border-light  form-control form-control-lg" type="password" name="confirmPassword" placeholder="Re-Enter New password" onfocus="inputFocus(this)" required/>
+        <button style="border-radius:0px;background:none;border:none;" class=" border-bottom border-light btn btn-default col-2" type="button" onfocus="inputFocus(this)" onclick="togglePassword(this)">
+           <i style="font-size:30px;color:white;" class="fas fa-eye-slash" ></i>
+        </button>
+        <label style="display:none" class="col-11 small text-danger">Password should be more than 7 digit long</label>
+    </div>
+    <div class="row mt-4">
+        <input style="font-family:myFont;" class="form-control col-7 col-md-5 mx-auto btn btn-success" type="submit" value="RESET PASSWORD" >
+    </div>
+
+</form>
+</div>
+<script>
+
+	function inputFocus(field){
+		$(field).css('outline','0');
+		$(field).css('box-shadow','none');
+	}
+
+	(function() {
+			  'use strict';
+			  window.addEventListener('load', function() {
+				// Get the forms we want to add validation styles to
+				var forms = document.getElementsByClassName('needs-validation');
+				// Loop over them and prevent submission
+				var validation = Array.prototype.filter.call(forms, function(form) {
+				  form.addEventListener('submit', function(event) {
+					if (form.checkValidity() === false) {
+					  event.preventDefault();
+					  event.stopPropagation();
+					}
+					form.classList.add('was-validated');
+				  }, false);
+				});
+			  }, false);
+			})();
+
+</script>
+{% endblock %}
+{% block quick_menu%}
+{% endblock%}
+
+{% endblock %}
+

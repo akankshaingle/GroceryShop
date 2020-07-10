@@ -1,0 +1,341 @@
+{% extends 'myuserhome.html' %}
+{% load static %}
+ {% block slider%}
+{% endblock %}
+{% block artical %}
+    {% block searchbar %}
+    {% endblock %}
+    {% block content %}
+    <style>
+        #food-container{
+            justify-content:space;
+           }
+         .food-name,.food-price,.food-quantity,total{
+         width:25%;
+         }
+    </style>
+    <div id="food-container" class="ml-lg-5 mx-auto ml-md-3 mr-lg-3 mb-3 col-lg-8 row col-11">
+        <div class="food-header col-12 mx-auto border-bottom border-light px-0 mb-4 row">
+            <p class="food-name d-inline col-3">FOOD</p>
+            <p class="food-price d-inline col-3">PRICE</p>
+            <p style="padding-left:0px;padding-right:0px;" class="food-quantity d-inline center col-3">QUANTITY</p>
+            <p  class="total d-inline right col-3 ">TOTAL</p>
+        </div>
+        <div id="products" class="col-12 border-bottom border-light pb-3 mb-2">
+
+        </div>
+        <div class="row col-12">
+            <input style="background: none;border:none;color:white" class="col-11 instructionField" type="text" name="instruction" onfocus="inputFocus(this)"  placeholder="Any instructions ? We promise to pass them on "  />
+        </div>
+
+    </div>
+    <script>
+    function displayCart(){
+        var dish = localStorage.getItem('cartItems');
+        dish=JSON.parse(dish);
+        var cartNumber = localStorage.getItem('cartNumber');
+        var products=document.getElementById("products")
+        if (dish && products){
+            products.innerHTML= ' ';
+            var item={}
+            for(i=0;i<cartNumber;i++){
+            item=Object.values(Object.values(dish))[i]
+            products.innerHTML += `
+                    <div class="row mt-2">
+                        <p class="px-0 col-3 my-auto left">${item.food}</p>
+                        <p class="col-3 px-0 center my-auto"><span>&#8377; </span><span >${item.price}</span></p>
+                        <div class="addRemoveButton col-3 center">
+                            <div class="bg-white">
+                                <button class="border-0 bg-white font-weight-bold " onclick="removeItemsCheckout(this)" ><span style="font-weight:700" class="h3">-</span></button>
+                                <span style="font-weight:600" class="mx-3 pb-1 text-dark " >${item.noOfItems}</span>
+                                <button class="border-0 text-success bg-white font-weight-bold " onclick="addItemsCheckout(this)" ><span style="font-weight:700" class="h3">+</span></button>
+                            </div>
+                        </div>
+                        <p class="col-3 px-0 my-auto right "><span >&#8377; </span><span>${parseInt(item.price)*parseInt(item.noOfItems)}</span></p>
+                    </div>
+                `
+        }
+        }
+    }
+    function addItemsCheckout(addButton){
+        dish = localStorage.getItem('cartItems');
+        dish = JSON.parse(dish)
+        var foodVar =$(addButton).parents().eq(2).children().eq(0).html();
+        var priceVar = parseInt($(addButton).parents().eq(2).children().eq(1).children().eq(1).html());
+        noOfItem=parseInt($(addButton).parents().eq(0).children().eq(1).html());
+        noOfItem+=1;
+        dish[foodVar]["noOfItems"]=noOfItem
+        $(addButton).parents().eq(0).children().eq(1).html(noOfItem);
+        $(addButton).parents().eq(2).children().eq(3).children().eq(1).html(noOfItem*priceVar) ;
+        localStorage.setItem('cartItems',JSON.stringify(dish))
+        calculateTotalAmount();
+    }
+    function removeItemsCheckout(removeButton){
+        dish = localStorage.getItem('cartItems');
+        dish = JSON.parse(dish)
+        var foodVar = $(removeButton).parents().eq(2).children().eq(0).html();
+        var priceVar = parseInt($(removeButton).parents().eq(2).children().eq(1).children().eq(1).html());
+        noOfItem=parseInt($(removeButton).parents().eq(0).children().eq(1).html());
+        if ( noOfItem >1){
+        noOfItem-=1;
+        dish[foodVar]["noOfItems"]=noOfItem
+        $(removeButton).parents().eq(0).children().eq(1).html(noOfItem);
+        $(removeButton).parents().eq(2).children().eq(3).children().eq(1).html(noOfItem*priceVar) ;
+        localStorage.setItem('cartItems',JSON.stringify(dish))
+        }else{
+            delete dish[foodVar];
+            localStorage.setItem('cartItems',JSON.stringify(dish));
+            foodNumber=parseInt(localStorage.getItem('cartNumber'))
+            if(foodNumber>1){
+                localStorage.setItem('cartNumber',foodNumber-1);
+            }else{
+                localStorage.removeItem('cartNumber');
+                localStorage.removeItem('cartItems');
+            }
+            $(removeButton).parents().eq(2).remove();
+        }
+    calculateTotalAmount();
+    }
+    displayCart();
+
+</script>
+    {% block quick_menu %}
+    <style>
+        #mapAddress{
+        background:none;
+        color:white;
+        border:0px;
+        font-size:14px;
+        }
+        #addressBody{
+            background-color:  rgb(253, 203, 236);
+        }
+        #addressHeader{
+            background-color: #562051;
+            font-size: 30px;
+            color:white;
+        }
+        .doorNoLabel,.landmarkLabel,.areaLabel,.pincodeLabel,.cityLabel{
+            font-size:22px;
+            color: #562051;
+        }
+        .doorNoField,.landmarkField,.areaField,.pincodeField,.cityField{
+            font-size: 15px;
+            color: transparent;
+            text-shadow: 0 0 0 black;
+        }
+
+        .shake{
+            animation-name:shake;
+            animation-duration: 0.25s;
+            animation-iteration-count:1;
+            animation-delay:0.25s;
+        }
+        @keyframes shake{
+            0% {transform:translateX(-5px);}
+            25% {transform:translateX(5px);}
+            50% {transform:translateX(-5px);}
+            75% {transform:translateX(5px);}
+            100% {transform:translateX(-5px);}
+        }
+    </style>
+    <div class="col-lg-3 col-12">
+        <div style="background-color:rgb(49, 46, 46)" class="pl-3 py-3 pr-3 ml-3 my-4">
+            <div class="row"><span class="left col-auto mr-auto" >Item Total</span><span class="right col-auto totalAmount" >₹ 0</span></div>
+            <div class="row"><span class="left col-auto mr-auto" >Delivery Charges</span><span class="col-auto right deliveryCharges">₹ 0</span></div>
+            <div class="row border-bottom border-light pb-3"><span class="left col-auto mr-auto" >Packing Charges</span><span class="right col-auto packingCharges">₹ 0</span></div>
+            <div class="row mt-2"><span class="left col-auto mr-auto" >To Pay</span><span class="right col-auto grandTotal">₹ 0</span></div>
+        </div>
+        <div class="ml-3 row">
+            {% csrf_token %}
+            <input id="checkout" type="submit" style="background-color:#58b33d;color:white;" class="btn col-11" value="Checkout" >
+        </div>
+        <div class="ml-3 row mt-4">
+            <input id="mapAddress" class="border-bottom border-light col-10"  type="text" onfocus="inputFocus(this)" placeholder="Copy Address link using Map" >
+            <button style="height:;border:none;padding:0 0 0 0;" class="col-1 center bold" data-toggle="popover" data-placement="left" data-content="Copy your Location from Google map and Paste here....... If you don't know how to,visit Help section" >i</button>
+            <button style="background:none;border:none;color:white;"  data-toggle="modal" data-target="#addressModel" class="col-auto ml-auto" onfocus="inputFocus(this)" >Add Manual Address</button>
+        </div>
+        <div class="ml-3 mt-2 row">
+            <span class="userAddress invisible text-white"></span>
+        </div>
+    </div>
+    <!--  Address Model start   -->
+    <div class="modal" id="addressModel">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div id="addressHeader" class="modal-header">
+                    <h4 class="modal-title">Add New Address</h4>
+                    <button style="color: white;" type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div id="addressBody" class="modal-body ">
+                    <div class="form-group form-check border border-light">
+                        <label class="doorNoLabel">Door / Flat /Apartment No.</label>
+                        <input value="39" style="background:none;border:none" class="doorNoField d-block" type="text" name="doorNo" onfocus="inputFocus(this)" onfocusin="inputFocusIn(this)" onfocusout="inputFocusOut(this)" placeholder="Enter Door NO."  />
+                    </div>
+                    <div class="form-group form-check border border-light">
+                        <label class="areaLabel">Area</label>
+                        <input value="Kandilpura" style="background: none;border:none" class="areaField d-block" type="text" name="area" onfocus="inputFocus(this)" onfocusin="inputFocusIn(this)" onfocusout="inputFocusOut(this)" placeholder="Enter Area"  />
+                    </div>
+                    <div class="form-group form-check border border-light">
+                        <label class="cityLabel">City</label>
+                        <input value="Indore" style="background: none;border:none" class="cityField d-block" type="text" name="city" onfocus="inputFocus(this)" onfocusin="inputFocusIn(this)" onfocusout="inputFocusOut(this)" placeholder="Enter City"  />
+                    </div>
+                    <div class="form-group form-check border border-light">
+                        <label class="pincodeLabel">Pincode</label>
+                        <input value="452006" style="background: none;border:none" class="pincodeField d-block" type="text" name="pincode" onfocus="inputFocus(this)" onfocusin="inputFocusIn(this)" onfocusout="inputFocusOut(this)" placeholder="Enter Pincode"  />
+                    </div>
+                    <div class="form-group form-check border border-light">
+                        <label class="landmarkLabel">Landmark</label>
+                        <input value="Gokulganj" style="background: none;border:none" class="landmarkField d-block" type="text" name="landmark" onfocus="inputFocus(this)" onfocusin="inputFocusIn(this)" onfocusout="inputFocusOut(this)" placeholder="Enter Landmark"  />
+                    </div>
+                    <br>
+                    <input type="button" data-dismiss="" style="margin-left: 40%;" class="userAddressSubmit btn btn-success center" value="CONFIRM">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        $('.userAddressSubmit').click(function(){
+            doorNo=userAddressValid($('.doorNoField'))
+            area=userAddressValid($('.areaField'))
+            city=userAddressValid($('.cityField'))
+            landmark=userAddressValid($('.landmarkField'))
+            pincode=userAddressValid($('.pincodeField'))
+            if(Boolean(doorNo)*Boolean(area)*Boolean(city)*Boolean(landmark)*Boolean(pincode)){
+                str=doorNo+","+area+" "+landmark+" "+city+" ,"+pincode+" ";
+                $('.userAddress').html(str)
+                $('.userAddress').removeClass('invisible')
+                $('.userAddressSubmit').attr("data-dismiss","modal");
+            }
+        });
+          function userAddressValid(field){
+            fieldDiv=field.parents().eq(0)
+            if(!Boolean(field.val())){
+                fieldDiv.removeClass('border-light')
+                fieldDiv.addClass('border-danger')
+                return 0;
+            }else{
+                fieldDiv.removeClass('border-danger')
+                fieldDiv.addClass('border-success')
+                return field.val();
+            }
+        }
+        $(document).ready(function(){
+          $('[data-toggle="popover"]').popover();
+        });
+        function inputFocusIn(field){
+            addressDiv=$(field).parent().children();
+            $(addressDiv.eq(0)).css('font-size','12px');
+            $(addressDiv.eq(1)).css('font-size','25px');
+        }
+
+        function inputFocus(field){
+            $(field).css('outline','0');
+            $(field).css('box-shadow','none');
+        }
+
+        function inputFocusOut(field){
+            addressDiv=$(field).parent().children();
+            if (!$(addressDiv.eq(1)).val()){
+            $(addressDiv.eq(0)).css('font-size','22px');
+            $(addressDiv.eq(1)).css('font-size','15px');
+            }
+        }
+        function calculateTotalAmount(){
+            dishes=localStorage.getItem('cartItems');
+            dishes=JSON.parse(dishes)
+            totalAmount=0
+            for(let dish of Object.values(dishes)){
+                totalAmount+=parseInt(dish.price)*parseInt(dish.noOfItems)
+            }
+            $(".totalAmount").html("&#8377; "+totalAmount);
+            calculateDeliveryCharges();
+            calculateGrandTotal();
+        }
+        function calculateDeliveryCharges(){
+            totalAmount=$(".totalAmount").html();
+            totalAmount=parseInt(totalAmount.substr(2));
+            if(totalAmount<250){
+                $(".deliveryCharges").html("&#8377; "+60);
+            }else{
+                $(".deliveryCharges").html("&#8377; "+0);
+            }
+        }
+        function calculateGrandTotal(){
+            totalAmount=$(".totalAmount").html();
+            totalAmount=parseInt(totalAmount.substr(2));
+
+            deliveryCharges=$(".deliveryCharges").html();
+            deliveryCharges=parseInt(deliveryCharges.substr(2));
+            packingCharges=$(".packingCharges").html();
+            packingCharges=parseInt(packingCharges.substr(2));
+            grandTotal=totalAmount+deliveryCharges+packingCharges
+            $(".grandTotal").html("&#8377; "+grandTotal);
+        }
+        calculateTotalAmount();
+        calculateDeliveryCharges();
+
+        $("#checkout").click(async function(){
+
+        var totalAmount=$(".totalAmount").html()
+        var deliveryCharges=$(".deliveryCharges").html()
+        var packingCharges=$(".packingCharges").html()
+        var deliveryInstructions=$(".instructionField").val()
+        var addressLink=$("#mapAddress").val()
+        var manualAddress={doorNo:$(".doorNoField").val(),area:$(".areaField").val(),city:$(".cityField").val(),pincode:$(".pincodeField").val(),landmark:$(".landmarkField").val()}
+        var landmark=$(".landmarkField").val()
+
+        if(!Boolean($('.userAddress').html())){
+            $('.userAddress').html('Please Enter Address')
+            $(".userAddress").removeClass('text-white');
+            $('.userAddress').addClass('text-danger')
+            $(".userAddress").removeClass('invisible');
+            $('.userAddress').addClass('shake');
+            await sleep(500);
+            $('.userAddress').removeClass('shake');
+            await sleep(250);
+            $(".userAddress").removeClass('text-danger');
+            $('.userAddress').addClass('text-white')
+            $(".userAddress").addClass('invisible');
+            $('.userAddress').html('')
+
+        }else{
+               $.ajax('{{curl}}myuser/display/', {
+                    type: 'POST',
+                    data: {
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                    dishes:JSON.stringify(localStorage.getItem('cartItems')),
+                    totalAmount:totalAmount,
+                    deliveryCharges:deliveryCharges,
+                    packingCharges:packingCharges,
+                    deliveryInstructions:deliveryInstructions,
+                    addressLink:addressLink,
+                    manualAddress:JSON.stringify(manualAddress),
+                    landmark:landmark
+                    },
+                    dataType:"json",
+                    success: function (data, status, xhr) {
+                        console.log("running")
+                        window.location.replace("{{curl}}"+"myuser/checkout/")
+                    },
+                    error: function (jqXhr, textStatus, errorMessage) {
+                    }
+                });
+
+        }
+        });
+
+    </script>
+
+{% endblock %}
+{% endblock%}
+{% endblock%}
+<!--{% block sidebar %}-->
+<!--{% endblock %}-->

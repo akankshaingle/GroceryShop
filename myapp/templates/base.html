@@ -1,0 +1,571 @@
+{% load static%}
+<!DOCTYPE html>
+<!--
+Template Name: Touch of Purple
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+-->
+<html lang="en">
+
+<head>
+	<title>Book My Meal</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'Stylesheets/layout.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'Stylesheets/navi.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'Stylesheets/tags.css' %}" type="text/css" />
+	<link rel="stylesheet" href="{% static 'Stylesheets/sidebar.css' %}" type="text/css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="{% static 'Stylesheets/slider_style.css' %}" />
+    <script src="http://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<style>
+	body {
+		font-family: 'Lora';
+		background-color: #1D1D1D;
+		background-attachment: fixed;
+		background-position: center;
+		background-size: cover;
+	}
+
+	.registerFormlabel{
+	  color: #562051;
+	}
+
+	#notfBody1{
+	  background-color: #A5066D;
+	}
+	#notfBody2{
+	  border:10px solid transparent;
+	  border-image:url({% static 'Images/notf_border.png' %}) 19 stretch;
+	  font-family:myFonts;
+	  font-size:20px;
+	  background-color: #A5066D;
+	}
+	#notfHeader{
+	  background-color: #562051;
+	  font-size: 30px;
+	  color:white;
+	}
+	.notfItem{
+	  color: black;
+	}
+	   #searchFoodField{
+        font-size:22px;
+        }
+	</style>
+</head>
+
+<body id="top" class="container-fluid my-3">
+
+{% block body %}
+
+{% block header%}
+	<h1 class="site-heading text-center text-white d-none d-lg-block">
+        <span class="site-heading-upper text-primary mb-3">Book My Meal</span>
+        <span class="site-heading-lower">Order Food Online</span>
+    </h1>
+	{% endblock %}
+	<!-- ####################################################################################################### -->
+	<nav id="topnav" class="navbar navbar-expand-lg py-lg-4">
+		<div class="container">
+            {% block menu %}
+            <a class="navbar-brand text-uppercase text-expanded font-weight-bold d-lg-none" href="{{curl}}" >BOOK MY MEAL</a>
+			<button style="border:3px solid black;" type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="h4 mb-0 fas fa-bars"></i></button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav mx-auto">
+					<li class="homeNav nav-item px-lg-4" ><a class="nav-link text-uppercase text-expanded" href="{{curl}}home">Home</a>
+					</li>
+					<li class="aboutNav nav-item px-lg-4" ><a class="nav-link text-uppercase text-expanded" href="{{curl}}about">About</a>
+					</li>
+					<li class="nav-item px-lg-4" ><a class="nav-link text-uppercase text-expanded" href="{{curl}}about" data-toggle="modal" data-target="#notfModel" >Notifications</a>
+					</li>
+					<li class="nav-item px-lg-4" ><a class="nav-link text-uppercase text-expanded text-white" data-toggle="modal" data-target="#registerModel">Register</a>
+					</li>
+                    <li class="nav-item px-lg-4 dropdown"><a class="nav-link text-uppercase text-expanded dropdown-toggle" data-toggle="dropdown" href="#">Login</a>
+                        <div id="subnav" class="dropdown-menu">
+                            <a class="dropdown-item text-white" data-toggle="modal" data-target="#userLoginModel" >As User</a>
+                            <a class="dropdown-item text-white" data-toggle="modal" data-target="#dpLoginModel" >As Delivery Partner</a>
+                        </div>
+                    </li>
+
+					<li class="cartNav nav-item px-lg-4 text-white"  >
+						<a class="nav-link text-uppercase text-expanded" data-toggle="modal" data-target="#userLoginModel" >
+							<i class="fas fa-shopping-bag"></i> <sub><span style="font-size:10px;" id="cartValue"></span></sub> Cart</a>
+					</li>
+					<li class="helpNav nav-item px-lg-4"  ><a class="nav-link text-uppercase text-expanded" href={{curl}}help>Help</a>
+					</li>
+				</ul>
+			</div>
+			<style>
+				#registerBody1{
+				      background-color:  rgb(253, 203, 236);
+				    }
+				    #registerBody2{
+				      font-family:myFonts;
+				      font-size:20px;
+				      background-color: #A5066D;
+				    }
+				    #registerHeader{
+				      background-color: #562051;
+				      font-size: 30px;
+				      color:white;
+				    }
+				    .registerFormlabel{
+				      color: #562051;
+				    }
+			</style>
+
+			<!--	 Register Modal start	-->
+			<div class="modal" id="registerModel">
+				<div class="modal-dialog ">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div id="registerHeader" class="modal-header">
+							<h4 class="modal-title">hey foodie ! Are you new ?<br> Register Now</h4>
+							<button style="color: white;" type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<!-- Modal body -->
+						<div id="registerBody1" class="modal-body ">
+							<form action="{{curl}}authOtp/" method="post" class="needs-validation mb-3"  oninput='password2.setCustomValidity(password2.value != password.value ? "Passwords do not match." : "")' novalidate>
+								{% csrf_token %}
+                                <div class="form-group form-check">
+									<label class="registerFormlabel">Name</label>
+									<input class="form-control form-control-lg" type="text" name="name" pattern="^[a-zA-Z ]*$" placeholder="Enter name" required />
+									<div class="invalid-feedback ">Please fill out this field.</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Email</label>
+									<input class="form-control form-control-lg" type="text" name="email" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" placeholder="Enter email" required />
+									<div class="invalid-feedback ">Please enter correct mail</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Mobile</label>
+									<input class="form-control form-control-lg" type="tel" pattern="^\d{10}$" name="mobile" placeholder="Enter Mobile no." required />
+									<div class="invalid-feedback ">Please enter valid number.</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Gender</label>
+									<br>
+									<div class=" form-check form-check-inline">
+										<input style="height: 20px;width: 20px;" class="form-check-input radio-choice m-2" type="radio" name="gender" value="male" required>
+										<label class="registerFormlabel m-2">Male</label>
+										<input style="height: 20px;width: 20px;" class="form-check-input radio-choice-2 " type="radio" name="gender" value="female" required>
+										<label class="registerFormlabel m-2">Female</label>
+									</div>
+									<div class="invalid-feedback ">Please select any gender.</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Address</label>
+									<textarea class="form-control form-control-lg" cols="20" rows="5" name="address" placeholder="Enter address" required></textarea>
+									<div class="invalid-feedback ">Please fill address field.</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">City</label>
+									<input class="form-control form-control-lg" type="text" name="city" pattern="^[a-zA-Z]*$" placeholder="Enter City name" required />
+									<div class="invalid-feedback ">Please enter city name.</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Password</label>
+									<div class="input-group">
+										<input class="form-control form-control-lg" type="password" name="password" placeholder="Enter password" required />
+										<button class="btn btn-default" type="button" onclick="togglePassword(this)">
+											<i style="font-size:30px;" class="fas fa-eye-slash" ></i>
+										</button>
+									<div class="invalid-feedback ">Please Enter valid password.</div>
+									</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Confirm Password</label>
+									<div class="input-group">
+										<input class="form-control form-control-lg" type="password" name="password2" placeholder="Enter password" required />
+										<button class="btn btn-default "  type="button" onclick="togglePassword(this)">
+											<i style="font-size:30px;" class="fas fa-eye-slash" ></i>
+										</button>
+										<div class="invalid-feedback">Password is different</div>
+									</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">
+										<input type="checkbox" class="form-check-input checkbox ml-2 " required>
+										<label class="registerFormlabel ml-3">I Agree To The Terms & Conditions</label>
+										<div class="invalid-feedback">Please check the field</div>
+									</label>
+								</div>
+								<input type="submit" style="margin-left: 40%;" class="btn btn-success center" value="SIGNUP">
+							</form> <a class="ml-4" data-dismiss="modal" data-toggle="modal" data-target="#userLoginModel" href="#"><span style="color: black;"> Already have Account ?</span>  Sing In</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--	Register Model End	-->
+			<!--	User Login Model Start   -->
+			<div class="modal" id="userLoginModel">
+				<div class="modal-dialog ">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div style="background-color: #562051;" class="modal-header text-white">
+							<h4 class="modal-title">Log In to<br> Book My Meal</h4>
+							<button style="color: white;" type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<!-- Modal body -->
+						<div style="background-color:  rgb(253, 203, 236);" class="modal-body ">
+							<form action="{{curl}}userLogin/" method="post" class="needs-validation mb-3" novalidate>
+								{% csrf_token %}
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Email</label>
+									<input class="form-control form-control-lg" type="text" name="loginEmail" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" placeholder="Enter email" required />
+									<div class="invalid-feedback">Please enter correct mail</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Password</label>
+									<div class="input-group">
+										<input class="form-control form-control-lg" type="password" name="loginPassword" placeholder="Enter password" required />
+										<button class="btn btn-default" type="button" onclick="togglePassword(this)">
+											<i style="font-size:30px" class="fas fa-eye-slash" ></i>
+										</button>
+										<div class="invalid-feedback">Please Enter valid password.</div>
+									</div>
+								</div>
+								<label class="ml-4"><a href="{{curl}}forgotPassword/">Forgot Password</a>
+								</label>
+								<br>
+								<input type="submit" style="margin-left: 40%;" class="btn btn-success center" value="LOG IN">
+							</form>
+							<label><a class="ml-4" href="#" data-dismiss="modal" data-toggle="modal" data-target="#registerModel"><span style="color: black;"> Are You new User ?</span>  Sing Up Now</a>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--	User Login Model End		-->
+
+			<!--	Delivery Partner Login Model Start   -->
+			<div class="modal" id="dpLoginModel">
+				<div class="modal-dialog ">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div style="background-color: #562051;" class="modal-header text-white">
+							<h4 class="modal-title">Log In to<br> Delivery Partner Site</h4>
+							<button style="color: white;" type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<!-- Modal body -->
+						<div style="background-color:  rgb(253, 203, 236);" class="modal-body ">
+							<form action="{{curl}}dpLogin/" method="post" class="needs-validation mb-3" novalidate>
+								{% csrf_token %}
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Email</label>
+									<input class="form-control form-control-lg" type="text" name="dploginEmail" pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$" placeholder="Enter email" required />
+									<div class="invalid-feedback">Please enter correct mail</div>
+								</div>
+								<div class="form-group form-check">
+									<label class="registerFormlabel">Password</label>
+									<div class="input-group">
+										<input class="form-control form-control-lg" type="password" name="dploginPassword" placeholder="Enter password" required />
+										<button class="btn btn-default" type="button" onclick="togglePassword(this)">
+											<i style="font-size:30px" class="fas fa-eye-slash" ></i>
+										</button>
+										<div class="invalid-feedback">Please Enter valid password.</div>
+									</div>
+								</div>
+								<label class="ml-4"><a href="#">Forgot Password</a>
+								</label>
+								<br>
+								<input type="submit" style="margin-left: 40%;" class="btn btn-success center" value="LOG IN">
+							</form>
+							<label><a class="ml-4" href="#"><span style="color: black;" > Are You new Delivery Partner ?</span> Contact to Admin</a>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--	Delivery Partenr Login Model End		-->
+			<script>
+			if (!localStorage.getItem('cartNumber')){
+	               $("#cartValue").html('')
+	                }else{
+	                    $("#cartValue").html(localStorage.getItem('cartNumber'))
+	                }
+				// Disable form submissions if there are invalid fields
+				    (function() {
+				      'use strict';
+				      window.addEventListener('load', function() {
+				        // Get the forms we want to add validation styles to
+				        var forms = document.getElementsByClassName('needs-validation');
+				        // Loop over them and prevent submission
+				        var validation = Array.prototype.filter.call(forms, function(form) {
+				          form.addEventListener('submit', function(event) {
+				            if (form.checkValidity() === false) {
+				              event.preventDefault();
+				              event.stopPropagation();
+				            }
+				            form.classList.add('was-validated');
+				          }, false);
+				        });
+				      }, false);
+				    })();
+
+			</script>{% endblock %}</div>
+	</nav>
+	<!-- ####################################################################################################### -->
+	<div class="d-block center text-left col3">{% block slider %}
+		<div id="wowslider-container1" class=" center container">
+			<div class="ws_images center offset-lg-1 col-sm-10 ">
+				<ul>
+					<li>
+						<img class="img-fluid" src="{% static 'Images/1.png' %}" /></li>
+					<li>
+						<img class="img-fluid" src="{% static 'Images/2.png' %}" /></li>
+					<li>
+						<img class="img-fluid" src="{% static 'Images/4.png' %}" /></li>
+					<li>
+						<img class="img-fluid" src="{% static 'Images/5.png' %}" /></li>
+					<li>
+						<img class="img-fluid" src="{% static 'Images/3.jpg' %}"  /></li>
+					<li>
+						<img class="img-fluid" src="{% static 'Images/7.png' %}"  /></li>
+					<li>
+						<img class="img-fluid" src="{% static 'Images/8.jpg' %}"  /></li>
+				</ul>
+			</div>
+			<div style="padding-bottom:40px;" class="ws_shadow"></div>
+			<script type="text/javascript" src="{% static 'Scripts/wowslider.js' %}"></script>
+
+		</div>{% endblock %}</div>
+	<!-- ####################################################################################################### -->
+	<div class="row f-left pt-3 center pb-5 mb-5 text-left col5">
+		{% block artical %}
+		<!-- Starting of Artical -->
+		{% block searchbar%}
+		<!-- Starting of Search Bar -->
+
+<!--		<div style="padding-right:-50px;" id="quickSearchbar" class="col-12 row">-->
+<!--			<input style="" id="quickSearchbarField" class="ml-4 mb-0 col-12 " onkeyup="myFunction(this)" placeholder="Search..">-->
+<!--			<ul style="height:200px;width:230px;overflow-y:scroll;background-color:#562051;bottom:100px" id="myMenu1" class="quickSearchFL col-10 mt-0 rounded text-dark fixed-bottom d-none" >-->
+<!--				{% for dish in quickMenuFood %}-->
+<!--				<li class="my-3" onmouseout="quickMenuButtonHidder(this)" onmouseover="quickMenuButtonShower(this)" ><a href="#" class="d-inline" >{{dish.3}}</a><div style="display:inline;" class="float-right text-light"><span> &#8377; </span><span>{{dish.4}}</span></div><button style="display:none" class="float-right btn btn-success py-0" onclick = "addQuickMenuItem(this)">ADD</button></li>-->
+<!--                {% endfor %}-->
+<!--			</ul>-->
+<!--		</div>-->
+	    {% csrf_token %}
+        <input id="quickSearchbar" style="border:none;background:none;border-radius:0px;font-size:20px;" class="col-10 mx-auto border-light border-bottom text-white mb-3" placeholder="Search food.." onfocus="inputFocus(this)" />
+			<script>
+				$(document).ready(function() {
+                    $.ajax('{{curl}}quickSearchBar/',{
+                    type:'POST',
+                    data:{
+                    csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                    currentURL:document.URL
+                    },
+                    dataType:"json",
+                    success:function(data){
+                        quickSearchBarData=data["foodData"]
+                            $("input#quickSearchbar").autocomplete({
+                            source: quickSearchBarData,
+                            focus: function (event, ui) {
+                                $(event.target).val(ui.item.label);
+                                return false;
+                            },
+                            select: function (event, ui) {
+                                $(event.target).val(ui.item.label);
+                                window.location = ui.item.value;
+                                return false;
+                            }
+                        });
+
+                    },
+                    error:function(){
+                        console.log("Error")
+                    }
+                    });
+
+				});
+
+			</script>
+		{% endblock%}
+		<!-- Ending of Search Bar -->
+		{% block content %}
+		<!-- Starting of Content -->
+		{% endblock %}
+		<!-- Ending of content   -->
+		{% block quick_menu%}
+		<!-- Starting of quick_main -->
+		<style>
+			.w3-sidebar {
+			                height: 600px;
+			                overflow-y: scroll;
+			            }
+
+			            .w3-collapse {
+			                position: sticky;
+			            }
+		</style>
+		<script>
+		$(document).ready(function(){
+			$("#quickSearchbar").addClass('d-none');
+				if (window.innerWidth < 600) {
+					$("#quick_menu").addClass('d-none');
+					$("#quickSearchbar").removeClass('d-none');
+				} else {
+					$("#quick_menu").removeClass('d-none');
+					$("#quickSearchbar").addClass('d-none');
+				}
+
+		});
+		</script>
+		<div id="quick_menu" class="my-3 w3-collapse col-3">
+			<h1 class="py-3">Quick Menu</h1>
+			<input class="form-control mb-3" type="text" id="mySearch" onkeyup="myFunction(this)" placeholder="Search.." title="Type in a category">
+			<ul class=" w3-sidebar list-group bd-links list-group-flush" id="myMenu">
+                {% for dish in quickMenuFood %}
+				<li  class="list-group-item bd-toc-item " onmouseout="quickMenuButtonHidder(this)" onmouseover="quickMenuButtonShower(this)" ><a href="#" class="bd-toc-link d-inline" >{{dish.3}}</a><div style="display:inline;" class="float-right"><span> &#8377; </span><span>{{dish.4}}</span></div><button style="display:none" onclick = "addQuickMenuItem(this)" class="float-right btn btn-success" >ADD</button></li>
+                {% endfor %}
+			</ul>
+		</div>
+		<script>
+			function myFunction(searchField) {
+					var input, filter, ul, li, a, i;
+					input = searchField
+					filter = input.value.toUpperCase();
+					ul = document.getElementById("myMenu")
+					li = ul.getElementsByTagName("li");
+					for (i = 0; i < li.length; i++) {
+						a = li[i].getElementsByTagName("a")[0];
+						if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+							li[i].style.display = "";
+						} else {
+							li[i].style.display = "none";
+						}
+					}
+				}
+
+			function quickMenuButtonShower(foodElement){
+				$(foodElement).children().eq(2).css('display','inline');
+				$(foodElement).children().eq(1).css('display','none');
+			}
+
+			function quickMenuButtonHidder(foodElement){
+				$(foodElement).children().eq(2).css('display','none');
+				$(foodElement).children().eq(1).css('display','inline');
+			}
+
+        var quickMenuFoodVar="";
+        var quickMenuPriceVar="";
+
+        function addQuickMenuItem(buttonId){
+            var foodNumber=localStorage.getItem('cartNumber');
+
+            if(!foodNumber){
+                localStorage.setItem('cartNumber',1);
+
+                $("#cartValue").html("1")
+
+                quickMenuFoodVar=$(buttonId).parent().children().eq(0).html();
+                quickMenuPriceVar=$(buttonId).parent().children().eq(1).children().eq(1).html();
+
+                quickMenuDish={[quickMenuFoodVar]:{food:quickMenuFoodVar,price:quickMenuPriceVar,noOfItems:1}}
+
+                localStorage.setItem('cartItems',JSON.stringify(quickMenuDish));
+            }else{
+                quickMenuDish = localStorage.getItem('cartItems');
+                quickMenuDish = JSON.parse(quickMenuDish)
+
+                quickMenuFoodVar=$(buttonId).parent().children().eq(0).html();
+                quickMenuPriceVar=$(buttonId).parent().children().eq(1).children().eq(1).html();
+
+                if (!quickMenuDish[quickMenuFoodVar]){
+                    quickMenuDish[quickMenuFoodVar]={food:quickMenuFoodVar,price:quickMenuPriceVar,noOfItems:1}
+                    foodNumber=parseInt(foodNumber)
+                    localStorage.setItem('cartNumber',foodNumber+1);
+                    $("#cartValue").html(foodNumber+1)
+                }else{
+                quickMenuDish[quickMenuFoodVar]["noOfItems"]=parseInt(quickMenuDish[quickMenuFoodVar]["noOfItems"])+1
+                }
+
+                localStorage.setItem('cartItems',JSON.stringify(quickMenuDish))
+
+            }
+
+           }
+		</script>{% endblock %}
+		<!-- Ending of quick_main -->{% endblock %}
+		<!-- Ending of Artical -->
+	</div>
+	<!-- ####################################################################################################### -->
+	<div class="d-block row my-2 text-center">
+        <div class="text-light col-12 ">Book My Meal - 39 Kandilpura Gokulganj , Indore Contact : bookmymeal@gmail.com</div>
+        <div class="text-light col-12 row">
+            <div class="col-12 col-md-auto ml-auto">
+                <span class="mx-md-3">Privacy </span>
+                <span class="mx-md-3"> Contact </span>
+            </div>
+            <div class=" col-12 col-md-auto mr-auto">© 2020 Book My Meal</div>
+        </div>
+	</div>
+		<div class="modal" id="notfModel">
+				<div class="modal-dialog ">
+					<div class="modal-content myModal1">
+						<!-- Modal Header -->
+						<div id="notfHeader" class="modal-header">
+							<h4 class="modal-title">Notifications</h4>
+							<button style="color: white;" type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<!-- Modal body -->
+						<div id="notfBody1" class="modal-body ">
+							<div id="notfBody2" class=" p-2 m-sm-3 p-sm-3">
+								{% for notification in notifications %}
+								<p class="notfItem h3 my-3 p-2"> {{notification.0}}</p>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+<script>
+	function togglePassword(iconBtn){
+		iconField=$(iconBtn).children().eq(0)
+		passwordField=$(iconBtn).parent().eq(0).children().eq(0)
+		iconName=$(iconField).attr('class')
+		if(iconName=="fas fa-eye-slash"){
+			passwordField.attr('type', 'text');
+			$(iconField).removeAttr('class')
+			$(iconField).attr('class','fas fa-eye')
+			}else{
+			passwordField.attr('type', 'password');
+			$(iconField).removeAttr('class')
+			$(iconField).attr('class','fas fa-eye-slash')
+			}
+		}
+
+
+	 function inputFocus(field){
+		$(field).css('outline','0');
+		$(field).css('box-shadow','none');
+		}
+		    function searchFood() {
+		    var filter,li, a, i;
+		    console.log($("#searchFoodField").val())
+		    filter = $("#searchFoodField").val().toUpperCase();
+		    li = $("#viewFoodList").find(".foodBlock");
+		    for (i = 0; i < li.length; i++) {
+		      a = li.eq(i).find("p");
+		      if (a.html().toUpperCase().indexOf(filter) > -1) {
+		        li.eq(i).css('display','block');
+		      } else {
+		        li.eq(i).css('display','none');
+		      }
+		    }
+		  }
+
+</script>
+{% endblock %}</body>
+
+</html>

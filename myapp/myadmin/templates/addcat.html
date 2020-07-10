@@ -1,0 +1,63 @@
+{% extends 'myadminhome.html' %}
+
+
+
+{% block slider%}
+<div id="snackbar">{{output}}</div>
+<script>
+var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+
+<div style="background-color:rgb(49, 46, 46)" class="col-11 col-md-6 col-lg-5 mb-3 py-4 mx-auto">
+<form class="needs-validation" enctype="multipart/form-data" method="post" action="{{curl}}myadmin/addcat/" novalidate>
+    {%csrf_token %}
+    <div class="row" >
+        <p class=" col-auto ml-auto mr-auto h2">Add Catagory</p>
+    </div>
+    <div class="row form-check">
+        <label style="font-size:12px" class="invisible text-light col-11 ml-3">Catagory Name</label>
+        <input style="border:none;background:none;border-radius:0px;font-size:20px;" class="col-11 ml-3 form-control text-light border-bottom border-light" type="text" onfocus="inputFocus(this)" name="catnm" placeholder="Enter Catagory Name" onfocusin="placeholderTogglerFocusIn(this)" onfocusout="placeholderTogglerFocusOut(this)" required >
+        <div class="ml-3 invalid-feedback">Please fill out this field.</div>
+    </div>
+    <div class="row mt-3 form-check">
+        <label style="font-size:12px" class="text-light col-11 ml-3 pb-2">Catagory Icon</label>
+        <input style="border:none;background:none;border-radius:0px;font-size:20px;" class="col-11 ml-3 form-control-file text-light" type="file" name="caticon" required>
+        <div class="ml-3 invalid-feedback">Please choose any file.</div>
+    </div>
+    <div class="row mt-4">
+        <input class="form-control col-6 mx-auto btn btn-success" type="submit" value="Add catagory" >
+    </div>
+</form>
+</div>
+<script>
+
+    $(document).ready(function(){
+
+        $('.adminHomeNav').removeClass('active');
+        $('.adminOrderNav').removeClass('active');
+        $('.adminUserNav').removeClass('active');
+        $('.adminPayNav').removeClass('active');
+        $('.adminManNav').addClass('active');
+        $('.adminSetNav').removeClass('active');
+
+    });
+</script>
+{% endblock %}
+
+{% block sidebar %}
+<h2>Catagory</h2>
+<ul>
+    {% for cat in clist %}
+    <li>{{cat.1}}</li>
+    {% endfor %}
+
+</ul>
+{% endblock %}
