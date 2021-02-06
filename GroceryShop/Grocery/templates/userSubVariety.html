@@ -1,0 +1,127 @@
+{% extends 'userBase.html' %} {% block slider %}{% endblock %} {% block article%}
+<div id="itemList" class="row col-12 p-5 container text-center">
+  {% for item in items %}
+  <div class="row col-md-3 col-10 mx-auto border border-dark mx-md-5 my-3 p-1">
+    <div class="col-12 row mx-auto">
+      <div class="d-none">{{item.0}}</div>
+      <div class="col-8 h5 text-left pt-3">{{item.2}}</div>
+      <div class="col-4 text-right pt-3">
+        <span>&#8377;</span><span>{{item.4}}</span>
+      </div>
+    </div>
+    <div class="col-12 row mx-auto text-right">
+      <div class="col-auto mr-auto small">{{item.3}}</div>
+      <div class="col-auto ml-auto mt-2 h6">
+        <button class="btn btn-success" onClick="addItem(this)">ADD</button>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+  <script>
+
+  $(document).ready(function () {
+  let cartNumber = localStorage.getItem('cartNumber')
+  listItems = $('#itemList').children().length;
+	orderedItems = JSON.parse(localStorage.getItem('cartItems'))
+	orderedItemsList = Object.keys(orderedItems)
+	for (i = 0; i < listItems; i++) {
+		groceryItem = $('#itemList').children().eq(i)
+		itemId = $(groceryItem).children().eq(0).children().eq(0).html()
+		if (orderedItemsList.indexOf(itemId) != -1) {
+			$(groceryItem).children().eq(1).children().eq(1).html(`
+                    <button class="border-0 bg-white font-weight-bold " onclick="removeItemsPro(this)" onfocus="inputFocus(this)" ><span style="font-weight:700" class="h3">-</span></button>
+                    <span style="font-weight:600" class="mx-3 pb-1 text-dark " >${orderedItems[itemId]["noOfItems"]}</span>
+                    <button class="border-0 text-success bg-white font-weight-bold " onclick="addItemsPro(this)" onfocus="inputFocus(this)" ><span style="font-weight:700" class="h3">+</span></button>
+                    `)
+		} else {}
+	}
+
+
+});
+
+function addItemsPro(addButton) {
+	dish = localStorage.getItem('cartItems');
+	dish = JSON.parse(dish)
+	var itemId = $(addButton).parents().eq(2).children().eq(0).children().eq(0).html();
+	noOfItem = parseInt($(addButton).parents().eq(0).children().eq(1).html());
+	noOfItem += 1;
+	dish[itemId]["noOfItems"] = noOfItem
+	$(addButton).parents().eq(0).children().eq(1).html(noOfItem);
+	localStorage.setItem('cartItems', JSON.stringify(dish))
+}
+
+function removeItemsPro(removeButton) {
+	dish = localStorage.getItem('cartItems');
+	dish = JSON.parse(dish)
+	var itemId = $(removeButton).parents().eq(2).children().eq(0).children().eq(0).html();
+	noOfItem = parseInt($(removeButton).parents().eq(0).children().eq(1).html());
+	if (noOfItem > 1) {
+		noOfItem -= 1;
+		dish[itemId]["noOfItems"] = noOfItem
+		$(removeButton).parents().eq(0).children().eq(1).html(noOfItem);
+		localStorage.setItem('cartItems', JSON.stringify(dish))
+	} else {
+		delete dish[itemId];
+		localStorage.setItem('cartItems', JSON.stringify(dish));
+		itemNumber = parseInt(localStorage.getItem('cartNumber'))
+		if (itemNumber > 1) {
+			localStorage.setItem('cartNumber', itemNumber - 1);
+			$("#cartValue").html(itemNumber - 1)
+		} else {
+			$("#cartValue").html('')
+			localStorage.removeItem('cartNumber');
+			localStorage.removeItem('cartItems');
+		}
+		$(removeButton).parent().html(`<button class="btn btn-success" onClick="addItem(this)">ADD</button>`);
+	}
+}
+var itemId = "";
+var priceVar = "";
+
+function addItem(buttonId) {
+	var itemNumber = localStorage.getItem('cartNumber');
+	if (!itemNumber) {
+		localStorage.setItem('cartNumber', 1);
+		$("#cartValue").html("1");
+		itemId = $(buttonId).parents().eq(2).children().eq(0).children().eq(0).html();
+		itemVar = $(buttonId).parents().eq(2).children().eq(0).children().eq(1).html();
+		priceVar = $(buttonId).parents().eq(1).children().eq(0).children().eq(2).children().eq(1).html()
+		dish = {
+			[itemId]: {
+				name: itemVar,
+				price: priceVar,
+				noOfItems: 1
+			}
+		}
+		localStorage.setItem('cartItems', JSON.stringify(dish));
+	} else {
+		dish = localStorage.getItem('cartItems');
+		dish = JSON.parse(dish)
+		itemId = $(buttonId).parents().eq(2).children().eq(0).children().eq(0).html();
+		itemVar = $(buttonId).parents().eq(2).children().eq(0).children().eq(1).html();
+		priceVar = $(buttonId).parents().eq(1).children().eq(0).children().eq(2).children().eq(1).html()
+		console.log(priceVar)
+		if (!dish[itemId]) {
+			dish[itemId] = {
+				name: itemVar,
+				price: priceVar,
+				noOfItems: 1
+			}
+			itemNumber = parseInt(itemNumber)
+			localStorage.setItem('cartNumber', itemNumber + 1);
+			$("#cartValue").html(itemNumber + 1)
+		} else {
+			dish[itemId]["noOfItems"] = parseInt(dish[itemVar]["noOfItems"]) + 1
+		}
+		localStorage.setItem('cartItems', JSON.stringify(dish))
+	}
+	$(buttonId).parent().html(`
+        <button class="border-0 bg-white font-weight-bold " onclick="removeItemsPro(this)" ><span style="font-weight:700" class="h3">-</span></button>
+        <span style="font-weight:600" class="mx-3 pb-1 text-black " >1</span>
+        <button class="border-0 text-success bg-white font-weight-bold " onclick="addItemsPro(this)" ><span style="font-weight:700" class="h3">+</span></button>
+        `)
+}        
+  </script>
+
+{% endblock %}

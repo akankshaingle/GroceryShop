@@ -1,0 +1,107 @@
+{% extends 'navigationbar.html' %}
+{% load static %}
+{% block body %}
+<style>
+
+    body{
+    font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .heading{
+    border-radius: 10px;
+    background-color: purple;
+    padding: 10px;
+    margin:10;
+    }
+
+
+
+    .card {
+  margin:10px;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+  padding: 30px;
+  }
+
+  .container {
+  border-radius: 10px;
+  background-color: pink;
+  padding: 20px;
+  }
+
+
+
+
+</style>
+
+<html>
+<body>
+<div class="container mt-4">
+    <div class="heading">
+    <center> <h4 style="color:white"><u>ABOUT US</u></h4></center>
+    </div>
+
+
+        <div class="container mt-4">
+        <center><h> We provides food staples and household items at your doorstep.
+        We are established with a motto - ‘Create value for our customers to build an ever-lasting relation’.
+        Grocery, fruits, household items, personal care products and anything needed in a household
+        on day to day basis. Unbeatable prices and discount with fast and timely home delivery..</h></center>
+        </div>
+</div>
+<div class="container mt-4">
+
+        <div class="heading">
+        <center><h4 style="color:white"><u>TEAM MEMBERS</u></h4></center>
+        </div>
+ </div>
+
+<div class="container mt-4">
+        <div class="card ">
+            <div class="card-body">
+                <h4 class="card-title"><b><u>Akanksha Ingle</u></b></h4>
+                <p class="card-text">Pursuing Bachelor of Technology in computer science branch from swami vivekanand college of engineering.</p>
+                <a href="https://www.linkedin.com/in/akanksha-ingle" class="btn btn-primary stretched-link">See Profile</a>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-body">
+                    <h4 class="card-title"><b><u>Ritu Pawar</u></b></h4>
+                    <p class="card-text">Pursuing Bachelor of Technology in computer science branch from swami vivekanand college of engineering.</p>
+                    <a href="https://www.linkedin.com/in/ritu-pawar-4286161a0" class="btn btn-primary stretched-link">See Profile</a>
+            </div>
+        </div>
+</div>
+
+<div class="container mt-4">
+     <div class="heading">
+        <center><h4 style="color:white"><u>ADDRESS</u></h4></center>
+        </div>
+
+
+  <div class="col-md-12 mb-4">
+    <div class="container">
+        <div class="card ">
+            <div class="card-body">
+
+               <div class="row">
+                    <div class="col-sm">545, Bhawani Nagar Sanwer <br> Road Indore,<br> Madhya Pradesh - 452015.</div>
+                    <div class="col-sm"><u>Mobile </u><br> <abbr title="Phone">P:</abbr> (91) 8889618487 <br><abbr title="Phone">P:</abbr> (91) 6266525508</div>
+                   <div class="col-sm"><u>Email ID</u><br> groceryshop@gmail.com</div>
+               </div>
+            </div>
+        </div>
+     </div>
+   </div>
+
+
+
+
+
+
+</div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends 'adminBase.html' %} {% load static %} {% block article %}
+<div class="row border">
+  <div
+    style="background-color: #7d85ba"
+      class="border border-dark mx-auto col-5 my-5 p-4">
+    <form
+      action="http://localhost:8000/groceryAdmin/addsubvariety/"
+      method="post"
+      enctype="multipart/form-data"
+      class="row g-3 needs-validation"
+      novalidate>
+      {% csrf_token %}
+
+      <div class="col-md-7 col-11 mx-auto">
+        
+        <label for="validationCustom01" class="form-label">Catagories</label>
+        <select
+          class="form-select form-control"
+          name="catid"
+          id="catagory"
+          required>
+          <option selected value="">Choose Catagories</option>
+          {% for cat in catagory %}
+          <option value="{{cat.0}}">{{cat.1}}</option>
+          {% endfor %}
+        </select>
+        <div class="invalid-feedback">Please select a valid catagory.</div>
+      </div>
+
+
+      <div class="col-md-7 col-11 mx-auto p-3 ">
+        <label for="validationCustom01" class="form-label">Variety</label>
+        <select
+          class="form-select form-control"
+          name="varietyId"
+          id="variety"
+          required>
+          <option selected value="">Choose Variety</option>
+        </select>
+        <div class="invalid-feedback">Please select a valid variety.</div>
+      </div>
+        <div class="mb-3 col-md-7 col-11 mx-auto p-3">
+        <label for="validationCustom01" class="form-label">Sub Variety Name</label>
+        <select
+          class="form-select form-control"
+          name="subVarietyId"
+          id="subvariety"
+          required>
+          <option selected value="">Choose Sub Variety</option>
+        </select>
+        <div class="invalid-feedback">Please select a valid variety.</div>
+      </div>
+      
+      <div class="col-12 text-center ">
+        <button class="btn btn-success" type="submit">Delete Sub Variety</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function () {
+    "use strict";
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll(".needs-validation");
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms).forEach(function (form) {
+      form.addEventListener(
+        "submit",
+        function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add("was-validated");
+        },
+        false
+      );
+    });
+  })();
+
+  $("#catagory").change(function(e){
+       e.preventDefault();
+       catagory = $("#catagory option:selected").val();
+       $.ajax('http://localhost:8000/groceryAdmin/changecatagory/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            catid:catagory
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+                $('#variety').html('');
+                data['varietyList'].forEach(function(value){
+                    $('#variety').append(`<option value=${value[0]}>${value[1]}</option>`);
+                });
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+           
+            }
+        });
+    });
+
+    $("#variety").change(function(e){
+       e.preventDefault();
+       alert("gbhdfjnbndkmfnkm")
+       variety = $("#variety option:selected").val();
+       $.ajax('http://localhost:8000/groceryAdmin/changevariety/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            variety:variety
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+                $('#subvariety').html('');
+                data['subvarietyList'].forEach(function(value){
+                    $('#subvariety').append(`<option value=${value[0]}>${value[1]}</option>`);
+                });
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+           
+            }
+        });
+    });
+
+</script>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends 'userHome.html' %} {% load static %} {% block slider %} {% endblock %} {% block article %}
+<style></style>
+<div style="background-color:pink;" class="container border border-dark row col-8 mx-auto my-5 p-4">
+  <div id="itemList" class="col-12 row mx-auto border-bottom border-dark pb-3 mb-3"></div>
+  <div class="col-12 row mx-auto my-3">
+    <div class="col-5 row mr-auto p-3">
+      <!--
+
+      <div class="col-12 row">
+        <div class="col-8">Delivery Charges</div>
+        <div class="col-4 text-right"><span>₹ </span><span>576</span></div>
+      </div>
+      <div class="col-12 row">
+        <div class="col-8">Packing Charges</div>
+        <div class="col-4 text-right"><span>₹ </span><span>576</span></div>
+      </div>
+-->
+      <div class="col-12 row">
+        <div class="col-8">Total Amount</div>
+        <div class="col-4 text-right"><span>₹ </span><span>576</span></div>
+      </div>
+     <div class="col-12 row my-3 ">
+        <button id='OrderNow' class="btn btn-success col-8 font-weight-bolder ">Order Now</button>
+      </div>
+
+    </div>
+    <div class="form-floating col-5 ml-auto p-3">
+<div>
+{% csrf_token %}
+      <textarea
+        class="form-control"
+        placeholder="Write Your Address"
+        id="address"
+      > The Villa 39, Kandilpura Gokulganj Indore</textarea>
+    <label for="address" class="invalid-address d-none text-danger small">Address must be more than 10 latters..</label>
+</div>
+<div class="my-3">
+
+        <textarea
+          class="form-control"
+          placeholder="Add Delivery Note...."
+          id="deliveryNote"
+        ></textarea>
+</div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(() => {
+    var groceryItems = JSON.parse(localStorage.getItem("cartItems"));
+    Object.keys(groceryItems).forEach((value, index) => {
+      $("#itemList").append(`
+    <div class="col-12 row my-1">
+      <div class="d-none">${value}</div>
+      <div class="col-4 pt-2 groceryName">${groceryItems[value]["name"]}</div>
+      <div class="col-2 pt-2 text-center"><span>₹ </span><span>${
+        groceryItems[value]["price"]
+      }</span></div>
+      <div class="col-3 text-center">
+        <button
+          class="border-0 bg-white font-weight-bold"
+          onclick="removeItems(this)"
+        >
+          <span style="font-weight: 700" class="h3 px-1">-</span>
+        </button>
+        <span style="font-weight: 600" class="mx-3 pb-1 text-dark">${
+          groceryItems[value]["noOfItems"]
+        }</span>
+        <button
+          class="border-0 text-success bg-white font-weight-bold"
+          onclick="addItems(this)"
+        >
+          <span style="font-weight: 700" class="h3">+</span>
+        </button>
+      </div>
+      <div class="col-3 pt-2 text-right"><span>₹ </span><span>${
+        groceryItems[value]["price"] * groceryItems[value]["noOfItems"]
+      }</span></div>
+    </div>
+    `);
+    });
+  });
+
+  function addItems(addBtn) {
+    let itemId = $(addBtn).parents().eq(1).children().eq(0).html();
+    let groceryItems = JSON.parse(localStorage.getItem("cartItems"));
+    groceryItems[itemId]["noOfItems"] = groceryItems[itemId]["noOfItems"] + 1;
+    localStorage.setItem("cartItems", JSON.stringify(groceryItems));
+    $(addBtn).parent().children().eq(1).html(groceryItems[itemId]["noOfItems"]);
+    $(addBtn)
+      .parents()
+      .eq(1)
+      .children()
+      .eq(4)
+      .children()
+      .eq(1)
+      .html(groceryItems[itemId]["noOfItems"] * groceryItems[itemId]["price"]);
+  }
+  function removeItems(removeBtn) {
+    let itemId = $(removeBtn).parents().eq(1).children().eq(0).html();
+    let groceryItems = JSON.parse(localStorage.getItem("cartItems"));
+    if (parseInt(groceryItems[itemId]["noOfItems"]) == 1) {
+      $(removeBtn).parents().eq(1).remove();
+      delete groceryItems[itemId];
+      localStorage.setItem(
+        "cartNumber",
+        localStorage.getItem("cartNumber") - 1
+      );
+      $("#cartValue").html(localStorage.getItem("cartNumber"));
+    } else {
+      groceryItems[itemId]["noOfItems"] = groceryItems[itemId]["noOfItems"] - 1;
+      $(removeBtn)
+        .parent()
+        .children()
+        .eq(1)
+        .html(groceryItems[itemId]["noOfItems"]);
+      $(removeBtn)
+        .parents()
+        .eq(1)
+        .children()
+        .eq(4)
+        .children()
+        .eq(1)
+        .html(
+          groceryItems[itemId]["noOfItems"] * groceryItems[itemId]["price"]
+        );
+    }
+    localStorage.setItem("cartItems", JSON.stringify(groceryItems));
+  }
+  function Order(e){
+       e.preventDefault();
+       $.ajax('http://localhost:8000/groceryUser/cart/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            groceryItems:JSON.stringify(localStorage.getItem('cartItems')),
+            address:$('#address').val(),
+            deliveryNote:$('#deliveryNote').val(),
+            cartNumber:localStorage.getItem('cartNumber')
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+                if (data["output"]==1){
+                    alert("Order Done...")
+                }
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+            
+            }
+        });
+
+  }
+  $("#OrderNow").click(function(e){
+      console.log($("#address").val().length)
+      if($("#address").val().length < 10){
+        $('.invalid-address').removeClass('d-none');
+      }else{
+        $('.invalid-address').addClass('d-none');
+        Order(e)
+      }
+ });
+
+</script>
+{% endblock %}

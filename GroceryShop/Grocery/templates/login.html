@@ -1,0 +1,99 @@
+{% extends 'navigationbar.html' %}
+{% block body %}
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+.container {
+  border-radius: 10px;
+   background-color: pink;
+  padding: 20px;
+}
+
+ .heading{
+    border-radius: 10px;
+    background-color: purple;
+    padding: 10px;
+    margin:10;
+   }
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container mt-4">
+
+        <div class="heading">
+        <center><h4 style="color:white"><u>LOGIN FORM</u></h4></center>
+        </div>
+ </div>
+
+<form action="http://localhost:8000/login/" method="post">
+  <div class="container mt-4">
+    <label><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" value="akaushal451@gmail.com" name="uname" required>
+  {% csrf_token %}
+    <label ><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" value="1234qwn" name="psw" required>
+
+    <button type="submit">Login</button>
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+  <div class="container mt-4">
+    <button type="button" class="cancelbtn">Cancel</button>
+    <span class="psw">Forgot <a href="#">password?</a></span>
+  </div>
+</div>
+</form>
+
+</body>
+</html>
+{% endblock %}

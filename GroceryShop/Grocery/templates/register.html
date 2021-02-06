@@ -1,0 +1,255 @@
+{% extends 'navigationbar.html' %} {% block body %}
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      .heading {
+        border-radius: 10px;
+        background-color: purple;
+        padding: 10px;
+        margin: 10;
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-top: 6px;
+        margin-bottom: 16px;
+        resize: vertical;
+      }
+
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+
+      .registerbtn {
+        background-color: #4caf50;
+        color: white;
+        padding: 16px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        opacity: 0.9;
+      }
+
+      a {
+        color: dodgerblue;
+      }
+
+      .registerbtn:hover {
+        opacity: 1;
+      }
+
+      .signin {
+        background-color: #f1f1f1;
+        text-align: center;
+      }
+
+      .container {
+        border-radius: 10px;
+        background-color: pink;
+        padding: 20px;
+      }
+      .needs-validation{
+        border-radius: 10px;
+        background-color: pink;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-4">
+      <div class="heading">
+        <center>
+          <h4 style="color: white"><u>REGISTER HERE</u></h4>
+        </center>
+      </div>
+    </div>
+    <div class="mt-4 container  mx-auto row p-3 p-md-5">
+      <form 
+        action="http://localhost:8000/register/"
+        method="post"
+        class="needs-validation row mx-auto" novalidate>
+        {% csrf_token %}
+        <div class="col-md-11 mx-auto mb-3">
+          <label for="validationCustom08">Name</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter Name"
+            class="form-control"
+            id="validationCustom08"
+            value="Abhshihelk"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Enter valid Name</div>
+        </div>
+
+        <div class="col-md-11 mx-auto mb-3">
+          <label for="validationCustom01">Username</label>
+          <input
+            type="email"
+            name="uname"
+            placeholder="Enter Username"
+            class="form-control"
+            id="validationCustom01"
+            value="alaksuahl451@gmail.com"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Enter valid Email</div>
+          <div class="alreadyRegs-feedback d-none my-2 text-danger small">This email is already registered !</div>
+        </div>
+        <div class="col-md-11 mx-auto mb-3">
+          <label for="validationCustom02">Password</label>
+          <input
+            type="password"
+            name="psw"
+            placeholder="Enter Password"
+            class="form-control"
+            id="validationCustom02"
+            value="12345q23"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Enter Valid Password</div>
+        </div>
+        <div class="col-md-11 mx-auto mb-3">
+          <label for="validationCustom04">City</label>
+          <select
+            class="custom-select"
+            id="validationCustom04"
+            name="city"
+            required
+          >
+            <option  value="">Indore</option>
+            <option selected value="">Bhopal</option>
+            <option value="">Ujjain</option>
+            <option value="">Pune</option>
+          </select>
+          <div class="invalid-feedback">Please select a valid city.</div>
+          <div class="valid-feedback">Looks good</div>
+        </div>
+        <div class="col-md-11 mx-auto mb-3">
+          <label for="validationCustom06">Mobile</label>
+          <input
+            type="text"
+            name="contact_no"
+            placeholder="Enter Mobile No."
+            class="form-control"
+            id="validationCustom06"
+            value="12345678"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Enter Valid Mobile No.</div>
+        </div>
+        <div class="mb-3 col-md-11 mx-auto">
+          <label for="validationTextarea">Address</label>
+          <textarea
+            class="form-control"
+            id="validationTextarea"
+            placeholder="Enter Address"
+            name="address"
+            required
+          >the Villa 39 , KAndilpura</textarea>
+          <div class="invalid-feedback">
+              Please Enter Valid Address
+          </div>
+          <div class="valid-feedback">
+          Looks Good !
+          </div>
+        </div>
+      <div class="col-6 row text-center mx-auto">
+        <button class="registerbtn rounded-lg col-3 mx-auto">Register</button>
+      </div>
+        <div class="container signin">
+          <p>
+            Already have an account?
+            <a href="http://localhost:8000/login/">Sign in</a>.
+          </p>
+        </div>
+      </form>
+    </div>
+    <script>
+      (function () {
+        "use strict";
+        window.addEventListener(
+          "load",
+          function () {
+            var forms = document.getElementsByClassName("needs-validation");
+            var validation = Array.prototype.filter.call(
+              forms,
+              function (form) {
+                form.addEventListener(
+                  "submit",
+                  function (event) {
+                    if (form.checkValidity() === false) {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }
+                    form.classList.add("was-validated");
+                  },
+                  false
+                );
+              }
+            );
+          },
+          false
+        );
+      })();
+
+    $("#validationCustom01").blur(function(e){
+       e.preventDefault();
+       uname = $("#validationCustom01").val();
+       $.ajax('http://localhost:8000/alreadyreg/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            username:uname
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+              console.log(data)
+              if(data['isRegistered']){
+                $('.alreadyRegs-feedback').removeClass('d-none')
+                $('.alreadyRegs-feedback').parent().eq(0).children().eq(2).addClass('d-none')
+                }
+              else{
+                $('.alreadyRegs-feedback').addClass('d-none');
+              }
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+           
+            }
+        });
+    });
+
+    </script>
+  </body>
+</html>
+{% endblock %}

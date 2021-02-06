@@ -1,0 +1,186 @@
+{% extends 'userBase.html' %}
+
+
+{% load static %} {% block slider %} {% endblock %} {% block article %}
+<style>
+
+.card {
+    z-index: 0;
+    background-color: pink;
+    padding-bottom: 20px;
+    margin-top: 90px;
+    margin-bottom: 90px;
+    border-radius: 10px
+}
+
+.top {
+    padding-top: 40px;
+    padding-left: 13% !important;
+    padding-right: 13% !important
+}
+
+#progressbar {
+    margin-bottom: 30px;
+    overflow: hidden;
+    color: #74ff97;
+    padding-left: 0px;
+    margin-top: 30px
+}
+
+#progressbar li {
+    list-style-type: none;
+    font-size: 13px;
+    width: 25%;
+    float: left;
+    position: relative;
+    font-weight: 400;
+}
+
+#progressbar .step0:before {
+    font-family: FontAwesome;
+    content: ".";
+    color:#5b13cf;
+}
+
+#progressbar li:before {
+    width: 40px;
+    height: 40px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    background: #788bff;
+    border-radius: 50%;
+    margin: auto;
+    padding: 0px
+}
+
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 12px;
+    background: #788bff;
+    position: absolute;
+    left: 0;
+    top: 16px;
+    z-index: -1
+}
+
+#progressbar li:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: absolute;
+    left: -50%
+}
+
+#progressbar li:nth-child(2):after,
+#progressbar li:nth-child(3):after {
+    left: -50%
+}
+
+#progressbar li:first-child:after {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    position: absolute;
+    left: 50%
+}
+
+#progressbar li:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px
+}
+
+#progressbar li:first-child:after {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px
+}
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: #5b13cf;
+}
+
+#progressbar li.active:before {
+    font-family: FontAwesome;
+    content: "\f00c"
+}
+
+.icon {
+    width: 60px;
+    height: 60px;
+    margin-right: 15px
+}
+
+.icon-content {
+    padding-bottom: 20px
+}
+
+@media screen and (max-width: 992px) {
+    .icon-content {
+        width: 50%
+    }
+}
+    </style>
+    <div style="font-family: 'Raleway';" class="col-md-8 px-1 px-md-4 py-md-5 mx-auto">
+        <div class="card">
+            <div class="row d-flex justify-content-between px-3 top">
+                <div class="d-flex">
+                    <p class="font-weight-bold h5">ORDER <span class="text-primary">#{{orderId}}</span></p>
+                </div>
+                <div class="d-flex flex-column text-sm-right">
+                    <p class="mb-0 h5 font-weight-bold">Expected Arrival : <span class="text-primary">arrivalTime</span></p>
+                </div>
+            </div> <!-- Add class 'active' to progress -->
+            <div class="row d-flex justify-content-center">
+                <div class="col-12">
+                    <ul style="list-style-type:none;"  id="progressbar" class="text-center">
+                        <li id="orderConfirmed" class="active step0"></li>
+                        <li id="foodPreparing" class="active step0"></li>
+                        <li id="onTheWay" class="step0"></li>
+                        <li id="atDoor" class="step0"></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row justify-content-between top px-auto mx-auto col-12">
+                <div class="row d-flex icon-content">
+                    <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                    <div class="d-flex flex-column">
+                        <p class="orderConfirmedText font-weight-bold">Order<br>Confirmed</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content">
+                    <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                    <div class="d-flex flex-column">
+                        <p class="foodPreparingText font-weight-bold">Order<br>Preparing</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                    <div class="d-flex flex-column">
+                        <p class="onTheWayText font-weight-bold">Order<br>Prepared</p>
+                    </div>
+                </div>
+                <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                    <div class="d-flex flex-column mx-1">
+                        <p class="atDoorText font-weight-bold">Order<br>Delivered</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    $(document).ready(function(){
+        status={{status}}
+//        alert(status)
+        allStatus=["orderConfirmed","foodPreparing","onTheWay","atDoor"]
+        for(i=0;i<4;i++){
+            $('#'+allStatus[i]).removeClass('active')
+            $('.'+allStatus[i]+'Text').removeClass('text-success')
+        }
+        for(i=0;i<parseInt(status);i++){
+            $('#'+allStatus[i]).addClass('active')
+            $('.'+allStatus[i]+'Text').addClass('text-success')
+        }
+
+    });
+</script>
+{% endblock %}
+

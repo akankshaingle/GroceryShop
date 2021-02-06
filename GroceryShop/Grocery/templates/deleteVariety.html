@@ -1,0 +1,87 @@
+{% extends 'adminBase.html' %} {% load static %} {% block article %}
+<div class="row border">
+  <div
+    style=" background-color: #7d85ba"
+    class="border border-dark mx-auto col-5 my-5 p-4">
+    <form action="http://localhost:8000/groceryAdmin/deletevariety/" method="post" class="row g-3 needs-validation" novalidate>
+    {% csrf_token %}
+        <div class="col-md-7 col-11 mx-auto">
+        <label for="validationCustom04" class="form-label">Catagories</label>
+        <select class="form-select form-control"
+                name="catid"
+                id="catagory" required>
+          <option selected value="catid">Choose Catagories</option>
+          {% for cat in catagory  %}
+          <option value={{cat.0}}>{{cat.1}}</option>
+          {% endfor %}
+        </select>
+        <div class="invalid-feedback">Please select a valid state.</div>
+      </div>
+      <div class="col-md-7 col-11 mx-auto">
+        <label for="variety" class="form-label">Variety</label>
+        <select
+          class="form-select form-control"
+          name="varietyId"
+          id="variety"
+          required
+        >
+          <option selected value="">Choose Variety</option>
+        </select>
+        <div class="invalid-feedback">Please select a valid variety.</div>
+      </div>
+      
+    <div class="col-12 text-center my-4">
+        <button class="btn btn-success" type="submit">Delete variety</button>
+    </div>
+    </form>
+  </div>
+</div>
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function () {
+    "use strict";
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll(".needs-validation");
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms).forEach(function (form) {
+      form.addEventListener(
+        "submit",
+        function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add("was-validated");
+        },
+        false
+      );
+    });
+  })();
+  
+  
+  $("#catagory").change(function(e){
+       e.preventDefault();
+       catagory = $("#catagory option:selected").val();
+       $.ajax('http://localhost:8000/groceryAdmin/changecatagory/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            catid:catagory
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+                $('#variety').html('');
+                data['varietyList'].forEach(function(value){
+                    $('#variety').append(`<option value=${value[0]}>${value[1]}</option>`);
+                });
+               },
+            error: function (jqXhr, textStatus, errorMessage) {
+           
+            }
+        });
+    });
+</script>
+{% endblock %}

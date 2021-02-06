@@ -1,0 +1,191 @@
+{% extends 'adminBase.html' %} {% load static %} {% block article %}
+<div class="container mx-auto my-5">
+    {% if orders %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Order ID</th>
+        <th scope="col">User ID</th>
+        <th scope="col">Change Status</th>
+        <th scope="col">Order Status</th>
+        <th scope="col">Cancel Order</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      {% csrf_token %}
+      <tr>
+        <th>{{order.0}}</th>
+        <td>{{order.1}}</td>
+        <td>
+          {% if order.2 is 0 %}
+          <button
+            class="btn btn-primary"
+            onClick="changeOrderStatus('{{order.0}}',0)"
+          >
+            Accept Order
+          </button>
+          {% elif order.2 is 1 %}
+          <button
+            class="btn btn-warning"
+            onClick="changeOrderStatus('{{order.0}}',1)"
+          >
+            Prepare Order
+          </button>
+          {% elif order.2 is 2 %}
+          <button
+            class="btn btn-secondary"
+            onClick="changeOrderStatus('{{order.0}}',2)"
+          >
+            Order Done
+          </button>
+          {% elif order.2 is 3 %}
+          <button
+            class="btn btn-success"
+            onClick="changeOrderStatus('{{order.0}}',3)"
+          >
+            Order Delivered
+          </button>
+          {% endif %}
+        </td>
+        <td>
+                  {% if order.2 is 0 %}
+            Please Confirm This Order
+           {% elif order.2 is 1 %}
+           Send to Prepare
+           {% elif order.2 is 2 %}
+            Order is preparing
+           {% elif order.2 is 3 %}
+            Order is ready to deliver
+           {% endif %}
+
+        </td>
+        <td>
+          <button class="btn btn-danger" onClick="cancelOrder('{{order.0}}')">Cancel Order</button>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+    {% else %}
+        <h1 class="container col-5 mx-auto text-center p-3 text-uppercase font-weight-bold border bg-success rounded-lg">ORder Not FOunsd</h1>
+    {% endif %}
+
+</div>
+<script>
+  function changeOrderStatus(orderId, orderStatus) {
+    switch (orderStatus) {
+      case 0:
+        {        
+        $.ajax('http://localhost:8000/groceryAdmin/confirmOrder/', {
+                type: 'POST',
+                data: {
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                orderId:orderId
+                },
+                dataType:"json",
+                success: function (data, status, xhr) {
+                    if(data['output']==1){
+                        window.location.reload()
+                    }
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+            
+                }
+            });
+        };
+        break;
+      case 1:
+        {
+        
+        $.ajax('http://localhost:8000/groceryAdmin/prepareOrder/', {
+                type: 'POST',
+                data: {
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                orderId:orderId
+                },
+                dataType:"json",
+                success: function (data, status, xhr) {
+                    if(data['output']==2){
+                        window.location.reload()
+                    }
+
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+            
+                }
+            });
+
+        };
+        break;
+      case 2:
+        {
+        
+        $.ajax('http://localhost:8000/groceryAdmin/doneOrder/', {
+                type: 'POST',
+                data: {
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                orderId:orderId
+                },
+                dataType:"json",
+                success: function (data, status, xhr) {
+                     if(data['output']==3){
+                        window.location.reload()
+                    }
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+            
+                }
+            });
+
+        };
+        break;
+      case 3:
+        {        
+        $.ajax('http://localhost:8000/groceryAdmin/deliveryOrder/', {
+                type: 'POST',
+                data: {
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                orderId:orderId
+                },
+                dataType:"json",
+                success: function (data, status, xhr) {
+                    if(data['output']==1){
+                        window.location.reload()
+                    }
+
+                },
+                error: function (jqXhr, textStatus, errorMessage) {
+            
+                }
+            });
+        };
+        break;
+    default:{
+        console.log("Running")
+    };break;
+    }
+  }
+
+  function cancelOrder(orderId){
+        $.ajax('http://localhost:8000/groceryAdmin/deleteOrder/', {
+        type: 'POST',
+        data: {
+        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        orderId:orderId
+        },
+        dataType:"json",
+        success: function (data, status, xhr) {
+            if(data['output']==1){
+                window.location.reload()
+            }
+        },
+        error: function (jqXhr, textStatus, errorMessage) {
+
+        }
+    });
+  }
+</script>
+
+{% endblock %}

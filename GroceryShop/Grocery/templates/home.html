@@ -1,0 +1,929 @@
+{% extends 'navigationbar.html' %}
+{% load static %}
+{% block body %}
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+.container {
+  border-radius: 10px;
+  background-color: pink;
+  padding: 20px;
+}
+
+ .heading{
+    border-radius: 10px;
+    background-color: purple;
+    padding: 10px;
+    margin:10;
+ }
+
+.accordion {
+  background-color: pink;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 17px;
+  transition: 0.4s;
+}
+
+ .accordion:hover {
+  background-color:lightpink;
+}
+
+.temp:after {
+  content: '\25BC';
+  color: purple;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+
+}
+
+.temp:after {
+  content: "\25BC";
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: pink;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+ .card {
+     background-color: white;
+
+}
+
+  .col-sm-1 img {
+         top:10px;
+         width: 70%;
+         height: 100%;
+         bottom:20px;
+         }
+  .col-sm-10 {
+
+  }
+
+     .embed-responsive .card-img-top {
+    object-fit: cover;
+}
+
+
+
+
+</style>
+</head>
+<body>
+<div class="container mt-4" >
+<button class="accordion ">
+    <div class="row">
+    <div class="col-4 col-md-2 img-fluid"> <img src="{% static 'image/staple.jpg' %}"></div>
+    <div class="col-8 col-md-10 temp">
+        <u><b><br>Grocery & Staples</b></u><br>Pulses, Atta & Other Flours, Rice & Other Grains, Dry Fruits & Nuts,
+        Edible Oils, Ghee & Vanaspati, Spices, Salt & Sugar, Organic Staples, Grocery Best Offers.
+    </div>
+    </div>
+</button>
+<div class="panel">
+  <div class="row mt-4">
+    <div class="col-sm">
+      <div class="card text-center row">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Pulses</b></h6>
+
+                 <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+  <div class="col-sm">
+       <div class="card text-center">
+        <div class="col-12">
+            <img alt="Card image cap" class="cimg" src="{% static 'image/oils.jpg' %}" />
+        </div>
+            <div class="card-block">
+                 <h6 class="card-title"><b>Oils</b></h6>
+
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+  </div>
+  <div class="col-sm">
+      <div class="card text-center">
+        <div class="col-12 ">
+            <img alt="Card image cap" class="cimg" src="{% static 'image/atta.jpg' %}" />
+        </div>
+            <div class="card-block">
+                 <h6 class="card-title"><b>Atta</b></h6>
+
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+  </div>
+  <div class="col-sm">
+       <div class="card text-center">
+        <div class="col-12">
+            <img alt="Card image cap" class="cimg" src="{% static 'image/nuts.jpg' %}" />
+        </div>
+            <div class="card-block">
+                 <h6 class="card-title"><b>Nuts</b></h6>
+
+                <a href="https://www.linkedin.com/in/akanksha-ingle" class="stretched-link"></a>
+            </div>
+      </div>
+  </div>
+  <div class="col-sm">
+      <div class="card text-center">
+        <div class="col-12">
+            <img alt="Card image cap" class="cimg" src="{% static 'image/spices.jpg' %}" />
+        </div>
+            <div class="card-block">
+                 <h6 class="card-title"><b>Spices</b></h6>
+
+                <a href="https://www.linkedin.com/in/akanksha-ingle" class="stretched-link"></a>
+            </div>
+      </div>
+  </div>
+  <div class="col-sm">
+      <div class="card text-center">
+        <div class="col-12">
+            <img alt="Card image cap" class="cimg" src="{% static 'image/salt.jpg' %}" />
+        </div>
+            <div class="card-block">
+                 <h6 class="card-title"><b>Salt & Sugar</b></h6>
+
+                <a href="https://www.linkedin.com/in/akanksha-ingle" class=" stretched-link"></a>
+            </div>
+      </div>
+  </div>
+  <div class="col-sm">
+       <div class="card text-center">
+        <div class="col-12">
+            <img alt="Card image cap" class="cimg" src="{% static 'image/rice.jpg' %}" />
+        </div>
+            <div class="card-block">
+                 <h6 class="card-title"><b>Rice</b></h6>
+
+                <a href="https://www.linkedin.com/in/akanksha-ingle" class="stretched-link"></a>
+            </div>
+      </div>
+  </div>
+  <div class="col-sm">
+       <div class="card text-center ">
+        <div class="col-12">
+            <img alt="Card image cap" class="cimg" src="{% static 'image/organic.jpg' %}" />
+        </div>
+            <div class="card-block">
+                 <h6 class="card-title"><b>Organic</b></h6>
+
+                <a href="https://www.linkedin.com/in/akanksha-ingle" class=" stretched-link"></a>
+            </div>
+      </div>
+  </div>
+  </div>
+</div>
+</div>
+<div class="container mt-4">
+<button class="accordion">
+    <div class="row">
+    <div class="col-4 col-md-2 img-fluid"> <img src="{% static 'image/personal.jpg' %}"></div>
+    <div class="col-8 col-md-10 temp">
+        <u><b><br>Personal Care</b></u><br> Health And Wellness, Bath & Body, Hair Care, Skin Care, Oral Care, Men's Grooming, Face Care, Feminine Hygiene, Fragrances, Cosmetics.
+    </div>
+    </div>
+</button>
+<div class="panel">
+<div class="row mt-4">
+    <div class="col-sm">
+      <div class="card text-center row">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Health Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Hair Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Skin Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Oral Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Fragrances</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Cosmetics</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Face Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+</div>
+
+</div>
+</div>
+<div class="container mt-4">
+<button class="accordion">
+    <div class="row">
+    <div class="col-4 col-md-2"> <img src="{% static 'image/household.jpg' %}"></div>
+    <div class="col-8 col-md-10 temp">
+        <u><b> <br>Household Items</b></u><br>Laundry Detergents, Cleaners, Dishwashers, Liquid Detergents, Repellents, Tissues & Disposables, Pooja Needs, Home & Car Fresheners, Cleaning Tools & Brushes.
+
+    </div>
+    </div>
+</button>
+<div class="panel">
+  <div class="row mt-4">
+    <div class="col-sm">
+      <div class="card text-center row">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Detergents</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Cleaners</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Dishwashers</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Repellents</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Tissues</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Pooja items</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Fresheners</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+</div>
+
+</div>
+</div>
+<div class="container mt-4">
+<button class="accordion">
+    <div class="row">
+    <div class="col-4 col-md-2"> <img src="{% static 'image/snacks.jpg' %}"></div>
+    <div class="col-8 col-md-10 temp">
+        <u><b><br>Biscuits, Snacks & Chocolates</b></u><br>Chocolates, Biscuits & Cookies, Namkeen & Snacks, Chips & Crisps, Sweets, Biscuits & Chocolates Offers, Confectionery.
+    </div>
+    </div>
+</button>
+<div class="panel">
+   <div class="row mt-4">
+    <div class="col-sm">
+      <div class="card text-center row">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Chocolates</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Biscuits </b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Namkeen </b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Chips & Crisps</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Sweets</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Confectionery</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+</div>
+
+</div>
+</div>
+<div class="container mt-4">
+<button class="accordion">
+    <div class="row">
+    <div class="col-4 col-md-2"> <img src="{% static 'image/baverage.jpg' %}"></div>
+    <div class="col-8 col-md-10 temp">
+        <u><b><br>Beverages</b></u><br>Cold Drinks, Juices & Drinks, Tea & Coffee, Health & Energy Drinks, Water & Soda, Super Combos, Milk Drinks.
+    </div>
+    </div>
+</button>
+<div class="panel">
+   <div class="row mt-4">
+    <div class="col-sm">
+      <div class="card text-center row">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Cold Drinks</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Juices & Drinks</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Tea & Coffee</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Energy Drinks</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Water & Soda</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Milk Drinks</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+
+</div>
+
+</div>
+</div>
+<div class="container mt-4">
+<button class="accordion">
+    <div class="row">
+    <div class="col-4 col-md-2"> <img src="{% static 'image/dairy.jpg' %}"></div>
+    <div class="col-8 col-md-10 temp">
+        <u><b><br>Breakfast & Dairy</b></u><br>Breakfast & Dairy Best Offers, Milk & Milk Products, Bread & Eggs, Paneer & Curd, Butter & Cheese, Breakfast Cereal & Mixes, Jams, Honey & Spreads, Fresh Sweets, Fresh Bakery, Batter.
+
+    </div>
+    </div>
+</button>
+<div class="panel">
+  <div class="row mt-4">
+
+    <div class="col-sm">
+      <div class="card text-center row">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Milk Products</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Bread & Eggs</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Paneer & Curd</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Butter & Cheese</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+  </div>
+
+<div class="row mt-4">
+    <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Fresh Sweet</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Batter</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+          <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+          </div>
+          <div class="card-block col-12">
+                 <h6 class="card-title"><b>Jams, Honey & Spreads</b></h6>
+                <a href=" " class="stretched-link"></a>
+          </div>
+      </div>
+     </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+         <div class="card-block col-12">
+                 <h6 class="card-title"><b> Fresh Bakery</b></h6>
+                <a href=" " class="stretched-link"></a>
+         </div>
+      </div>
+
+ </div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="container mt-4">
+<button class="accordion">
+    <div class="row">
+    <div class="col-4 col-md-2"> <img src="{% static 'image/noodles.jpg' %}"></div>
+    <div class="col-8 col-md-10 temp">
+        <u><b><br>Noodles, Sauces & Instant Food</b></u><br>Noodles & Vermicelli, Sauces & Ketchups, Jams & Spreads, Pasta & Soups, Ready Made Meals & Mixes, Pickles & Chutneys, Canned & Frozen Food, Baking & Dessert Items.
+
+    </div>
+    </div>
+</button>
+<div class="panel">
+   <div class="row mt-4">
+   <div class="row mt-4">
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Canned & Frozen Food</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Sauces & Ketchups</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Jams & Spreads</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Pasta & Soups</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Pickles & Chutneys</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center row">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Vermicelli & Noodles</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Baking Items</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<div class="container mt-4">
+<button class="accordion">
+    <div class="row">
+    <div class="col-4 col-md-2"> <img src="{% static 'image/patcare.jpg' %}"></div>
+    <div class="col-8 col-md-10 temp">
+        <u><b><br>Baby Care</b></u><br>Baby Food, Diapers & Wipes, Baby Skin & Hair Care, Baby Accessories & More, Mothers & Maternity, Kids Furnishing,
+    </div>
+    </div>
+</button>
+<div class="panel">
+  <div class="row mt-4">
+    <div class="col-sm">
+      <div class="card text-center row">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Baby Food</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Diapers & Wipes</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Baby Skin & Hair Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Baby Accessories & More</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+
+
+
+</div>
+
+</div>
+</div>
+
+<div class="container mt-4">
+<button class="accordion">
+    <div class="row">
+    <div class="col-4 col-md-2"> <img src="{% static 'image/babycare.jpg' %}"></div>
+    <div class="col-8 col-md-10 temp">
+        <u><b><br>Pet Care</b></u><br>Dog Supplies, Cat Supplies.
+    </div>
+    </div>
+</button>
+<div class="panel">
+   <div class="row mt-4">
+    <div class="col-sm">
+      <div class="card text-center row">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Health Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Health Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Health Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center ">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Health Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Health Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                 <h6 class="card-title"><b>Health Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+     <div class="col-sm">
+      <div class="card text-center">
+        <div class=" col-12">
+            <img alt="Card image cap" class="cimg " src="{% static 'image/pulses.jpg' %}" />
+        </div>
+            <div class="card-block col-12">
+                <h6 class="card-title"><b>Health Care</b></h6>
+                <a href=" " class="stretched-link"></a>
+            </div>
+      </div>
+    </div>
+</div>
+
+</div>
+</div>
+
+
+<script>
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  });
+}
+</script>
+</div>
+</body>
+</html>
+
+
+{% endblock %}

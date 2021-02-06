@@ -1,0 +1,79 @@
+{% extends 'adminBase.html' %} 
+{% load static %} 
+{% block article %}
+<div class="row border">
+  <div
+    style="height: 400px; background-color: #7d85ba"
+    class="border border-dark mx-auto col-5 my-5 p-2">
+    <form action="http://localhost:8000/groceryAdmin/addcatagory/" enctype="multipart/form-data" method="post" class="row g-3 needs-validation" novalidate>
+    {% csrf_token %}
+      <div class="col-md-7 mx-auto my-3">
+        <label for="validationCustom01" class="form-label">Catagory Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="validationCustom01"
+          name="catagoryName"        
+          required
+        />  
+        <div class="invalid-feedback">Catagory Name not looks good</div>
+      </div>
+      <div class="mb-3 col-7 mx-auto my-3">
+        <label for="validationCustom01" class="form-label"
+          >Catagory image</label
+        >
+        <input
+          type="file"
+          class="form-control"
+          aria-label="file example"
+          name="catagoryImage"        
+          required
+
+        />
+        <div class="invalid-feedback">Catagory Image not Found</div>
+      </div>
+      <div class="mb-3 col-7 mx-auto my-3">
+        <label for="validationTextarea" class="form-label">Catagory Description</label>
+        <textarea
+          class="form-control"
+          id="validationTextarea"
+          placeholder="Required example textarea"
+          name="catagoryDesc"        
+          required
+        ></textarea>
+        <div class="invalid-feedback">
+        Enter Valid Description
+        </div>
+      </div>
+      <div class="col-12 text-center">
+        <button class="btn btn-success" type="submit">Add Catagory</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function () {
+    "use strict";
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll(".needs-validation");
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms).forEach(function (form) {
+      form.addEventListener(
+        "submit",
+        function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add("was-validated");
+        },
+        false
+      );
+    });
+  })();
+</script>
+{% endblock %}

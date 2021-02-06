@@ -1,0 +1,55 @@
+{% extends 'navigationbar.html' %} 
+{% block slider %}{% endblock slider %}
+{% block body %}
+<div class="container row">
+    <div class="col-8 mx-auto border my-5">
+        <form method="post" action="http://localhost:8000/checkOtp/" class="needs-validation my-4" novalidate>
+            {% csrf_token %}
+            <div class="col-md-8 mb-3 mx-auto">
+                <label for="validationCustom01">Registered Email</label>
+                <input type="email" class="form-control d-none" id="validationCustom01" value={{email}} required>
+                <p>{{email}}</p>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+                <div class="col-md-8 mb-3 mx-auto">
+                <label for="validationCustom01">OTP</label>
+                <input type="text" class="form-control" id="validationCustom01" name="userOtp" required>
+                <div class="invalid-feedback">
+                Please Enter valid OTP
+                </div>
+            </div>
+            <div class="row col-12">
+            <div class="col-md-5 mr-3 ml-auto text-center">
+                <button id="resendOtp" class="btn-success rounded-lg px-3 py-2 mx=auto">Resend OTP</button>
+            </div>
+            <div class="col-md-5  ml-3 mr-auto text-center">
+                <button type="submit" class="btn-success rounded-lg px-3 py-2 mx=auto">Check OTP</button>
+            </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $("#resendOtp").click(function(e){
+       e.preventDefault();
+       $.ajax('http://localhost:8000/resendOtp/', {
+            type: 'POST',
+            data: {
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            dataType:"json",
+            success: function (data, status, xhr) {
+              console.log(data.otp)
+              alert("OTP sent Succesesfully")
+               },
+            error: function (jqXhr, textStatus, errorMessage) {           
+                alert("Unable to send Otp....")
+            }
+        });
+    });
+
+</script>
+{% endblock %}
